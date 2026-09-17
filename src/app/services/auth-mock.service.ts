@@ -355,71 +355,47 @@ export class AuthMockService {
   }
 
   private agregarUsuarioPrueba(): void {
-    const usuariosPrueba: UsuarioRegistro[] = [
-      {
-        nombre: 'Ramiro',
-        segundoNombre: 'Fernando',
-        primerApellido: 'Fernandez',
-        segundoApellido: 'Ledezma',
-        fechaNacimiento: new Date('1985-05-15'),
-        estado: 'Ciudad de México',
-        celular: '5512345678',
-        correo: 'doctor@ejemplo.com',
-        contrasena: 'Password123!',
-        cedula_profesional: '12345678',
-        especialidad_medica: 'Pediatría',
-        institucion: 'UNAM',
-        consultorio: 'Consultorio Médico Ejemplo',
-        direccion: 'Av. Insurgentes Sur 123, Col. Roma',
-        telconsultorio: '5587654321',
-        fechaRegistro: new Date(),
-        emailVerificado: true,
-        kycCompletado: true
-      },
-      {
-        nombre: 'Maria',
-        segundoNombre: '',
-        primerApellido: 'Gonzalez',
-        segundoApellido: 'Lopez',
-        fechaNacimiento: new Date('1990-03-20'),
-        estado: 'Ciudad de México',
-        celular: '5587654322',
-        correo: 'maria@ejemplo.com',
-        contrasena: 'Password123!',
-        cedula_profesional: '87654321',
-        especialidad_medica: 'Médico General',
-        institucion: 'IPN',
-        consultorio: 'Consultorio María Ejemplo',
-        direccion: 'Av. Reforma 456, Col. Centro',
-        telconsultorio: '5587654322',
-        fechaRegistro: new Date(),
-        emailVerificado: true,
-        kycCompletado: true
-      },
-      {
-        nombre: 'Juan',
-        segundoNombre: '',
-        primerApellido: 'Perez',
-        segundoApellido: 'Martinez',
-        fechaNacimiento: new Date('1988-12-10'),
-        estado: 'Ciudad de México',
-        celular: '5587654323',
-        correo: 'juan@ejemplo.com',
-        contrasena: 'Password123!',
-        cedula_profesional: '11111111',
-        especialidad_medica: 'Pediatría',
-        institucion: 'UAM',
-        consultorio: 'Consultorio Juan Ejemplo',
-        direccion: 'Av. Chapultepec 789, Col. Condesa',
-        telconsultorio: '5587654323',
-        fechaRegistro: new Date(),
-        emailVerificado: true,
-        kycCompletado: true
-      }
-    ];
+    // Ejemplo 1: Login directo (usuario + contraseña) - Ramiro
+    const usuarioRamiro: UsuarioRegistro = {
+      nombre: 'Ramiro',
+      segundoNombre: 'Fernando',
+      primerApellido: 'Fernandez',
+      segundoApellido: 'Ledezma',
+      fechaNacimiento: new Date('1985-05-15'),
+      estado: 'Ciudad de México',
+      celular: '5512345678',
+      correo: 'doctor@ejemplo.com',
+      contrasena: 'Password123!',
+      cedula_profesional: '12345678',
+      especialidad_medica: 'Pediatría',
+      institucion: 'UNAM',
+      consultorio: 'Consultorio Médico Ejemplo',
+      direccion: 'Av. Insurgentes Sur 123, Col. Roma',
+      telconsultorio: '5587654321',
+      fechaRegistro: new Date(),
+      emailVerificado: true,
+      kycCompletado: true
+    };
+    this.usuariosRegistrados.set(usuarioRamiro.correo.toLowerCase(), usuarioRamiro);
 
-    usuariosPrueba.forEach(u => this.usuariosRegistrados.set(u.correo.toLowerCase(), u));
-    console.log('👥 Usuarios de prueba cargados:', usuariosPrueba.map(u => `${u.correo} (${u.cedula_profesional})`).join(', '));
+    // Ejemplo 2: Maria Gonzalez (87654321) NO se precarga aqui.
+    // Está solo en getCedulasMockSEP para que puedas hacer TODO el flujo de registro:
+    // Registro -> Verificar código -> KYC -> Dashboard "Hola Doctora Maria Gonzalez Lopez"
+    // Datos mock SEP: MARIA / GONZALEZ / LOPEZ / 20/03/1990 / 87654321 / Médico General / IPN
+    // Si quieres demo rápida sin registro, descomenta el bloque de abajo:
+    /*
+    const usuarioMaria: UsuarioRegistro = {
+      nombre: 'Maria', segundoNombre: '', primerApellido: 'Gonzalez', segundoApellido: 'Lopez',
+      fechaNacimiento: new Date('1990-03-20'), estado: 'Ciudad de México', celular: '5587654322',
+      correo: 'maria@ejemplo.com', contrasena: 'Password123!', cedula_profesional: '87654321',
+      especialidad_medica: 'Médico General', institucion: 'IPN',
+      consultorio: 'Consultorio María', direccion: 'Av. Reforma 456', telconsultorio: '5587654322',
+      fechaRegistro: new Date(), emailVerificado: true, kycCompletado: true
+    };
+    this.usuariosRegistrados.set(usuarioMaria.correo.toLowerCase(), usuarioMaria);
+    */
+
+    console.log('👥 Usuario de prueba cargado: doctor@ejemplo.com (12345678) - Ramiro. Para Maria usa registro completo con 87654321');
   }
 
   private guardarUsuario(usuario: UsuarioAutenticado): void {
