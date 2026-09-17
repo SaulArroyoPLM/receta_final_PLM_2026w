@@ -228,7 +228,7 @@ export class AuthMockService {
    */
   private getCedulasMockSEP(): Map<string, any> {
     const cedulasSEP = new Map();
-    
+
     // Cédula 1: Datos del usuario de prueba
     cedulasSEP.set('12345678', {
       nombre: 'Saul',
@@ -240,6 +240,17 @@ export class AuthMockService {
       institucion: 'UNAM',
       fechaExpedicion: '2010-06-15'
     });
+    cedulasSEP.set('45678923', {
+      nombre: 'Jessica',
+      primerApellido: 'Ladislao',
+      segundoApellido: 'Paz',
+      fechaNacimiento: '14/07/1990',
+      cedula: '45678923',
+      titulo: 'Medicina Familiar',
+      institucion: 'IPN',
+      fechaExpedicion: '2023-04-20'
+    });
+
 
     // Cédula 2: Datos de ejemplo
     cedulasSEP.set('87654321', {
@@ -406,7 +417,7 @@ export class AuthMockService {
     return new Observable(observer => {
       setTimeout(() => {
         const correoLower = datos.correo.toLowerCase();
-        
+
         if (this.usuariosRegistrados.has(correoLower)) {
           observer.next({
             success: false,
@@ -422,14 +433,14 @@ export class AuthMockService {
           emailVerificado: false,
           kycCompletado: false
         };
-        
+
         this.usuariosRegistrados.set(correoLower, nuevoUsuario);
-        
+
         const codigo = this.generarCodigoVerificacion();
         this.codigosVerificacion.set(correoLower, codigo);
-        
+
         console.log(`📧 Código de verificación para ${correoLower}: ${codigo}`);
-        
+
         observer.next({
           success: true,
           mensaje: 'Usuario registrado exitosamente. Revisa tu correo para el código de verificación.',
@@ -449,7 +460,7 @@ export class AuthMockService {
       setTimeout(() => {
         const correoLower = correo.toLowerCase();
         const codigoGuardado = this.codigosVerificacion.get(correoLower);
-        
+
         if (!codigoGuardado) {
           observer.next({
             success: false,
@@ -490,7 +501,7 @@ export class AuthMockService {
       setTimeout(() => {
         const correoLower = correo.toLowerCase();
         const usuario = this.usuariosRegistrados.get(correoLower);
-        
+
         if (!usuario) {
           observer.next({
             success: false,
@@ -502,7 +513,7 @@ export class AuthMockService {
 
         const nuevoCodigo = this.generarCodigoVerificacion();
         this.codigosVerificacion.set(correoLower, nuevoCodigo);
-        
+
         console.log(`📧 Nuevo código de verificación para ${correoLower}: ${nuevoCodigo}`);
 
         observer.next({
@@ -515,14 +526,14 @@ export class AuthMockService {
   }
 
   actualizarDatosProfesionales(
-    correo: string, 
+    correo: string,
     datosProfesionales: Partial<UsuarioRegistro>
   ): Observable<{ success: boolean; mensaje: string }> {
     return new Observable(observer => {
       setTimeout(() => {
         const correoLower = correo.toLowerCase();
         const usuario = this.usuariosRegistrados.get(correoLower);
-        
+
         if (!usuario) {
           observer.next({
             success: false,
@@ -545,15 +556,15 @@ export class AuthMockService {
   }
 
   completarVerificacionKYC(
-    correo: string, 
-    documentoINE: boolean, 
+    correo: string,
+    documentoINE: boolean,
     verificacionFacial: boolean
   ): Observable<{ success: boolean; mensaje: string }> {
     return new Observable(observer => {
       setTimeout(() => {
         const correoLower = correo.toLowerCase();
         const usuario = this.usuariosRegistrados.get(correoLower);
-        
+
         if (!usuario) {
           observer.next({
             success: false,
@@ -580,14 +591,14 @@ export class AuthMockService {
       setTimeout(() => {
         const correoLower = correo.toLowerCase();
         const usuario = this.usuariosRegistrados.get(correoLower);
-        
+
         if (!usuario) {
           observer.error({ success: false, mensaje: 'Usuario no encontrado' });
           return;
         }
 
         const usuarioAutenticado = this.crearUsuarioAutenticado(usuario);
-        
+
         this.guardarUsuario(usuarioAutenticado);
         this.currentUserSubject.next(usuarioAutenticado);
 
@@ -605,7 +616,7 @@ export class AuthMockService {
       setTimeout(() => {
         const correoLower = credentials.correo.toLowerCase();
         const usuario = this.usuariosRegistrados.get(correoLower);
-        
+
         if (!usuario) {
           observer.next({
             success: false,
@@ -625,7 +636,7 @@ export class AuthMockService {
         }
 
         const usuarioAutenticado = this.crearUsuarioAutenticado(usuario);
-        
+
         this.guardarUsuario(usuarioAutenticado);
         this.currentUserSubject.next(usuarioAutenticado);
 
