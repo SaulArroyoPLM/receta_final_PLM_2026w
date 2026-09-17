@@ -1,0 +1,27 @@
+# Dependencias
+node_modules/
+
+# Builds
+dist/
+build/
+tmp/
+.cache/
+out/
+coverage/
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Entornos y configuración local
+.env
+.env.local
+.env.*.local
+
+# Ionic / Capacitor / Android / iOS
+android/
+ios/
+www/
+plugins/
+
+.angular/
