@@ -98,6 +98,10 @@ export class DashboardLayoutComponent implements OnInit, AfterViewInit, OnDestro
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
     this.nombreDoctor = this.usuarioService.getUsuario().nombre;
+    this.usuarioService.usuario$.subscribe(u => {
+      this.nombreDoctor = u.nombre;
+      this.cdr.detectChanges();
+    });
   }
 
   // ===== LIFECYCLE HOOKS =====

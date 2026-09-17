@@ -355,28 +355,71 @@ export class AuthMockService {
   }
 
   private agregarUsuarioPrueba(): void {
-    const usuarioPrueba: UsuarioRegistro = {
-      nombre: 'Ramiro',
-      segundoNombre: 'Fernando',
-      primerApellido: 'Fernandez',
-      segundoApellido: 'Ledezma',
-      fechaNacimiento: new Date('1985-05-15'),
-      estado: 'Ciudad de México',
-      celular: '5512345678',
-      correo: 'doctor@ejemplo.com',
-      contrasena: 'Password123!',
-      cedula_profesional: '12345678',
-      especialidad_medica: 'Pediatría',
-      institucion: 'UNAM',
-      consultorio: 'Consultorio Médico Ejemplo',
-      direccion: 'Av. Insurgentes Sur 123, Col. Roma',
-      telconsultorio: '5587654321',
-      fechaRegistro: new Date(),
-      emailVerificado: true,
-      kycCompletado: true
-    };
-    
-    this.usuariosRegistrados.set(usuarioPrueba.correo.toLowerCase(), usuarioPrueba);
+    const usuariosPrueba: UsuarioRegistro[] = [
+      {
+        nombre: 'Ramiro',
+        segundoNombre: 'Fernando',
+        primerApellido: 'Fernandez',
+        segundoApellido: 'Ledezma',
+        fechaNacimiento: new Date('1985-05-15'),
+        estado: 'Ciudad de México',
+        celular: '5512345678',
+        correo: 'doctor@ejemplo.com',
+        contrasena: 'Password123!',
+        cedula_profesional: '12345678',
+        especialidad_medica: 'Pediatría',
+        institucion: 'UNAM',
+        consultorio: 'Consultorio Médico Ejemplo',
+        direccion: 'Av. Insurgentes Sur 123, Col. Roma',
+        telconsultorio: '5587654321',
+        fechaRegistro: new Date(),
+        emailVerificado: true,
+        kycCompletado: true
+      },
+      {
+        nombre: 'Maria',
+        segundoNombre: '',
+        primerApellido: 'Gonzalez',
+        segundoApellido: 'Lopez',
+        fechaNacimiento: new Date('1990-03-20'),
+        estado: 'Ciudad de México',
+        celular: '5587654322',
+        correo: 'maria@ejemplo.com',
+        contrasena: 'Password123!',
+        cedula_profesional: '87654321',
+        especialidad_medica: 'Médico General',
+        institucion: 'IPN',
+        consultorio: 'Consultorio María Ejemplo',
+        direccion: 'Av. Reforma 456, Col. Centro',
+        telconsultorio: '5587654322',
+        fechaRegistro: new Date(),
+        emailVerificado: true,
+        kycCompletado: true
+      },
+      {
+        nombre: 'Juan',
+        segundoNombre: '',
+        primerApellido: 'Perez',
+        segundoApellido: 'Martinez',
+        fechaNacimiento: new Date('1988-12-10'),
+        estado: 'Ciudad de México',
+        celular: '5587654323',
+        correo: 'juan@ejemplo.com',
+        contrasena: 'Password123!',
+        cedula_profesional: '11111111',
+        especialidad_medica: 'Pediatría',
+        institucion: 'UAM',
+        consultorio: 'Consultorio Juan Ejemplo',
+        direccion: 'Av. Chapultepec 789, Col. Condesa',
+        telconsultorio: '5587654323',
+        fechaRegistro: new Date(),
+        emailVerificado: true,
+        kycCompletado: true
+      }
+    ];
+
+    usuariosPrueba.forEach(u => this.usuariosRegistrados.set(u.correo.toLowerCase(), u));
+    console.log('👥 Usuarios de prueba cargados:', usuariosPrueba.map(u => `${u.correo} (${u.cedula_profesional})`).join(', '));
   }
 
   private guardarUsuario(usuario: UsuarioAutenticado): void {
