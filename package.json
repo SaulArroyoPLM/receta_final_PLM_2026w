@@ -5,7 +5,7 @@
   "homepage": "https://plm.com.mx/",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "npx ng serve",
     "build": "npx ng build",
     "watch": "npx ng build --watch --configuration development",
     "test": "npx ng test",
@@ -58,6 +58,6 @@
   },
   "description": "Receta PLM de medicamentos",
   "engines": {
-    "node": "20.x"
+    "node": "20.x || 22.x || 24.x"
   }
 }
