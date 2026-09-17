@@ -1,0 +1,149 @@
+<!-- login.component.html - Angular + Angular Material -->
+<div class="login-container">
+  <div class="login-grid">
+    <div class="row">
+
+      <!-- Panel izquierdo con imagen - Solo desktop -->
+      <div class="left-panel">
+        <div class="left-panel-content">
+          <div class="doctor-image-container">
+            <img
+              src="assets/images/doctor-profile.png"
+              alt="Doctor profesional"
+              class="doctor-image"
+            />
+          </div>
+
+          <!-- Logo en la parte inferior -->
+          <div class="logo-container">
+            <img
+              src="assets/images/logo_plm.svg"
+              alt="logo_plm"
+              class="logo_plm"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel derecho con formulario -->
+      <div class="right-panel">
+
+        <!-- Header móvil con logo (visible solo en tablet/móvil) -->
+        <div class="mobile-header">
+          <div class="mobile-logo-container">
+            <img
+              src="assets/images/logoplmreceta.svg"
+              alt="logo_plm"
+              class="mobile-logo"
+            />
+          </div>
+        </div>
+
+        <div class="form-wrapper">
+          <!-- Header de bienvenida -->
+          <div class="form-header">
+            <h1 class="welcome-title">
+              Hola, bienvenido(a)
+              <span class="wave-emoji">👋</span>
+            </h1>
+            <p class="welcome-subtitle">
+              Crea tu cuenta para comenzar a recetar de forma
+              <br class="desktop-break" />
+              digital, segura y personalizada
+            </p>
+          </div>
+
+          <!-- Formulario -->
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+
+            <!-- Campo Email -->
+            <div class="input-container">
+              <mat-form-field appearance="fill" class="form-field">
+                <mat-label>Email</mat-label>
+                <input
+                  matInput
+                  type="email"
+                  formControlName="email"
+                  placeholder="Ingresa tu email"
+                />
+                <mat-error
+                  *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
+                >
+                  {{ getEmailErrorMessage() }}
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <!-- Campo Contraseña - Con botón de visibilidad -->
+            <div class="input-container">
+              <mat-form-field appearance="fill" class="form-field">
+                <mat-label>Contraseña</mat-label>
+                <input
+                  matInput
+                  [type]="hidePassword ? 'password' : 'text'"
+                  formControlName="password"
+                  placeholder="Ingresa tu contraseña"
+                />
+                <button
+                  mat-icon-button
+                  matSuffix
+                  type="button"
+                  (click)="togglePasswordVisibility()"
+                  class="password-toggle"
+                  aria-label="Mostrar contraseña"
+                >
+                  <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+                </button>
+                <mat-error
+                  *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
+                >
+                  {{ getPasswordErrorMessage() }}
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <!-- Remember me y Forgot password -->
+            <div class="form-options">
+              <mat-checkbox
+                formControlName="remember"
+                class="remember-checkbox"
+              >
+                Recordar
+              </mat-checkbox>
+              <button
+                mat-button
+                type="button"
+                (click)="abrirModalRecordar()"
+                class="forgot-button"
+              >
+                ¿Olvidaste tu contraseña?
+              </button>
+            </div>
+
+            <!-- Botón de login -->
+            <button
+              mat-flat-button
+              type="submit"
+              [disabled]="loginForm.invalid"
+              class="login-button"
+            >
+              Iniciar sesión
+            </button>
+
+            <!-- Link de registro -->
+            <button
+              mat-stroked-button
+              type="button"
+              (click)="abrirRegistro()"
+              class="register-button"
+            >
+              Registrarse
+            </button>
+
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

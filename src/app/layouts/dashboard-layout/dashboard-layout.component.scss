@@ -1,0 +1,748 @@
+/* ===== VARIABLES CSS ===== */
+:root {
+  --primary-color: #007bff;
+  --accent-color: #28a745;
+  --warn-color: #dc3545;
+  --background-color: #f8f9fa;
+  --surface-color: #ffffff;
+  --card-background: #ffffff;
+  --text-primary: #212529;
+  --text-secondary: #6c757d;
+  --text-disabled: #adb5bd;
+
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+
+  --header-height: 56px;
+  --sidebar-width-collapsed: 60px;
+  --sidebar-width-expanded: 280px;
+  --notifications-width-sm: 280px;
+  --notifications-width-md: 320px;
+  --notifications-width-lg: 360px;
+
+  --shadow-1: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  --shadow-2: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+
+  --border-radius-sm: 4px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 12px;
+
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
+
+  --z-header: 200;
+  --z-overlay: 1000;
+}
+
+/* ===== RESET & BASE ===== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  font-family: 'Roboto', sans-serif;
+  background: var(--background-color);
+  color: var(--text-primary);
+  overflow: visible; /* 🔥 Permitir scroll natural, como en homepage */
+}
+
+/* ===== CONTENEDOR PRINCIPAL - CLAVE PARA PERMITIR SCROLL ===== */
+.main-app-content {
+  background-color: var(--background-color);
+  height: 100vh;
+  overflow: visible !important; /* 🔥 Permitir en lugar de hidden */
+}
+
+/* ===== DASHBOARD GRID - FIXED ===== */
+.app-layout-grid {
+  display: grid;
+  min-height: 100vh; /* 🔥 Cambiado: min-height para permitir expansión */
+  width: 100vw;
+  background: linear-gradient(135deg, #F1F8FF 0%, #E3F2FD 100%);
+  overflow: visible; /* 🔥 Permitir scroll si es necesario */
+  
+  // 🔥 GRID DINÁMICO según si hay notificaciones
+  &.notifications-visible {
+    grid-template-columns: minmax(280px, 1fr) minmax(0, 5fr) minmax(280px, 1fr);
+    grid-template-areas: "sidebar main notifications";
+    grid-template-rows: minmax(100vh, auto); /* 🔥 Flexible */
+    gap: 0;
+    
+    @media (max-width: 1023px) {
+      grid-template-columns: 1fr;
+      grid-template-areas: "main";
+      gap: 0;
+    }
+    
+    @media (min-width: 1024px) and (max-width: 1199px) {
+      grid-template-columns: minmax(0, 4fr) minmax(280px, 1fr);
+      grid-template-areas: "main notifications";
+      gap: 0;
+    }
+  }
+  
+  &.notifications-hidden {
+    grid-template-columns: minmax(280px, 1fr) minmax(0, 5fr);
+    grid-template-areas: "sidebar main";
+    grid-template-rows: minmax(100vh, auto); /* 🔥 Flexible */
+    gap: 0;
+    
+    @media (max-width: 1023px) {
+      grid-template-columns: 1fr;
+      grid-template-areas: "main";
+    }
+  }
+}
+
+/* ===== SIDEBAR AREA ===== */
+.sidebar-area {
+  grid-area: sidebar;
+  background: var(--surface-color);
+  box-shadow: var(--shadow-2);
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-height: 100vh; /* 🔥 min-height */
+  position: relative;
+  
+  /* 🔥 Scroll personalizado */
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,0.2);
+    border-radius: 2px;
+  }
+}
+
+/* ===== MAIN CONTENT AREA - FIXED ===== */
+.main-content-area {
+  grid-area: main;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* 🔥 min-height */
+  overflow: visible; /* 🔥 Cambiado: Visible para no clippear */
+  position: relative;
+}
+
+/* ===== SCROLLABLE CONTENT - AQUÍ ES DONDE DEBE IR EL SCROLL ===== */
+.scrollable-content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-height: calc(100vh - var(--header-height, 0px));
+  padding: var(--space-lg);
+  padding-bottom: calc(var(--space-lg) + 40px);
+  position: relative;
+  transition: padding-bottom 0.3s ease;
+  
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,0.2);
+    border-radius: 3px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+.auto-scroll-indicator {
+  position: relative;
+  pointer-events: none;
+  z-index: 1000;
+  
+  div {
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+}
+
+.medication-card, .recipe-card, mat-card {
+  margin-bottom: var(--space-md);
+  transition: all 0.3s ease;
+  position: relative;
+  
+  /* Sombra más visible cuando está al final */
+  &:last-child {
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -20px;
+      left: 0;
+      right: 0;
+      height: 20px;
+      background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.05));
+      pointer-events: none;
+    }
+  }
+}
+
+/* 🔥 ESTADOS DE LOADING PARA CONTENIDO DINÁMICO */
+.loading-content {
+  .scrollable-content {
+    padding-bottom: calc(var(--space-lg) + 100px) !important;
+  }
+}
+
+/* 🔥 INDICADOR CUANDO HAY MÁS CONTENIDO ABAJO */
+.has-more-content {
+  .scrollable-content::before {
+    content: '';
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, rgba(0, 123, 255, 0.3), transparent);
+    z-index: 100;
+    pointer-events: none;
+  }
+}
+
+/* 🔥 RESPONSIVO PARA EL SISTEMA AUTOMÁTICO */
+@media (max-width: 767px) {
+  .scrollable-content {
+    padding-bottom: calc(var(--space-lg) + 80px) !important;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .scrollable-content {
+    padding-bottom: calc(var(--space-lg) + 60px) !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .scrollable-content {
+    padding-bottom: calc(var(--space-lg) + 40px) !important;
+  }
+}
+
+.debug-auto-scroll {
+  .scrollable-content {
+    border: 2px dashed #007bff !important;
+    
+    &::after {
+      content: 'AUTO-SCROLL DETECTADO: ' attr(data-padding) 'px';
+      position: sticky;
+      bottom: 0;
+      background: rgba(0, 123, 255, 0.9);
+      color: white;
+      text-align: center;
+      padding: 8px;
+      font-weight: bold;
+      font-size: 12px;
+      z-index: 1000;
+    }
+  }
+  
+  .medication-card, .recipe-card, mat-card {
+    border: 1px solid orange !important;
+    position: relative;
+    
+    &::before {
+      content: 'CARD #' counter(card-counter);
+      counter-increment: card-counter;
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      background: orange;
+      color: white;
+      padding: 2px 6px;
+      font-size: 10px;
+      border-radius: 3px;
+      z-index: 10;
+    }
+    
+    &:last-child {
+      border: 2px solid red !important;
+      
+      &::before {
+        content: 'ÚLTIMA CARD #' counter(card-counter);
+        background: red;
+      }
+    }
+  }
+  
+  body {
+    counter-reset: card-counter;
+  }
+}
+
+/* 🔥 Cuando hay header móvil, ajustar altura */
+.main-content-area:has(.mobile-toolbar) .scrollable-content {
+  min-height: calc(100vh - var(--header-height));
+}
+
+/* ===== MOBILE HEADER ===== */
+.mobile-toolbar {
+  height: var(--header-height);
+  min-height: var(--header-height);
+  max-height: var(--header-height);
+  display: flex;
+  align-items: center;
+  padding: 0 var(--space-md);
+  box-shadow: var(--shadow-1);
+  z-index: var(--z-header);
+  background: var(--primary-color);
+  color: #fff;
+  flex-shrink: 0;
+  display: none;
+
+  .mobile-logo {
+    height: 32px;
+  }
+}
+
+.flex-spacer {
+  flex: 1;
+}
+
+/* ===== NOTIFICATIONS PANEL ===== */
+.notifications-panel {
+ grid-area: notifications;
+  background: none;
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-2);
+  overflow: hidden; 
+  padding: var(--space-md);
+  width: 100%;
+  max-width: 350px;
+  height: 100vh; 
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  
+  /* 🔥 Scroll personalizado */
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,0.2);
+    border-radius: 2px;
+  }
+}
+
+.notifications-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; 
+  gap: 0.5rem;
+  padding: 1rem;
+  align-items: center;
+  background-color: white;
+  border-radius: var(--border-radius-md);
+  flex: 1;
+  height: 100%;
+  overflow: hidden; /* 🔥 Cambiado */
+}
+
+.new-recipe-section {
+  margin-bottom: 1rem;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.new-recipe-btn {
+  background-color: #1976d2 !important;
+  color: white !important;
+  border-radius: 8px;
+  text-transform: none;
+  text-align: center;
+  font-size: 1.2rem;
+  padding: 1.5rem;
+
+  .mat-icon {
+    font-size: 30px;
+    width: 40px;
+  }
+
+  &:hover {
+    background-color: #1565c0;
+  }
+}
+
+.notifications-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* 🔥 Cambiado */
+  min-height: 0;
+  
+  .notifications-content {
+    background-color: white;
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    min-height: 0;
+    
+    /* 🔥 Scroll personalizado */
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background: rgba(0,0,0,0.2);
+      border-radius: 2px;
+    }
+  }
+
+  &, mat-card-content, .notifications-content mat-card, .notifications-content mat-card-content {
+    box-shadow: none;
+    border: none;
+    margin-bottom: 0.3rem;
+  }
+}
+
+.notification-item {
+  padding: var(--space-sm);
+  border-radius: var(--border-radius-sm);
+  background: var(--background-color);
+  margin-bottom: var(--space-sm);
+  box-shadow: var(--shadow-1);
+  flex-shrink: 0;
+
+  &:hover {
+    box-shadow: var(--shadow-2);
+  }
+}
+
+.rating-card {
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  color: #212529;
+  text-align: center;
+  height: auto;
+  max-width: 300px;
+  padding: 1rem 0;
+  flex-shrink: 0;
+}
+
+.rating-card p {
+  font-size: 1.2rem;
+  line-height: 1.2;
+  font-weight: 500;
+}
+
+.rating-card .mat-card-title {
+  font-weight: 700;
+  color: inherit;
+}
+
+/* ===== MOBILE NOTIFICATIONS ===== */
+.mobile-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--transition-normal);
+  z-index: var(--z-overlay);
+
+  &.active {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.mobile-bottom-sheet {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  max-height: 90vh;
+  background: var(--surface-color);
+  border-top-left-radius: var(--border-radius-lg);
+  border-top-right-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-2);
+  transform: translateY(100%);
+  transition: transform var(--transition-normal);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: var(--space-md);
+
+  &.show {
+    transform: translateY(0);
+  }
+
+  mat-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.mobile-sheet-header {
+  display: flex !important;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: var(--space-md);
+  border-bottom: 1px solid #e0e0e0;
+  flex-shrink: 0;
+}
+
+.mobile-sheet-title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.mobile-new-recipe {
+  text-align: center;
+  padding: var(--space-md);
+  flex-shrink: 0;
+}
+
+.mobile-recipe-btn {
+  background-color: #1976d2 !important;
+  color: white !important;
+  border-radius: 8px;
+  text-transform: none;
+  font-size: 1.1rem;
+  padding: 1rem 2rem;
+
+  .mat-icon {
+    margin-right: var(--space-xs);
+  }
+}
+
+.section-divider {
+  margin: var(--space-lg) 0;
+  flex-shrink: 0;
+}
+
+.mobile-section-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: var(--space-md);
+}
+
+.mobile-notifications-section,
+.mobile-rating-section {
+  padding: var(--space-md);
+  flex-shrink: 0;
+}
+
+.mobile-empty-notifications {
+  text-align: center;
+  padding: var(--space-xl);
+  color: var(--text-secondary);
+
+  .mobile-empty-icon {
+    font-size: 3rem;
+    margin-bottom: var(--space-md);
+  }
+}
+
+/* ===== RESPONSIVE BREAKPOINTS - FIXED ===== */
+
+// Mobile (< 768px)
+@media (max-width: 767px) {
+  .app-layout-grid {
+    grid-template-columns: 1fr !important;
+    grid-template-areas: "main" !important;
+    grid-template-rows: minmax(100vh, auto) !important;
+    gap: 0 !important;
+    padding: 0 !important;
+    min-height: 100vh !important;
+  }
+
+  .sidebar-area {
+    display: none !important;
+  }
+
+  .notifications-panel {
+    display: none !important;
+  }
+
+  .scrollable-content {
+    padding: var(--space-md);
+    min-height: calc(100vh - var(--header-height)) !important;
+  }
+}
+
+// Tablet (768px - 1023px)
+@media (min-width: 768px) and (max-width: 1023px) {
+  .app-layout-grid {
+    min-height: 100vh !important;
+    
+    &.notifications-visible {
+      grid-template-columns: 1fr !important;
+      grid-template-areas: "main" !important;
+    }
+    
+    &.notifications-hidden {
+      grid-template-columns: 2px 1fr !important;
+      grid-template-areas: "sidebar main" !important;
+    }
+    
+    gap: 0 !important;
+    padding: 0 !important;
+  }
+
+  .notifications-panel {
+    display: none !important;
+  }
+}
+
+// Desktop Small (1024px - 1199px)
+@media (min-width: 1024px) and (max-width: 1199px) {
+  .app-layout-grid {
+    grid-template-columns: 4fr 1fr !important;
+    grid-template-areas: "main notifications" !important;
+    gap: 0rem !important;
+    padding: 3rem 0 0;
+  }
+  
+  .sidebar-area {
+    display: none !important;
+  }
+  
+  .new-recipe-section {
+    display: none;
+  }
+
+  .app-layout-grid.notifications-hidden .new-recipe-section {
+    display: block;
+  }
+  .notifications-panel{
+    display: block !important;
+        width: 250px;
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        overflow-y: auto;
+        background: #fff;
+        border-left: 1px solid #e0e0e0;
+  }
+}
+
+// Desktop Medium (1200px - 1439px)
+@media (min-width: 1200px) and (max-width: 1439px) {
+  .app-layout-grid {
+    min-height: 100vh !important;
+    
+
+    
+    &.notifications-hidden {
+      grid-template-columns: 280px 1fr !important;
+      grid-template-areas: "sidebar main" !important;
+    }
+    
+    gap: 1rem !important;
+    padding: 0 !important;
+  }
+}
+
+// Desktop Large (1440px - 1919px)
+@media (min-width: 1440px) and (max-width: 1919px) {
+  .app-layout-grid {
+    min-height: 100vh !important;
+    
+    &.notifications-visible {
+      grid-template-columns: 1fr 5fr 1fr ;
+      grid-template-areas: "sidebar main notifications";
+    }
+    
+    &.notifications-hidden {
+      grid-template-columns: 300px 1fr !important;
+      grid-template-areas: "sidebar main" !important;
+    }
+    
+    gap: 1rem !important;
+    padding: 0 !important;
+  }
+}
+
+// 4K and Ultra Wide (1920px+)
+@media (min-width: 1920px) {
+  .app-layout-grid {
+    min-height: 100vh !important;
+    
+    &.notifications-visible {
+      grid-template-columns: 1fr 5fr 1fr ;
+      grid-template-areas: "sidebar main notifications" ;
+    }
+    
+    &.notifications-hidden {
+      grid-template-columns: 320px 1fr !important;
+      grid-template-areas: "sidebar main" !important;
+    }
+    
+    gap: 2rem !important;
+    padding: 0 !important;
+  }
+
+  .new-recipe-btn {
+    font-size: 1.3rem;
+    padding: 2rem;
+  }
+}
+
+/* ===== UTILITY CLASSES ===== */
+.empty-notifications {
+  text-align: center;
+  padding: var(--space-xl);
+  color: var(--text-secondary);
+
+  .empty-icon {
+    font-size: 2rem;
+    margin-bottom: var(--space-md);
+  }
+
+  .empty-text {
+    font-size: 0.9rem;
+  }
+}
+
+.decoration-section {
+  text-align: center;
+  padding: var(--space-md);
+  flex-shrink: 0;
+
+  .decoration-image {
+    max-width: 100%;
+    height: auto;
+    opacity: 0.8;
+  }
+}
+
+/* ===== FIXES ESPECÍFICOS PARA ANGULAR MATERIAL ===== */
+
+/* 🔥 Permitir scroll en elementos padre */
+router-outlet {
+  overflow: visible !important; /* 🔥 Cambiado */
+}
+
+/* 🔥 Asegurar que los componentes de Material no generen scroll innecesario */
+mat-card, mat-toolbar, mat-button {
+  box-sizing: border-box !important;
+}
+
+/* 🔥 Fix para mat-badge que puede causar overflow */
+.mat-badge-content {
+  box-sizing: border-box !important;
+}

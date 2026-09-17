@@ -1,0 +1,476 @@
+:root {
+  --primary-color: #007bff;
+  --accent-color: #28a745;
+  --warn-color: #dc3545;
+  --background-color: #f8f9fa;
+  --surface-color: #ffffff;
+  --card-background: #ffffff;
+  --text-primary: #212529;
+  --text-secondary: #6c757d;
+  --text-disabled: #adb5bd;
+
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+
+  --header-height: 56px;
+  --sidebar-width-collapsed: 80px;
+  --sidebar-width-expanded: 280px;
+  --notifications-width-sm: 250px;
+  --notifications-width-md: 300px;
+  --notifications-width-lg: 350px;
+
+  --shadow-1: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  --shadow-2: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+
+  --border-radius-sm: 4px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 12px;
+
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 0.5s ease;
+
+  --z-header: 200;
+  --z-overlay: 1000;
+}
+
+/* ===== RESET ===== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding-bottom: 10px;
+}
+
+html, body {
+  height: 100%;
+  font-family: 'Roboto', sans-serif;
+  background: var(--background-color);
+  color: var(--text-primary);
+}
+
+/* ===== CONTENEDOR PRINCIPAL ===== */
+.main-app-content {
+  background-color: var(--background-color);
+  padding: 0;
+  overflow: hidden;
+}
+
+/* ===== DASHBOARD GRID DINÁMICO ===== */
+.app-layout-grid {
+  display: grid;
+  gap: 1rem;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #F1F8FF 0%, #E3F2FD 100%);
+  transition: grid-template-columns var(--transition-normal);
+  overflow: hidden;
+}
+.mat-mdc-card-header {
+  padding: 0px;
+}
+/* ===== SIDEBAR AREA (contiene el menu-master) ===== */
+.sidebar-area {
+  grid-area: sidebar;
+  background: transparent;
+  overflow: visible;
+  position: relative;
+  z-index: 100;
+}
+
+/* ===== MAIN CONTENT ===== */
+.main-content-area {
+  grid-area: main;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: transparent;
+}
+
+.scrollable-content {
+  flex: 1;
+  overflow-y: auto;
+
+}
+
+.scrollable-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollable-content::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.2);
+  border-radius: 3px;
+}
+
+/* ===== CARDS ===== */
+.welcome-section mat-card,
+.search-section mat-card,
+.notifications-card mat-card,
+.favorites-grid mat-card {
+  box-shadow: none;
+  border: none;
+  margin-bottom: 1rem;
+}
+
+.search-section mat-card {
+  background-color: white;
+}
+
+.favorites-grid mat-card {
+  margin-bottom: 0;
+}
+
+
+.favorites-grid .favorites-card_receta {
+  background: none;
+  padding-bottom: 0px !important;
+}
+
+
+
+
+.welcome-section .welcome-title {
+  text-align: center;
+  color: #212529;
+  font-size: 1.5rem;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.welcome-section .welcome-title .doctor-name {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.doctor-name {
+  color: var(--primary-color);
+}
+
+/* ===== MOBILE HEADER ===== */
+.mobile-toolbar {
+  height: var(--header-height);
+  display: flex;
+  align-items: center;
+  padding: 0 var(--space-md);
+  box-shadow: var(--shadow-1);
+  z-index: var(--z-header);
+  background: var(--primary-color);
+  color: #fff;
+}
+
+.mobile-logo {
+  height: 32px;
+}
+
+.flex-spacer {
+  flex: 1;
+}
+
+/* ===== MATERIAL CARDS ===== */
+mat-card {
+  background: var(--card-background);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-1);
+  margin-bottom: var(--space-md);
+  border-width: 0px;
+
+}
+
+mat-card:hover {
+  box-shadow: var(--shadow-2);
+}
+
+mat-card-header {
+  display: none;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: 0;
+  
+}
+
+mat-card-title mat-icon {
+  vertical-align: middle;
+  margin-right: var(--space-xs);
+}
+.accordion_favoritas{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-bottom: 0px !important;
+}
+
+
+
+/* ===== NOTIFICATIONS PANEL ===== */
+.notifications-panel {
+  grid-area: notifications;
+  background: #fff;
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-2);
+  overflow-y: auto;
+  padding: var(--space-md);
+  transition: all var(--transition-normal);
+}
+
+.notifications-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+  align-items: center;
+  background-color: var(--surface-color);
+}
+
+.new-recipe-section {
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.new-recipe-btn {
+  background-color: #1458D9 !important;
+  color: white !important;
+  border-radius: 8px;
+  text-transform: none;
+  font-size: 1.2rem;
+  padding: 1.5rem;
+}
+
+.new-recipe-btn .mat-icon {
+  font-size: 30px;
+  width: 40px;
+}
+
+.new-recipe-btn:hover {
+  background-color: #1565c0;
+}
+
+.notifications-card .notifications-content {
+  background-color: var(--surface-color);
+  min-height: 280px;
+  max-height: 460px;
+  overflow-y: auto;
+  padding: 1rem;
+}
+
+.notification-item {
+  padding: var(--space-sm);
+  border-radius: var(--border-radius-sm);
+  background: var(--background-color);
+  margin-bottom: var(--space-sm);
+  box-shadow: var(--shadow-1);
+}
+
+.notification-item:hover {
+  box-shadow: var(--shadow-2);
+}
+
+/* ===== RATING CARD ===== */
+.rating-card {
+  background-color: var(--surface-color);
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  color: var(--text-primary);
+  text-align: center;
+  height: 200px;
+  max-width: 300px;
+  padding: 2rem 1rem;
+}
+
+.rating-card p {
+  font-size: 1.2rem;
+  line-height: 1.2;
+  font-weight: 500;
+  color: #3f3f3f;
+}
+
+/* ===== MOBILE NOTIFICATIONS ===== */
+.mobile-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--transition-normal);
+  z-index: var(--z-overlay);
+}
+
+.mobile-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.mobile-bottom-sheet {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  max-height: 90%;
+  background: var(--surface-color);
+  border-top-left-radius: var(--border-radius-lg);
+  border-top-right-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-2);
+  transform: translateY(100%);
+  transition: transform var(--transition-normal);
+  overflow-y: auto;
+  padding: var(--space-md);
+}
+
+.mobile-bottom-sheet.show {
+  transform: translateY(0);
+}
+
+.mobile-bottom-sheet mat-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 767px) {
+  .app-layout-grid {
+    grid-template-columns: 1fr !important;
+    grid-template-areas: "main" !important;
+  }
+  
+  .sidebar-area,
+  .notifications-panel {
+    display: none;
+  }
+  
+  .main-content-area {
+    padding: var(--space-sm);
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .app-layout-grid {
+    grid-template-columns: 1fr !important;
+    grid-template-areas: "main" !important;
+  }
+  
+  .sidebar-area,
+  .notifications-panel {
+    display: none;
+  }
+}
+@media (max-width: 1023px) {
+  .app-layout-grid {
+    grid-template-columns: 1fr !important;
+    grid-template-areas: "main" !important;
+    padding-top: 40px;
+    /* Sin padding-top porque menu-master maneja su header internamente */
+  }
+  
+  /* Main content full width */
+  .main-content-area {
+    width: 100%;
+    padding: 0;
+  }
+  
+  /* Sidebar y notificaciones no visibles (menu-master maneja mobile drawer) */
+  .notifications-panel {
+    display: none !important;
+  }
+  
+  .scrollable-content {
+    padding: var(--space-md);
+  }
+}
+
+/* Desktop Small (1024-1199px) - main + notificaciones */
+@media (min-width: 1024px) and (max-width: 1199px) {
+
+  
+  .app-layout-grid {
+    display: grid;
+    justify-items: end;
+    grid-template-columns: 1fr 250px !important;
+    grid-template-areas: "main notifications" !important;
+    padding-top: 50px;
+    /* Sin padding-top porque menu-master muestra su header en este rango */
+  }
+  
+  /* Main content */
+  .main-content-area {
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  /* Notificaciones visibles y sticky */
+  .notifications-panel {
+    display: block !important;
+    width: 300px;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    background: white;
+    border-left: 1px solid #e0e0e0;
+  }
+  
+  .scrollable-content {
+    padding: var(--space-md);
+    max-width: 100%;
+  }
+  .new-recipe-btn{
+    display: none;
+  }
+}
+
+
+@media (min-width: 1200px) {
+  .app-layout-grid {
+    /* Las columnas se calculan dinámicamente desde getGridTemplateColumns() */
+    grid-template-areas: "sidebar main notifications";
+    padding: 0;
+  }
+
+  
+  /* Main content */
+  .main-content-area {
+    grid-area: main;
+  }
+  
+  /* Notificaciones sticky */
+  .notifications-panel {
+    grid-area: notifications;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    background: white;
+    border-left: 1px solid #e0e0e0;
+  }
+  
+  .scrollable-content {
+    padding: var(--space-lg);
+  }
+}
+
+@media (min-width: 1600px) {
+  .app-layout-grid {
+    padding: var(--space-xl) 0 var(--space-md);
+  }
+}
+
+@media (max-width: 768px) {
+  .welcome-section .welcome-title {
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+  
+.accordion_favoritas{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0rem;
+}
+  
+}

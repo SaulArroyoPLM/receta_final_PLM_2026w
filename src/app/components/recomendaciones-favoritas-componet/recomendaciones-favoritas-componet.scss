@@ -1,0 +1,139 @@
+.receta-favota-card {
+  background: #fff;
+  border-radius: 5px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.receta-favota-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.receta-favota-header h3 {
+  color: #1458d9;
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+.receta-favota-header button {
+  border-radius: 20px;
+  font-weight: bold;
+  text-transform: none;
+  font-size: 1rem;
+}
+
+.recetas-favoritas-table {
+  width: 100%;
+  background-color: white;
+}
+
+.recetas-favoritas-table th {
+  font-weight: 600;
+  color: #666;
+  padding: 0.75rem 0.5rem;
+  border-bottom: 1px solid #eee;
+}
+
+.recetas-favoritas-table td {
+  padding: 0.75rem 0.5rem;
+  border-bottom: 1px solid #eee;
+}
+
+.recetas-favoritas-table .material-symbols-outlined {
+  color: #A3A3A3 !important;
+}
+
+.recetas-favoritas-table tbody tr {
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 8px;
+}
+
+.recetas-favoritas-table tr:last-child td {
+  border-bottom: none;
+}
+
+.recetas-favoritas-table .receta_acciones.mat-mdc-icon-button {
+  background-color: #1458D9 !important;
+  color: white !important;
+  border-radius: 50% !important;
+  width: 28px;
+  height: 28px;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* Estilos para el menú de acciones */
+.acciones-cell {
+  text-align: center !important;
+  position: relative;
+}
+
+/* Centrar el header de acciones también */
+.recetas-favoritas-table th.mat-mdc-header-cell:last-child {
+  text-align: center !important;
+}
+
+/* Estilos específicos para centrar el botón dentro de la celda */
+.acciones-cell .mat-mdc-icon-button {
+  margin: 0 auto;
+}
+
+/* Estilo para la opción de eliminar en rojo */
+.delete-option {
+  color: #f44336 !important;
+}
+
+.delete-option .mat-icon {
+  color: #f44336 !important;
+}
+::ng-deep  .mat-mdc-card-content{
+  padding: 0px;
+}
+::ng-deep .mat-expansion-panel-header-title, .mat-expansion-panel-header-description {
+    display: flex;
+    flex-grow: 1;
+     flex-basis: 0 !important;
+    margin-right: 16px;
+    align-items: center;
+}
+::ng-deep .mat-mdc-card-header {
+  padding: 0px;
+}
+
+/* Estilos para el menú desplegable */
+::ng-deep .mat-mdc-menu-panel {
+  border-radius: 8px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  background-color: white !important;
+}
+
+::ng-deep .mat-mdc-menu-item {
+  height: 40px !important;
+  line-height: 40px !important;
+}
+
+::ng-deep .mat-mdc-menu-item .mat-icon {
+  margin-right: 12px;
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+/* Centrar específicamente la columna de acciones */
+::ng-deep .mat-mdc-cell:last-child,
+::ng-deep .mat-mdc-header-cell:last-child {
+  text-align: center !important;
+  justify-content: center !important;
+}
+
+@media (max-width: 1199px) {
+  .receta-favota-card {
+    border-bottom: 1px solid #1458D9;
+    border-radius: 0px;
+  }
+}

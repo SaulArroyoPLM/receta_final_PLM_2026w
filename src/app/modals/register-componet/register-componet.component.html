@@ -1,0 +1,572 @@
+<div class="registro-dialog-container">
+  <div class="dialog-content">
+    <div class="step-form-content">
+      <!-- Custom Stepper -->
+      <app-custom-stepper [steps]="steps" [currentStepIndex]="currentStep" [linear]="isLinear"
+        [showNavigationButtons]="false" (stepChange)="onStepChange($event)" (stepClick)="onStepClick($event)"
+        class="custom-stepper">
+        <!-- Contenido dinámico según el paso actual -->
+        <div [ngSwitch]="currentStep" class="stepper-content-area">
+          <!-- ===================================== -->
+          <!-- PASO 0: CREAR CUENTA (Datos Personales) -->
+          <!-- ===================================== -->
+          <ng-container *ngSwitchCase="0">
+            <!-- Sub-pasos móviles -->
+            <form [formGroup]="datosPersonalesForm" *ngIf="isMobile">
+              <div class="mobile-substeps">
+                <!-- Sub-paso 0: Información básica -->
+                <div *ngIf="shouldShowMobileSubStepFields(0)" class="mobile-substep-card">
+                  <h4>Información básica</h4>
+                  <div>
+                    <div class="row g-0">
+                      <div class="col-6">
+                        <mat-form-field appearance="fill" class="form-field">
+                          <mat-label>Nombre(s)</mat-label>
+                          <input matInput formControlName="nombre" placeholder="Ingresa tu nombre" class="inputs">
+                          <mat-error
+                            *ngIf="datosPersonalesForm.get('nombre')?.hasError('required') && datosPersonalesForm.get('nombre')?.touched">
+                            El nombre es requerido
+                          </mat-error>
+                          <mat-error
+                            *ngIf="datosPersonalesForm.get('nombre')?.hasError('minlength') && datosPersonalesForm.get('nombre')?.touched">
+                            El nombre debe tener al menos 2 caracteres
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-12">
+                        <mat-form-field appearance="fill" class="form-field">
+                          <mat-label>Primer apellido</mat-label>
+                          <input matInput formControlName="primerApellido" placeholder="Ingresa tu primer apellido"
+                            class="inputs">
+                          <mat-error
+                            *ngIf="datosPersonalesForm.get('primerApellido')?.hasError('required') && datosPersonalesForm.get('primerApellido')?.touched">
+                            Requerido
+                          </mat-error>
+                          <mat-error
+                            *ngIf="datosPersonalesForm.get('primerApellido')?.hasError('minlength') && datosPersonalesForm.get('primerApellido')?.touched">
+                            El apellido debe tener al menos 2 caracteres
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="row g-0">
+                      <div class="col-6">
+                        <mat-form-field appearance="fill" class="form-field">
+                          <mat-label>Segundo apellido</mat-label>
+                          <input matInput formControlName="segundoApellido" placeholder="Ingresa tu segundo apellido"
+                            class="inputs">
+                          <mat-error
+                            *ngIf="datosPersonalesForm.get('segundoApellido')?.hasError('required') && datosPersonalesForm.get('segundoApellido')?.touched">
+                            Requerido
+                          </mat-error>
+                          <mat-error
+                            *ngIf="datosPersonalesForm.get('segundoApellido')?.hasError('minlength') && datosPersonalesForm.get('segundoApellido')?.touched">
+                            El apellido debe tener al menos 2 caracteres
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-6">
+                        <mat-form-field appearance="fill" class="form-field">
+                          <mat-label>Teléfono profesional</mat-label>
+                          <input matInput type="tel" formControlName="telefonoProfesional" placeholder="10 dígitos"
+                            maxlength="10" class="inputs">
+                          <mat-error
+                            *ngIf="datosPersonalesForm.get('telefonoProfesional')?.hasError('required') && datosPersonalesForm.get('telefonoProfesional')?.touched">
+                            El teléfono profesional es requerido
+                          </mat-error>
+                          <mat-error
+                            *ngIf="datosPersonalesForm.get('telefonoProfesional')?.hasError('pattern') && datosPersonalesForm.get('telefonoProfesional')?.touched">
+                            Debe contener 10 dígitos
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Sub-paso 1: Contacto y acceso -->
+                <div *ngIf="shouldShowMobileSubStepFields(1)" class="mobile-substep-card">
+                  <h4>Contacto y acceso</h4>
+                  <div>
+                    <div class="row">
+                      <div class="col-6">
+                        <mat-form-field appearance="fill" class="form-field">
+                          <mat-label>Correo electrónico</mat-label>
+                          <input matInput formControlName="correo" type="email" placeholder="ejemplo@correo.com"
+                            class="inputs">
+                          <mat-error
+                            *ngIf="datosPersonalesForm.get('correo')?.hasError('required') && datosPersonalesForm.get('correo')?.touched">
+                            El correo es requerido
+                          </mat-error>
+                          <mat-error
+                            *ngIf="datosPersonalesForm.get('correo')?.hasError('email') && datosPersonalesForm.get('correo')?.touched">
+                            Ingresa un correo válido
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-6">
+                        <mat-form-field appearance="fill" class="form-field">
+                          <mat-label>Contraseña</mat-label>
+                          <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="contrasena"
+                            placeholder="Mínimo 8 caracteres" class="inputs">
+                          <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" type="button">
+                            <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                          </button>
+                          <mat-error *ngIf="getPasswordErrors() && datosPersonalesForm.get('contrasena')?.touched">
+                            {{getPasswordErrors()}}
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-6">
+                        <mat-form-field appearance="fill" class="form-field">
+                          <mat-label>Fecha de nacimiento</mat-label>
+                          <input matInput [matDatepicker]="pickerMobile" formControlName="fechaNacimiento"
+                            class="inputs">
+                          <mat-datepicker-toggle matIconSuffix [for]="pickerMobile"></mat-datepicker-toggle>
+                          <mat-datepicker #pickerMobile></mat-datepicker>
+                          <mat-error
+                            *ngIf="datosPersonalesForm.get('fechaNacimiento')?.hasError('required') && datosPersonalesForm.get('fechaNacimiento')?.touched">
+                            La fecha de nacimiento es requerida
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-6">
+                        <div class="checkbox-container">
+                          <mat-checkbox formControlName="terminosCondiciones" color="primary">
+                            He leído y aceptado los <span style="color: blue;">Términos y condiciones</span>
+                          </mat-checkbox>
+                          <mat-error
+                            *ngIf="datosPersonalesForm.get('terminosCondiciones')?.hasError('requiredTrue') && datosPersonalesForm.get('terminosCondiciones')?.touched"
+                            class="checkbox-error">
+                            Debes aceptar los términos y condiciones
+                          </mat-error>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+
+            <!-- Formulario completo para escritorio -->
+            <form [formGroup]="datosPersonalesForm" *ngIf="!isMobile" class="desktop-form-content">
+              <div class="form-title">
+                <h3 class="title">Datos personales</h3>
+                <p class="p_ingresa">Ingresa tus datos personales</p>
+              </div>
+              <div class="grid_padding">
+                <div class="row gx-3">
+                  <div class="col-6">
+                    <mat-form-field appearance="fill" class="form-field">
+                      <mat-label>Nombre(s)</mat-label>
+                      <input matInput formControlName="nombre" placeholder="Ingresa tu nombre" class="inputs">
+                      <mat-error
+                        *ngIf="datosPersonalesForm.get('nombre')?.hasError('required') && datosPersonalesForm.get('nombre')?.touched">
+                        El nombre es requerido
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-6">
+                    <mat-form-field appearance="fill" class="form-field">
+                      <mat-label>Primer apellido</mat-label>
+                      <input matInput formControlName="primerApellido" placeholder="Ingresa tu primer apellido"
+                        class="inputs">
+                      <mat-error
+                        *ngIf="datosPersonalesForm.get('primerApellido')?.hasError('required') && datosPersonalesForm.get('primerApellido')?.touched">
+                        Requerido
+                      </mat-error>
+                      <mat-error
+                        *ngIf="datosPersonalesForm.get('primerApellido')?.hasError('minlength') && datosPersonalesForm.get('primerApellido')?.touched">
+                        El apellido debe tener al menos 2 caracteres
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+
+                </div>
+                <div class="row gx-3">
+                  <div class="col-6">
+                    <mat-form-field appearance="fill" class="form-field">
+                      <mat-label>Segundo apellido</mat-label>
+                      <input matInput formControlName="segundoApellido" placeholder="Ingresa tu segundo apellido"
+                        class="inputs">
+                      <mat-error
+                        *ngIf="datosPersonalesForm.get('segundoApellido')?.hasError('required') && datosPersonalesForm.get('segundoApellido')?.touched">
+                        Requerido
+                      </mat-error>
+                      <mat-error
+                        *ngIf="datosPersonalesForm.get('segundoApellido')?.hasError('minlength') && datosPersonalesForm.get('segundoApellido')?.touched">
+                        El apellido debe tener al menos 2 caracteres
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-6">
+                    <mat-form-field appearance="fill" class="form-field">
+                      <mat-label>Correo electrónico</mat-label>
+                      <input matInput formControlName="correo" type="email" placeholder="ejemplo@correo.com"
+                        class="inputs">
+                      <mat-error
+                        *ngIf="datosPersonalesForm.get('correo')?.hasError('required') && datosPersonalesForm.get('correo')?.touched">
+                        El correo es requerido
+                      </mat-error>
+                      <mat-error
+                        *ngIf="datosPersonalesForm.get('correo')?.hasError('email') && datosPersonalesForm.get('correo')?.touched">
+                        Ingresa un correo válido
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+
+                </div>
+                <div class="row gx-3">
+                  <div class="col-6">
+                    <mat-form-field appearance="fill" class="form-field">
+                      <mat-label>Teléfono profesional</mat-label>
+                      <input matInput type="tel" formControlName="telefonoProfesional" placeholder="10 dígitos"
+                        maxlength="10" class="inputs">
+                      <mat-error
+                        *ngIf="datosPersonalesForm.get('telefonoProfesional')?.hasError('required') && datosPersonalesForm.get('telefonoProfesional')?.touched">
+                        El teléfono profesional es requerido
+                      </mat-error>
+                      <mat-error
+                        *ngIf="datosPersonalesForm.get('telefonoProfesional')?.hasError('pattern') && datosPersonalesForm.get('telefonoProfesional')?.touched">
+                        Debe contener 10 dígitos
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-6">
+                    <mat-form-field appearance="fill" class="form-field">
+                      <mat-label>Fecha de nacimiento</mat-label>
+                      <input matInput [matDatepicker]="pickerDesktop" formControlName="fechaNacimiento" class="inputs">
+                      <mat-datepicker-toggle matIconSuffix [for]="pickerDesktop"></mat-datepicker-toggle>
+                      <mat-datepicker #pickerDesktop></mat-datepicker>
+                      <mat-error
+                        *ngIf="datosPersonalesForm.get('fechaNacimiento')?.hasError('required') && datosPersonalesForm.get('fechaNacimiento')?.touched">
+                        La fecha de nacimiento es requerida
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="row gx-3 align-items-center">
+                  <div class="col-6">
+                    <mat-form-field appearance="fill" class="form-field">
+                      <mat-label>Contraseña</mat-label>
+                      <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="contrasena"
+                        placeholder="Mínimo 8 caracteres" class="inputs">
+                      <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" type="button">
+                        <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                      </button>
+                      <mat-error *ngIf="getPasswordErrors() && datosPersonalesForm.get('contrasena')?.touched">
+                        {{getPasswordErrors()}}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-6">
+                    <div class="checkbox-container">
+                      <mat-checkbox formControlName="terminosCondiciones" color="primary">
+                        He leído y aceptado los <span style="color: blue;">Términos y condiciones</span>
+                      </mat-checkbox>
+                      <mat-error
+                        *ngIf="datosPersonalesForm.get('terminosCondiciones')?.hasError('requiredTrue') && datosPersonalesForm.get('terminosCondiciones')?.touched"
+                        class="checkbox-error">
+                        Debes aceptar los términos y condiciones
+                      </mat-error>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </ng-container>
+
+          <!-- ===================================== -->
+          <!-- PASO 1: DATOS PROFESIONALES (antes paso 2) -->
+          <!-- ===================================== -->
+          <ng-container *ngSwitchCase="1">
+            <!-- Sub-pasos móviles -->
+            <form [formGroup]="configuracionRecetaForm" *ngIf="isMobile">
+              <div class="mobile-substeps">
+                <!-- Sub-paso 0: Estudios -->
+                <div *ngIf="shouldShowMobileSubStepFields(0)" class="mobile-substep-card">
+                  <h4>Estudios</h4>
+                  <div>
+                    <div class="row">
+                      <div class="col-12">
+                        <mat-form-field appearance="fill" class="form-field">
+                          <mat-label>Número de cédula profesional</mat-label>
+                          <input matInput formControlName="cedula_profesional" placeholder="Cédula profesional"
+                            maxlength="8" class="inputs">
+                          <mat-error *ngIf="configuracionRecetaForm.get('cedula_profesional')?.hasError('required')">
+                            Requerido
+                          </mat-error>
+                          <mat-error
+                            *ngIf="configuracionRecetaForm.get('cedula_profesional')?.hasError('cedulaInvalida')">
+                            La cédula profesional no es válida o no coincide con tus datos personales
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="row g-0">
+                      <div class="col-12">
+                        <mat-form-field appearance="fill" class="form-field">
+                          <mat-label>Especialidad médica</mat-label>
+                          <input type="text" matInput placeholder="Selecciona tu especialidad médica"
+                            [matAutocomplete]="autoEspecialidad" formControlName="especialidad_medica" class="inputs">
+                          <mat-autocomplete #autoEspecialidad="matAutocomplete">
+                            <mat-option *ngFor="let option of filteredEspecialidades | async" [value]="option">
+                              {{ option }}
+                            </mat-option>
+                          </mat-autocomplete>
+                          <mat-error *ngIf="configuracionRecetaForm.get('especialidad_medica')?.hasError('required')">
+                            Requerido
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-12">
+                        <mat-form-field appearance="fill" class="form-field">
+                          <mat-label>Institución que emite el título</mat-label>
+                          <input matInput formControlName="institucion" placeholder="Institución que emite el título"
+                            class="inputs">
+                          <mat-error *ngIf="configuracionRecetaForm.get('institucion')?.hasError('required')">
+                            Institución que emite el título es requerido
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Sub-paso 1: Consultorio médico -->
+                <div *ngIf="shouldShowMobileSubStepFields(1)" class="mobile-substep-card">
+                  <h4>Consultorio médico</h4>
+                  <div>
+                    <div class="row">
+                      <div class="col-12">
+                        <mat-form-field appearance="fill" class="form-field">
+                          <mat-label>Nombre del consultorio</mat-label>
+                          <input matInput formControlName="consultorio" placeholder="Nombre del consultorio"
+                            class="inputs">
+                          <mat-error *ngIf="configuracionRecetaForm.get('consultorio')?.hasError('required')">
+                            Nombre del consultorio es requerido
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="row g-0">
+                      <div class="col-12">
+                        <mat-form-field appearance="fill" class="form-field">
+                          <mat-label>Dirección del consultorio</mat-label>
+                          <input matInput formControlName="direccion" placeholder="Dirección del consultorio"
+                            class="inputs">
+                          <mat-error *ngIf="configuracionRecetaForm.get('direccion')?.hasError('required')">
+                            Requerido
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-12">
+                        <mat-form-field appearance="fill" class="form-field">
+                          <mat-label>Teléfono del consultorio</mat-label>
+                          <input matInput type="tel" formControlName="telconsultorio" placeholder="10 dígitos"
+                            maxlength="10" class="inputs">
+                          <mat-error *ngIf="configuracionRecetaForm.get('telconsultorio')?.hasError('required')">
+                            Requerido
+                          </mat-error>
+                          <mat-error *ngIf="configuracionRecetaForm.get('telconsultorio')?.hasError('pattern')">
+                            Debe contener 10 dígitos
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+
+            <!-- Formulario completo para escritorio -->
+            <form [formGroup]="configuracionRecetaForm" *ngIf="!isMobile" class="desktop-form-content">
+
+              <!-- Sección de Estudios -->
+              <div class="form-title">
+                <h3 class="title">Estudios</h3>
+                <p class="p_ingresa">Ingresa tus datos profesionales</p>
+              </div>
+
+              <div>
+                <div class="row gx-3">
+                  <div class="col-6">
+                    <mat-form-field appearance="fill" class="form-field">
+                      <mat-label>Número de cédula profesional</mat-label>
+                      <input matInput formControlName="cedula_profesional" maxlength="8" class="inputs">
+                      <mat-error *ngIf="configuracionRecetaForm.get('cedula_profesional')?.hasError('required')">
+                        Requerido
+                      </mat-error>
+                      <mat-error *ngIf="configuracionRecetaForm.get('cedula_profesional')?.hasError('cedulaInvalida')">
+                        La cédula profesional no es válida o no coincide con tus datos personales
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+
+                  <div class="col-6">
+                    <mat-form-field appearance="fill" class="form-field">
+                      <mat-label>Título profesional</mat-label>
+                      <input type="text" matInput [matAutocomplete]="autoEspecialidad"
+                        formControlName="especialidad_medica" class="inputs">
+                      <mat-autocomplete #autoEspecialidad="matAutocomplete">
+                        <mat-option *ngFor="let option of filteredEspecialidades | async" [value]="option">
+                          {{ option }}
+                        </mat-option>
+                      </mat-autocomplete>
+                      <mat-error *ngIf="configuracionRecetaForm.get('especialidad_medica')?.hasError('required')">
+                        Requerido
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+
+                <div class="row g-0">
+                  <div class="col-12">
+                    <mat-form-field appearance="fill" class="form-field">
+                      <mat-label>Institución que emite el título</mat-label>
+                      <input matInput formControlName="institucion" class="inputs">
+                      <mat-error *ngIf="configuracionRecetaForm.get('institucion')?.hasError('required')">
+                        Institución que emite el título es requerido
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Sección de Consultorios -->
+              <div class="form-title">
+                <h3 class="title">Consultorios</h3>
+                <p class="p_ingresa">Ingresa la dirección y datos de contacto del consultorio</p>
+              </div>
+
+              <div>
+                <div class="row g-0">
+                  <div class="col-12">
+                    <mat-form-field appearance="fill" class="form-field">
+                      <mat-label>Nombre del consultorio</mat-label>
+                      <input matInput formControlName="consultorio" class="inputs">
+                      <mat-error *ngIf="configuracionRecetaForm.get('consultorio')?.hasError('required')">
+                        Nombre del consultorio es requerido
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+
+                <div class="row gx-3">
+                  <div class="col-8">
+                    <mat-form-field appearance="fill" class="form-field">
+                      <mat-label>Dirección del consultorio</mat-label>
+                      <input matInput formControlName="direccion" class="inputs">
+                      <mat-error *ngIf="configuracionRecetaForm.get('direccion')?.hasError('required')">
+                        Requerido
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+
+                  <div class="col-4">
+                    <mat-form-field appearance="fill" class="form-field">
+                      <mat-label>Teléfono del consultorio</mat-label>
+                      <input matInput type="tel" formControlName="telconsultorio" maxlength="10" class="inputs">
+                      <mat-error *ngIf="configuracionRecetaForm.get('telconsultorio')?.hasError('required')">
+                        Requerido
+                      </mat-error>
+                      <mat-error *ngIf="configuracionRecetaForm.get('telconsultorio')?.hasError('pattern')">
+                        Debe contener 10 dígitos
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+
+            </form>
+          </ng-container>
+
+          <!-- ===================================== -->
+          <!-- PASO 2: VERIFICACIÓN EMAIL (antes paso 1) -->
+          <!-- ===================================== -->
+          <div *ngSwitchCase="2" class="step-content">
+            <form [formGroup]="verificacionEmailForm" class="step-form" (ngSubmit)="nextStepCustom()">
+              <h2 class="verification-title title">Te enviamos un código por correo</h2>
+              <div>
+                <div class="row g-0">
+                  <!-- Left side - Text -->
+                  <div class="col-12 col-lg-6">
+                    <h2 class="verification-subtitle">Te enviamos un código por correo</h2>
+                    <p class="verification-info">Ingresa el código de verificación <br> que enviamos a:</p>
+                    <p class="email-display">{{ datosPersonalesForm.get('correo')?.value || 'tuCorreo@email.com' }}</p>
+                    <!-- Code Input with Circles -->
+                    <div class="code-input-container ion-margin-top">
+                      <input type="text" class="code-input" placeholder="000000" maxlength="6"
+                        formControlName="codigoVerificacionEmail" (input)="onCodeInput($event)"
+                        (keydown.enter)="nextStepCustom()" autocomplete="off">
+                    </div>
+                    <!-- Mensajes de error -->
+                    <div class="error-message"
+                      *ngIf="error || verificacionEmailForm.get('codigoVerificacionEmail')?.hasError('invalidCode')">
+                      {{ error || 'El código ingresado no es válido.' }}
+                    </div>
+                    <div class="error-message"
+                      *ngIf="verificacionEmailForm.get('codigoVerificacionEmail')?.hasError('required')">
+                      El código es requerido.
+                    </div>
+                    <div class="error-message"
+                      *ngIf="verificacionEmailForm.get('codigoVerificacionEmail')?.hasError('pattern')">
+                      El código debe contener 6 dígitos.
+                    </div>
+                    <!-- Resend Code -->
+                    <div class="resend-section ion-margin-top">
+                      <div class="row g-0 ion-justify-content-center ion-align-items-center">
+                        <div class="col-auto">
+                          <p class="resend-text">¿No recibiste el código?</p>
+                        </div>
+                        <div class="col-auto">
+                          <button mat-button type="button" color="primary" (click)="reenviarCodigoEmail()"
+                            [disabled]="isResendingEmail" class="resend-button">
+                            {{ isResendingEmail ? 'Reenviando...' : 'Reenviar código' }}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Right side - Image -->
+                  <div class="col-12 col-lg-6 ion-text-center ion-align-items-center">
+                    <img src="./assets/images/registro_01.svg" alt="Verificación por email" class="verification-image">
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+
+        </div>
+
+        <!-- Botones de navegación -->
+        <div class="stepper-navigation  ion-text-center" *ngIf="shouldShowNavigationButtons()">
+          <!-- Botón Atrás -->
+          <button mat-stroked-button color="danger" [disabled]="isSubmitting"
+            (click)="previousStepCustom()" class="btn-previous">
+            {{ getMobileBackButtonText() }}
+          </button>
+          <!-- Botón Siguiente/Ir al Home -->
+          <button mat-flat-button color="primary"
+            [disabled]="isSubmitting || (isMobile && (currentStep === 0 || currentStep === 1) && !canProceedToNextMobileSubStep())"
+            (click)="nextStepCustom()" class="btn-next">
+            {{ getMobileStepButtonText() }}
+          </button>
+        </div>
+      </app-custom-stepper>
+    </div>
+  </div>
+</div>

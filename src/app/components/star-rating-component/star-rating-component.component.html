@@ -1,0 +1,46 @@
+<!-- Estado 0: Vista de estrellas -->
+<div *ngIf="currentState === 0" class="rating-container">
+  
+  <div class="stars-container">
+    <div class="stars">
+      <input 
+        *ngFor="let star of getStarsArray()" 
+        type="radio" 
+        [id]="'star' + star" 
+        name="rating" 
+        [value]="star"
+        (change)="onRate(star)">
+      <label 
+        *ngFor="let star of getStarsArray()" 
+        [for]="'star' + star" 
+        class="star">
+        ★
+      </label>
+    </div>
+  </div>
+</div>
+
+<!-- Estado 1: Vista de comentario -->
+<div *ngIf="currentState === 1" class="comment-container">
+  <div class="rating-display">
+    <div class="stars-display">
+      <span 
+        *ngFor="let star of getStarsArray()" 
+        class="star-display"
+        [class.filled]="star <= selectedRating">
+        ★
+      </span>
+    </div>
+  </div>
+
+  
+  <div class="button-group">
+    <button type="button" class="btn btn-secondary" (click)="cancel()">
+      Cancelar
+    </button>
+    <button type="button" class="btn btn-primary" (click)="openModal()">
+      Enviar
+    </button>
+  </div>
+</div>
+

@@ -1,0 +1,165 @@
+.notification-card {
+  margin: 8px 0;
+  border-radius: 0;
+  border-left: 4px solid;
+  box-shadow: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.notification-card ::ng-deep .mat-mdc-card-content:last-child {
+  padding-bottom: 8px !important; /* px agregado */
+}
+
+.notification-card ::ng-deep .mat-mdc-card-content:first-child {
+  padding: 8px !important; /* px agregado */
+}
+
+
+/* INFO (azul) */
+.notification-card--info {
+  border-left-color: #2196F3;
+  background-color: #E3F2FD;
+}
+.notification-card--info .icon-info {
+  color: #1976D2;
+}
+.notification-card--info .notification-title {
+  color: #1976D2;
+}
+
+/* SUCCESS (verde) */
+.notification-card--success {
+  border-left-color: #4CAF50;
+  background-color: #E8F5E8;
+}
+.notification-card--success .icon-success {
+  color: #388E3C;
+}
+.notification-card--success .notification-title {
+  color: #388E3C;
+}
+
+/* WARNING (amarillo/naranja) */
+.notification-card--warning {
+  border-left-color: #FF9800;
+  background-color: #FFF3E0;
+}
+.notification-card--warning .icon-warning {
+  color: #F57C00;
+}
+.notification-card--warning .notification-title {
+  color: #F57C00;
+}
+
+/* ERROR (rojo) */
+.notification-card--error {
+  border-left-color: #F44336;
+  background-color: #FFEBEE;
+}
+.notification-card--error .icon-error {
+  color: #D32F2F;
+}
+.notification-card--error .notification-title {
+  color: #D32F2F;
+}
+
+/* Contenido principal */
+.notification-content {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Icono */
+.notification-icon {
+  flex-shrink: 0;
+}
+.notification-icon mat-icon {
+  font-size: 24px;
+  width: 24px;
+  height: 24px;
+}
+
+/* Texto */
+.notification-text {
+  flex: 1;
+}
+.notification-text .notification-title {
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 4px;
+  line-height: 1.4;
+}
+.notification-text .notification-message {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.4;
+}
+
+/* Botón/acción */
+.notification-action {
+  flex-shrink: 0;
+}
+.notification-action button {
+  text-transform: none;
+  font-weight: 500;
+  font-size: 14px;
+  border-bottom: 1px solid;
+  border-radius: 0px;
+}
+small {
+    font-size: 75%;
+    color: #1f5cbb;
+}
+/* FORZAR ESTILO INTERNO DEL mat-card SI USAS MATERIAL DESIGN */
+::ng-deep .notification-card .mat-mdc-card {
+  width: 100% !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+
+
+/* Responsive */
+@media (max-width: 600px) {
+  .notification-content {
+    gap: 12px;
+  }
+  .notification-content .notification-icon mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+  }
+  .notification-content .notification-text .notification-title {
+    font-size: 14px;
+  }
+  .notification-content .notification-text .notification-message {
+    font-size: 13px;
+  }
+}
+@media (max-width: 425px) {
+  .notification-card--success {
+  border-left-color: #4CAF50;
+  background-color: #E8F5E8;
+  width: 380px;
+}
+
+}
+@media (max-width: 375px) {
+  .notification-card--success {
+  border-left-color: #4CAF50;
+  background-color: #E8F5E8;
+  width: 330px;
+}
+
+}
+@media (max-width: 325px) {
+  .notification-card--success {
+  border-left-color: #4CAF50;
+  background-color: #E8F5E8;
+  width: 280px;
+}
+
+}

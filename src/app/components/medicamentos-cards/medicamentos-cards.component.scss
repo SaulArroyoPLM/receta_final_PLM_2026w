@@ -1,0 +1,374 @@
+// Controles de vista
+.view-controls {
+  .view-toggle-btn {
+    margin: 0 4px;
+  }
+}
+
+// Card base
+.card-medicamento {
+  background: white;
+  border-radius: 12px;
+  box-shadow: none;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  border: 1px solid #e0e0e0;
+  width: 100%;
+  min-height: 150px;
+  padding: .8rem;
+  gap: 1rem;
+  align-items: center;
+
+  &:hover {
+    border-color: #2196f3;
+    box-shadow: 0 4px 12px rgba(33, 150, 243, 0.15);
+  }
+
+  // Modo lista
+  &.list-mode {
+    flex-direction: row;
+    min-height: 100px;
+    
+    .imagen-container {
+      min-width: 100px;
+      max-width: 100px;
+    }
+
+    .contenido-container {
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+
+      .header-medicamento {
+        flex: 1;
+        min-width: 250px;
+      }
+
+      .presentacion {
+        flex: 1;
+        min-width: 200px;
+      }
+
+      .info-medicamento {
+        display: none; // Ocultar en modo lista cuando no está expandido
+      }
+    }
+
+    // Cuando está expandido en modo lista
+    &.expanded {
+      .contenido-container {
+        flex-direction: column;
+
+        .info-medicamento {
+          display: block;
+        }
+      }
+    }
+  }
+
+  // Estado expandido
+  &.expanded {
+    .expanded-content {
+      max-height: 800px;
+      opacity: 1;
+      padding-top: 16px;
+      margin-top: 12px;
+    }
+
+    .info-medicamento {
+      .sustancia {
+        margin-bottom: 8px; // Reducir margen cuando hay más contenido
+      }
+    }
+  }
+
+  .imagen-container {
+    text-align: center;
+    background: white;
+    min-height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .imagen-medicamento {
+      max-width: 80px;
+      max-height: 80px;
+      object-fit: contain;
+    }
+  }
+
+  .header-medicamento_extendido{
+    display: flex;
+    justify-content: space-between ;
+    align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+  }
+
+  .contenido-container {
+    padding: 8px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    .header-medicamento {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+      gap: 8px;
+      flex-wrap: wrap;
+      position: relative;
+
+      .marca {
+        font-weight: 700;
+        font-size: 14px;
+        color: #1976d2;
+        flex: 1;
+      }
+
+      .solucion {
+        font-weight: 600;
+        font-size: 12px;
+        color: #666;
+        background: #e3f2fd;
+        padding: 4px 8px;
+        border-radius: 4px;
+      }
+
+      .expand-btn {
+        padding: 0 4px;
+        height: 28px;
+        line-height: 28px;
+        margin: 0;
+
+        mat-icon {
+          font-size: 20px;
+        }
+      }
+    }
+
+    .presentacion {
+      font-size: 12px;
+      color: #888;
+      margin-bottom: 12px;
+      font-style: italic;
+    }
+
+    .info-medicamento {
+      flex: 1;
+
+      p {
+        font-size: 14px;
+        line-height: 1.4;
+        margin: 0 0 6px 0;
+
+        &.sustancia {
+          font-weight: 600;
+          color: #333;
+          margin-bottom: 12px; // Más espacio cuando es el único elemento visible
+        }
+
+        &.indicacion {
+          color: #555;
+          margin: 8px 0;
+          padding: 8px 0;
+          border-top: 1px solid #777;
+        }
+
+        &.dosis {
+          color: #1976d2;
+          font-size: 12px;
+          margin-bottom: 0;
+        }
+      }
+    }
+
+    // Contenido expandible
+    .expanded-content {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: all 0.4s ease;
+
+      .divider {
+        height: 1px;
+        background: linear-gradient(to right, transparent, #e0e0e0, transparent);
+        margin: 16px 0;
+      }
+
+      .extra-info {
+        font-size: 13px;
+        color: #555;
+        margin: 10px 0;
+        line-height: 1.6;
+        padding-left: 8px;
+        border-left: 3px solid #e3f2fd;
+
+        strong {
+          color: #1976d2;
+          display: block;
+          margin-bottom: 4px;
+        }
+      }
+    }
+  }
+}
+
+.modal-medicamento {
+  background-color: red !important;
+}
+
+// Loading spinner styles
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
+}
+
+// Empty state styles
+.empty-state {
+  padding: 2rem;
+
+  h3 {
+    color: #666;
+    margin-bottom: 1rem;
+  }
+
+  .text-muted {
+    font-size: 14px;
+  }
+}
+
+
+// Tablets
+@media (max-width: 1024px) {
+  .card-medicamento {
+    flex-direction: column;
+
+    &.list-mode {
+      flex-direction: row;
+    }
+
+    .imagen-container {
+      min-height: 100px;
+    }
+
+    .contenido-container {
+      padding: 16px;
+
+      .header-medicamento {
+        .marca {
+          font-size: 14px;
+        }
+
+        .solucion {
+          font-size: 12px;
+          padding: 2px;
+        }
+      }
+
+      .info-medicamento p {
+        margin: 0 0 8px 0;
+        font-size: 13px;
+
+        &.dosis {
+          font-size: 12px;
+        }
+      }
+    }
+  }
+}
+
+// Mobile
+@media (max-width: 768px) {
+  .card-medicamento {
+    flex-direction: row;
+    min-height: 160px;
+
+    &.list-mode {
+      .imagen-container {
+        min-width: 80px;
+        max-width: 80px;
+      }
+    }
+
+    .contenido-container {
+      padding: 12px;
+
+      .header-medicamento {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+
+        .solucion {
+          align-self: flex-start;
+        }
+      }
+
+      .action-buttons {
+        .expand-button {
+          width: 100%;
+          font-size: 12px;
+          padding: 6px 12px;
+
+          mat-icon {
+            font-size: 16px;
+          }
+        }
+      }
+
+      .info-medicamento p {
+        font-size: 12px;
+
+        &.dosis {
+          font-size: 11px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 570px) {
+  .card-medicamento {
+    width: 90vw;
+    max-width: 570px;
+
+    .imagen-container {
+      min-height: 100px;
+      padding: 12px;
+
+      .imagen-medicamento {
+        max-width: 60px;
+        max-height: 60px;
+      }
+    }
+  }
+}
+
+// Animation for card entrance
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card-medicamento {
+  animation: fadeInUp 0.5s ease-out;
+  animation-fill-mode: both;
+
+  // Stagger animation for multiple cards
+  @for $i from 1 through 12 {
+    &:nth-child(#{$i}) {
+      animation-delay: #{$i * 0.1}s;
+    }
+  }
+}

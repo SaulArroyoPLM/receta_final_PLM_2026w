@@ -1,0 +1,136 @@
+@use '@angular/material' as mat;
+@import 'bootstrap/dist/css/bootstrap.min.css';
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 
+               Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+}
+
+html {
+  @include mat.theme((
+    color: (
+      primary: mat.$azure-palette,
+      tertiary: mat.$blue-palette,
+    ),
+    typography: Roboto,
+    density: 0,
+  ));
+}
+
+body {
+  color-scheme: light;
+
+  background-color: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+  font: var(--mat-sys-body-medium);
+
+  margin: 0;
+}
+
+/* Ajuste de posición del check interno de mat-checkbox */
+.mdc-checkbox__background {
+  top: 0 !important;
+  left: 0 !important;
+}
+
+html, body { height: 100%; }
+body { font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* Contenedor del modal */
+::ng-deep .custom-dialog-panel .mat-dialog-container {
+  padding: 0 !important;
+  border-radius: 20px;
+  background: #f8f9fa;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+.cdk-overlay-dark-backdrop {
+  background: rgba(0, 51,141, 0.50) !important;
+}
+/* Ajustes responsive */
+.registro-dialog-container {
+  width: clamp(320px, 85vw, 1090px);
+  height: clamp(600px, 90vh, 820px);
+}
+
+/* =========================================================
+   Compatibilidad de utilidades Ionic (migración a Angular)
+   ========================================================= */
+/* Texto */
+.ion-text-center { text-align: center; }
+.ion-text-start { text-align: left; }
+.ion-text-end { text-align: right; }
+.ion-text-justify { text-align: justify; }
+
+/* Padding */
+.ion-padding { padding: 16px; }
+.ion-padding-top { padding-top: 16px; }
+.ion-padding-bottom { padding-bottom: 16px; }
+.ion-padding-start { padding-left: 16px; }
+.ion-padding-end { padding-right: 16px; }
+.ion-padding-horizontal { padding-left: 16px; padding-right: 16px; }
+.ion-padding-vertical { padding-top: 16px; padding-bottom: 16px; }
+.ion-no-padding { padding: 0 !important; }
+
+/* Margin */
+.ion-margin { margin: 16px; }
+.ion-margin-top { margin-top: 16px; }
+.ion-margin-bottom { margin-bottom: 16px; }
+.ion-margin-start { margin-left: 16px; }
+.ion-margin-end { margin-right: 16px; }
+.ion-margin-horizontal { margin-left: 16px; margin-right: 16px; }
+.ion-margin-vertical { margin-top: 16px; margin-bottom: 16px; }
+.ion-margin-vertica { margin-top: 16px; margin-bottom: 16px; }
+
+/* Flexbox */
+.ion-align-items-start { display: flex; align-items: flex-start; }
+.ion-align-items-center { display: flex; align-items: center; }
+.ion-align-items-end { display: flex; align-items: flex-end; }
+.ion-justify-content-center { display: flex; justify-content: center; }
+.ion-justify-content-between { display: flex; justify-content: space-between; }
+.ion-justify-content-around { display: flex; justify-content: space-around; }
+.ion-justify-content-end { display: flex; justify-content: flex-end; }
+.ion-justify-content-start { display: flex; justify-content: flex-start; }
+
+/* Layout */
+.ion-height-full { height: 100%; }
+
+/* Responsive (grid de 12 columnas, breakpoints de Ionic) */
+@media (min-width: 992px) {
+  .ion-hide-lg-up { display: none !important; }
+}
+@media (max-width: 991.98px) {
+  .ion-hide-lg-down { display: none !important; }
+}
+@media (min-width: 768px) {
+  .ion-hide-md-up { display: none !important; }
+}
+@media (max-width: 767.98px) {
+  .ion-hide-md-down { display: none !important; }
+}
+
+/* Colores Ionic usados en la app */
+:root {
+  --ion-color-primary: #3880ff;
+  --ion-color-primary-rgb: 56, 128, 255;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-secondary: #3dc2ff;
+  --ion-color-secondary-rgb: 61, 194, 255;
+  --ion-color-secondary-contrast: #ffffff;
+  --ion-color-success: #2dd36f;
+  --ion-color-success-rgb: 45, 211, 111;
+  --ion-color-success-contrast: #ffffff;
+  --ion-color-warning: #ffc409;
+  --ion-color-warning-rgb: 255, 196, 9;
+  --ion-color-warning-contrast: #000000;
+  --ion-color-danger: #eb445a;
+  --ion-color-danger-contrast: #ffffff;
+  --ion-color-dark: #222428;
+  --ion-color-medium: #92949c;
+  --ion-color-medium-rgb: 146, 148, 156;
+  --ion-color-medium-contrast: #ffffff;
+  --ion-color-light: #f4f5f8;
+  --ion-color-light-contrast: #000000;
+  --ion-background-color: #ffffff;
+}

@@ -1,0 +1,225 @@
+.modal-container {
+  width: 100%;
+  max-width: 800px;
+  padding: 0;
+  background: #f8f9fa ;
+  border-radius: 16px;
+  padding: 1rem;
+}
+.modal-container .cdk-overlay-backdrop.cdk-overlay-backdrop-showing {
+  opacity: 1 !important;
+  background: rgba(0, 51, 103, 0.84) !important;
+}
+  ::ng-deep .cdk-overlay-dark-backdrop .modal-container {
+  background: rgba(0, 51, 145, 0.32) !important;
+}
+::ng-deep .mat-mdc-form-field-has-icon-suffix .mat-mdc-text-field-wrapper .modal-container {
+  background-color: #f8f9fa !important;
+}
+
+::ng-deep  .modal-container .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background-color: #f8f9fa !important;
+}
+
+::ng-deep div.mat-mdc-select-panel {
+  background-color: white !important;
+}
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+  border-bottom: 1px solid #e0e0e0;
+  
+  .back-button, .close-button {
+    color: #666;
+    
+    &:hover {
+      color: #4285f4;
+    }
+  }
+}
+
+.section-header {
+  text-align: center;
+  
+  h2 {
+    background: #e3f2fd;
+    color: #4285f4;
+    padding: 12px 24px;
+    border-radius: 24px;
+    margin: 0;
+    font-size: 16px;
+    font-weight: 500;
+    display: inline-block;
+  }
+  
+}
+
+.full-width {
+  width: 100%;
+}
+
+// Estilos para fecha de nacimiento
+.date-container {
+  .date-label {
+    display: block;
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  
+  .date-inputs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    
+    .date-field {
+      flex: 1;
+      min-width: 60px;
+    }
+    
+    .date-separator {
+      color: #666;
+      font-size: 18px;
+      font-weight: 500;
+    }
+  }
+}
+
+// Estilos para sexo
+.sex-container {
+  .sex-label {
+    display: block;
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+  
+  .sex-radio-group {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    justify-content: center;
+    
+    .sex-radio {
+      margin-bottom: 4px;
+      
+      .mdc-radio {
+        padding: 6px;
+      }
+      
+      .mdc-form-field {
+        color: #333;
+      }
+    }
+  }
+}
+
+// Botón de envío
+.form-actions {
+  display: flex;
+  justify-content: center;
+  
+  .submit-button {
+    background: #4285f4;
+    color: white;
+    font-weight: 500;
+    font-size: 14px;
+    padding: 12px 32px;
+    border-radius: 8px;
+    min-width: 200px;
+    
+    &:disabled {
+      background: #ccc;
+      color: #999;
+    }
+    
+    &:hover:not(:disabled) {
+      background: #3367d6;
+    }
+  }
+}
+
+// Estilos para campos de formulario
+::ng-deep {
+  .mat-mdc-form-field {
+    .mat-mdc-form-field-subscript-wrapper {
+      margin-top: 4px;
+    }
+    
+    .mat-mdc-form-field-bottom-align::before {
+      display: none;
+    }
+    
+    .mdc-notched-outline {
+      border-color: #ddd;
+    }
+    
+    &.mat-focused .mdc-notched-outline {
+      border-color: #4285f4;
+      border-width: 2px;
+    }
+    
+    .mat-mdc-form-field-label {
+      color: #666;
+    }
+    
+    &.mat-focused .mat-mdc-form-field-label {
+      color: #4285f4;
+    }
+  }
+  
+  .mat-mdc-radio-button {
+    .mdc-radio {
+      .mdc-radio__native-control:enabled:checked + .mdc-radio__background .mdc-radio__outer-circle {
+        border-color: #4285f4;
+      }
+      
+      .mdc-radio__native-control:enabled:checked + .mdc-radio__background .mdc-radio__inner-circle {
+        border-color: #4285f4;
+      }
+    }
+  }
+}
+
+@media (max-width: 600px) {
+    .modal-container {
+  width: 100%;
+  max-width: 800px;
+  padding: 0;
+  background: #f8f9fa ;
+  border-radius: 16px;
+  padding: 0px;
+}
+// Estilos para sexo
+.sex-container {
+  .sex-label {
+    display: block;
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+  
+  .sex-radio-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    
+    .sex-radio {
+      margin-bottom: 4px;
+      
+      .mdc-radio {
+        padding: 6px;
+      }
+      
+      .mdc-form-field {
+        color: #333;
+      }
+    }
+  }
+}
+}

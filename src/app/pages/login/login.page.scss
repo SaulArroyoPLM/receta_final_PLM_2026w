@@ -1,0 +1,347 @@
+// login.component.scss
+
+.login-container {
+  background-color: #fafafa;
+  font-family: 'Roboto', sans-serif;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+.login-grid {
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+
+  .row {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+  }
+}
+
+// Panel izquierdo con imagen y degradado (Solo desktop)
+.left-panel {
+  background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
+  position: relative;
+  flex: 0 0 50%;
+  width: 50%;
+  max-width: 50%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  box-sizing: border-box;
+  overflow: hidden;
+
+  .left-panel-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+
+  .doctor-image-container {
+    text-align: center;
+    margin-bottom: 3rem;
+    border-radius: 20px;
+
+    .doctor-image {
+      width: 100%;
+      max-width: 550px;
+      max-height: 55vh;
+      height: auto;
+      object-fit: cover;
+    }
+  }
+
+  .logo-container {
+    text-align: center;
+    position: absolute;
+    bottom: 2.5rem;
+
+    .logo_plm {
+      width: 280px;
+      max-width: 80%;
+      height: auto;
+      object-fit: contain;
+    }
+  }
+}
+
+// Panel derecho con formulario
+.right-panel {
+  background: #fafafa;
+  flex: 0 0 50%;
+  width: 50%;
+  max-width: 50%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  box-sizing: border-box;
+  overflow-y: auto;
+
+  .form-wrapper {
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+  }
+
+}
+
+
+// Header móvil (solo visible en pantallas pequeñas)
+.mobile-header {
+  display: none;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 2rem;
+
+  .mobile-logo-container {
+    margin-bottom: 1rem;
+
+    .mobile-logo {
+      width: 180px;
+      height: auto;
+      object-fit: contain;
+    }
+  }
+}
+
+// Header de bienvenida
+.form-header {
+  text-align: center;
+  margin-bottom: 2rem;
+
+  .welcome-title {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 0.75rem;
+
+    .wave-emoji {
+      font-size: 2rem;
+      margin-left: 0.5rem;
+    }
+  }
+
+  .welcome-subtitle {
+    color: #6b7280;
+    font-size: 1rem;
+    line-height: 1.4;
+    margin: 0;
+  }
+}
+
+/* Campos de texto */
+.input-container {
+  width: 100%;
+  margin-bottom: 1rem;
+
+  .form-field {
+    width: 100%;
+
+    ::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+      background-color: #fafafa !important;
+    }
+
+    ::ng-deep .mat-mdc-form-field-has-icon-suffix .mat-mdc-text-field-wrapper {
+      background-color: #fafafa !important;
+    }
+
+    ::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-line-ripple::before {
+      border-bottom-color: #3880ff !important;
+    }
+  }
+}
+
+/* Opciones de formulario (Recordar y Olvidaste tu contraseña) */
+.login-form {
+  .form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+
+    .remember-checkbox {
+      color: #3880ff !important;
+      font-size: 14px;
+      font-weight: 500;
+
+      ::ng-deep {
+        .mdc-checkbox {
+          padding: 0;
+        }
+
+        .mdc-form-field {
+          color: #374151;
+          font-size: 0.875rem;
+        }
+      }
+    }
+
+    .forgot-button {
+      color: #3f3f3f;
+      font-size: 14px;
+
+      &:hover {
+        text-decoration: underline;
+        color: #3730a3;
+      }
+    }
+  }
+
+  /* Botones principales */
+  .login-button {
+    background-color: #3880ff;
+    color: #ffffff;
+    border-radius: 8px;
+    margin-top: 8px;
+    margin-bottom: 12px;
+    font-weight: 600;
+    font-size: 16px;
+    height: 48px;
+    width: 100%;
+    text-transform: none;
+
+    &:hover:not([disabled]) {
+      background-color: #3171e0;
+    }
+
+    &[disabled] {
+      background-color: #d1d5db;
+      color: #9ca3af;
+    }
+  }
+
+  .register-button {
+    width: 100%;
+    color: #45a2fc;
+    font-weight: 600;
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+
+    &:hover {
+      color: white;
+      background-color: #1d4ed8;
+      border-radius: 10px;
+    }
+  }
+}
+
+// Responsive - Tablet y Mobile (< 992px)
+@media (max-width: 991px) {
+  .login-container {
+    height: auto;
+    min-height: 100vh;
+    overflow-y: auto;
+  }
+
+  .login-grid {
+    height: auto;
+    min-height: 100vh;
+
+    .row {
+      flex-direction: column;
+      height: auto;
+    }
+  }
+
+  .left-panel {
+    display: none; // Oculta panel izquierdo en móvil y tablet
+  }
+
+  .right-panel {
+    flex: 1 0 100%;
+    width: 100%;
+    max-width: 100%;
+    min-height: 100vh;
+    padding: 2rem 1.5rem;
+  }
+
+  .mobile-header {
+    display: block; // Muestra logo en móvil
+  }
+
+  .form-header {
+    .desktop-break {
+      display: none;
+    }
+
+    .welcome-title {
+      font-size: 1.8rem;
+    }
+
+    .welcome-subtitle {
+      font-size: 1.05rem;
+    }
+  }
+}
+
+// Responsive - Mobile pequeño (< 768px)
+@media (max-width: 768px) {
+  .right-panel {
+    padding: 1.5rem 1rem;
+  }
+
+  .form-wrapper {
+    max-width: 100%;
+    padding: 0 0.5rem;
+  }
+
+  .form-header {
+    .welcome-title {
+      font-size: 1.5rem;
+    }
+
+    .welcome-subtitle {
+      font-size: 0.95rem;
+    }
+  }
+
+  .mobile-header {
+    margin-bottom: 1.5rem;
+
+    .mobile-logo {
+      width: 200px;
+    }
+  }
+}
+
+// Responsive - Mobile ultra pequeño (< 480px)
+@media (max-width: 480px) {
+  .right-panel {
+    padding: 1rem 0.5rem;
+  }
+
+  .login-form .form-options {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .form-header {
+    .welcome-title {
+      font-size: 1.35rem;
+    }
+
+    .welcome-subtitle {
+      font-size: 0.9rem;
+    }
+  }
+
+  .mobile-header .mobile-logo {
+    width: 160px;
+  }
+}

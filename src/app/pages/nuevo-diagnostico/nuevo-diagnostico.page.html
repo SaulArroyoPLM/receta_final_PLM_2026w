@@ -1,0 +1,232 @@
+<app-dashboard-layout
+  [showNotifications]="false"
+  [showFooter]="true">
+  <!-- Tu contenido aquí -->
+
+  <section class="nuevo_dignos-section">
+    <mat-card class="welcome_diagnos-card" appearance="outlined">
+            <mat-card-content class="welcome_card" > 
+              <div>
+  <div class="row g-0">
+    <!-- 70% -->
+    <div class="col-8">
+      <div class="header_diagnostico">
+         <div class="content_diganostico" >
+            <div>
+          <p style="color: black;" >Datos del paciente</p>
+        </div>
+        <div>
+           <button matIconButton aria-label="" class="edit_diagnostico" >
+        <mat-icon>edit</mat-icon>
+      </button>
+        </div>
+         </div>
+
+<div class="consulta_diagnostico">
+  <div class="header_consulta_diagnos">
+    <h3>{{ (paciente$ | async)?.nombre }} {{ (paciente$ | async)?.primerApellido }}</h3>
+    <p>{{ (paciente$ | async)?.edad }} años</p>
+    <!-- <p>Fecha de nacimiento: {{ (paciente$ | async)?.fechaNacimiento }}</p> -->
+  </div>
+  <p>Julio 3 / 2025</p>
+</div>
+<div class="diagnistico_motivo">
+  <p>Motivo: {{ (paciente$ | async)?.motivoConsulta }}</p>
+</div>
+
+ </div>
+
+      
+    </div>
+
+    <!-- 30% -->
+    <div class="col-4">
+     <div class="acciones_diagnostico">
+     <div class="accion_header">
+  <button mat-fab extended class="accion_receta" >
+    <mat-icon>note_add</mat-icon>
+    <span>Ver receta</span>
+  </button>
+</div>
+<div class="acciones_notas" >
+  <mat-chip class="chip_paciente" >
+          <mat-icon>edit</mat-icon>
+          Etiqueta del paciente
+  </mat-chip>
+   <mat-chip class="chio_notas" >
+         
+          Notas
+  </mat-chip>
+   <mat-chip class="chip_recetas">
+        
+          Recetas anteriores
+  </mat-chip>
+</div>
+    </div>
+    </div>
+  </div>
+</div>
+
+            </mat-card-content>
+          </mat-card>
+
+  </section>
+    <section class="secctor_dignostico">
+         <div>
+           <div class="row g-0">
+            <div class="col-9">
+              <mat-card class="sector_buscador_card" appearance="outlined">
+                <mat-card-content>
+                  <div class="secctor_dignostico_busqueda" >
+                    <div class="sector_diagnostico_busqueda_header" >
+                      <img 
+          src="assets/images/diagnostic_buscadie.png" 
+          alt="Logo"  />
+          <p>Diagnóstico</p>
+                    </div>
+                     <div class="sector_buscador-dignostico" >
+                    <app-buscador-diagnosticos
+  [diagnosticosDisponibles]="listaDiagnosticos"
+  (diagnosticosSeleccionadosChange)="alCambiarDiagnosticos($event)">
+</app-buscador-diagnosticos>
+
+
+                     </div>
+                  </div>
+
+                  <div class="secctor_dignostico_busqueda" >
+                    <div class="sector_diagnostico_busqueda_header" >
+                      <img 
+          src="assets/images/diagnostic_buscadie.png" 
+          alt="Logo"  />
+          <p>Alérgias</p>
+                    </div>
+                    <div class="sector_buscador-dignostico" >
+                    <app-buscador-alergias
+  [alergiasDisponibles]="listaAlergias"
+  (alergiasSeleccionadasChange)="alCambiarAlergias($event)">
+</app-buscador-alergias>
+</div>
+
+                  </div>
+
+                </mat-card-content>
+              </mat-card>
+            </div>
+
+  <div class="col-3">
+        <mat-card class="sector_signos_card" appearance="outlined">
+          <mat-card-content>
+            <div class="sector_signos_master">
+              <div class="sector_signios_img">  
+                <img 
+                  src="assets/images/sginosvitales.png" 
+                  alt="Logo" />
+              </div>
+              <div class="sector_signios_text">  
+                <p>
+                  Signos vitales y antropométricos
+                  <a href="#" (click)="abrirDrawerSignosVitales($event)">Agregar</a>
+                </p>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      
+           </div>
+         </div>
+         
+    </section>
+      <app-drawer-signos-vitales
+    [isOpen]="isDrawerOpen"
+    [title]="drawerTitle"
+    [sections]="drawerSections"
+    [warningMessage]="warningMessage"
+    [showPrintButton]="true"
+    [printButtonText]="'Agregar en la receta'"
+    (closeDrawer)="cerrarDrawer()"
+    (printSelected)="onAgregarDatos($event)"
+    (itemToggled)="onItemModificado($event)">
+  </app-drawer-signos-vitales>
+    
+    <section class="sector_medicamentos"  >
+        <mat-card class="sector_medicamentos_card" appearance="outlined">
+           <mat-card-content>
+            <div class="sector_medicamento_master" >
+           <div class="sector_medicamentos_title" >
+             <img 
+          src="assets/images/pills.png" 
+          alt="Logo"  />
+          <h3>Receta de Medicamentos</h3>
+           </div>
+
+<div class="sector_medicamentos_buscador" >
+    <app-medicine-search></app-medicine-search>
+    </div>
+            </div>
+           </mat-card-content>
+        </mat-card>
+
+    </section>
+    <section class="section_recomendacion_estudio" >
+<div>
+           <div class="row g-0">
+            <div class="col-6">
+              <mat-card class="sector_buscador_card" appearance="outlined">
+                <mat-card-content>
+                   <div class="sector_recomendacion_title" >
+            <div class="sector_recomendacion_estudio" >
+               <img 
+          src="assets/images/estudios.png" 
+          alt="Logo"  />
+          <h3>Estudios de laboratorio</h3>
+            </div>
+            <div>
+              <img 
+          src="assets/images/logo_chopo.png" 
+          alt="Logo"  />
+            </div>
+
+          
+           </div>
+           <div>
+                   <app-buscador-estudios-laboratorio
+  [estudiosDisponibles]="listaEstudios"
+  (estudiosSeleccionadosChange)="alCambiarEstudios($event)">
+</app-buscador-estudios-laboratorio>
+
+           </div>
+                  </mat-card-content>
+                  </mat-card>
+              </div>
+                <div class="col-6">
+               <mat-card class="sector_buscador_card" appearance="outlined">
+                <mat-card-content>
+                   <div class="sector_comentarios_title" >
+                     <h3>Recomendaciones generales</h3>
+                                 <form [formGroup]="miFormulario">
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Descripción*</mat-label>
+    <textarea matInput 
+              formControlName="motivoConsulta"
+              placeholder="Describe el motivo de la consulta"
+              rows="2"></textarea>
+    <mat-error>{{ getErrorMessage('motivoConsulta') }}</mat-error>
+  </mat-form-field>
+</form>
+
+                    </div>
+                    </mat-card-content></mat-card>
+              </div>
+              </div>
+              </div>
+
+
+    </section>
+
+
+
+
+
+</app-dashboard-layout>

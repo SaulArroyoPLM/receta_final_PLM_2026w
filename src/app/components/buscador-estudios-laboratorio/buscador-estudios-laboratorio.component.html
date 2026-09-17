@@ -1,0 +1,67 @@
+<div class="buscador-estudios">
+  <!-- Campo principal -->
+  <mat-form-field
+    class="buscador-field"
+    [appearance]="'outline'"
+    style="width: 100%"
+  >
+    <mat-label>{{ label }}</mat-label>
+
+    <input
+      type="text"
+      matInput
+      [placeholder]="placeholder"
+      [formControl]="estudioControl"
+      [matAutocomplete]="auto"
+      [disabled]="disabled"
+    />
+
+    <mat-icon matSuffix>science</mat-icon>
+    <mat-hint *ngIf="hint">{{ hint }}</mat-hint>
+
+    <!-- Lista de autocompletado -->
+    <mat-autocomplete
+      #auto="matAutocomplete"
+      [displayWith]="displayFn.bind(this)"
+      (optionSelected)="seleccionarEstudio($event.option.value)"
+    >
+      <mat-option
+        *ngFor="let estudio of estudiosFiltrados | async"
+        [value]="estudio"
+      >
+        <div class="option-content">
+          <strong>{{ estudio.nombre }}</strong>
+          <span
+            *ngIf="mostrarCategoria && estudio.categoria"
+            class="categoria"
+          >
+            {{ estudio.categoria }}
+          </span>
+        </div>
+        <small *ngIf="estudio.descripcion" class="descripcion">
+          {{ estudio.descripcion }}
+        </small>
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+
+  <!-- Chips de estudios seleccionados -->
+  <mat-chip-listbox
+    *ngIf="estudiosSeleccionados.length > 0"
+    aria-label="Estudios seleccionados"
+    class="chip-list"
+  >
+    <mat-chip
+      *ngFor="let estudio of estudiosSeleccionados"
+      [color]="chipColor"
+      selected
+      removable
+      (removed)="removerEstudio(estudio)"
+    >
+      {{ estudio.nombre }}
+      <button matChipRemove>
+        <mat-icon>cancel</mat-icon>
+      </button>
+    </mat-chip>
+  </mat-chip-listbox>
+</div>

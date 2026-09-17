@@ -1,0 +1,217 @@
+<!-- patient-search-component.html -->
+<div class="patient-card mat-elevation-z1">
+  <!-- Encabezado -->
+  <div class="patient-header">
+    <h3 style="font-size: 20px">Últimos pacientes</h3>
+    <button mat-stroked-button color="primary" style="border-color: #1458D9;">Ver todos</button>
+  </div>
+
+  <!-- Vista Desktop/Tablet - Tabla con Acordeón -->
+<!-- Vista Desktop/Tablet -->
+<div class="desktop-view" [class.hidden]="isMobile">
+  <table mat-table [dataSource]="pacientes" class="patient-table" multiTemplateDataRows>
+
+    <!-- Columnas -->
+    <ng-container matColumnDef="nombre">
+      <th mat-header-cell *matHeaderCellDef>Nombre(s)</th>
+      <td mat-cell *matCellDef="let paciente">{{ paciente.nombre }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="primerApellido">
+      <th mat-header-cell *matHeaderCellDef>Primer apellido</th>
+      <td mat-cell *matCellDef="let paciente">{{ paciente.primerApellido }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="segundoApellido">
+      <th mat-header-cell *matHeaderCellDef>Segundo apellido</th>
+      <td mat-cell *matCellDef="let paciente">{{ paciente.segundoApellido }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="sexo">
+      <th mat-header-cell *matHeaderCellDef>Sexo</th>
+      <td mat-cell *matCellDef="let paciente">{{ paciente.sexo }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="edad">
+      <th mat-header-cell *matHeaderCellDef>Edad</th>
+      <td mat-cell *matCellDef="let paciente">{{ paciente.edad }} años</td>
+    </ng-container>
+
+    <ng-container matColumnDef="acciones">
+      <th mat-header-cell *matHeaderCellDef>Acciones</th>
+      <td mat-cell *matCellDef="let paciente" class="acciones-cell">
+        <button mat-icon-button class="acciones" [matMenuTriggerFor]="menu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+
+        <mat-menu #menu="matMenu">
+
+          <button mat-menu-item (click)="onResurtir(paciente, $event)">
+            <mat-icon>account_circle</mat-icon>
+            <span>Ir al perfil </span>
+          </button>
+          <button mat-menu-item (click)="onEliminar(paciente, $event)" class="delete-option">
+            <mat-icon>delete</mat-icon>
+            <span>Eliminar Paciente</span>
+          </button>
+        </mat-menu>
+
+        <!-- Flecha toggle -->
+        <button mat-icon-button 
+                class="acciones_flecha" 
+                [class.expanded]="isExpanded(paciente)"
+                (click)="toggleRow(paciente); $event.stopPropagation()">
+          <mat-icon>{{isExpanded(paciente) ? 'expand_less' : 'expand_more'}}</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <!-- Fila detalle con header -->
+    <ng-container matColumnDef="expandedDetail">
+      <td mat-cell *matCellDef="let paciente" [attr.colspan]="displayedColumns.length">
+        <div *ngIf="isExpanded(paciente) && paciente.diagnostico">
+          <!-- Título del diagnóstico -->
+         
+
+          <!-- Contenido del diagnóstico -->
+          <div class="diagnosis-detail">
+            <div class="diagnosis-header  ">
+              <div class="diagnosis-header-title" >
+               <h4 *ngIf="paciente.diagnostico?.header" class="diagnosis-header-title_s">
+            {{ paciente.diagnostico.header }}
+          </h4>
+          </div>
+          <div class="diagnosis-info" >
+              <div class="date-badge">{{ paciente.diagnostico.fecha }}</div>
+              <div class="diagnosis-title">
+                Diagnóstico: {{ paciente.diagnostico.titulo }}
+              </div>
+             
+            
+            <div class="diagnosis-actions">
+              <button mat-raised-button color="primary" (click)="onZoom(paciente, $event)">
+                <mat-icon>edit</mat-icon> Ver Receta
+              </button>
+              <button mat-stroked-button color="primary" (click)="onResurtir(paciente, $event)">
+                <mat-icon>refresh</mat-icon> Resurtir receta
+              </button>
+            </div>
+ </div>
+            </div>
+
+          </div>
+        </div>
+      </td>
+    </ng-container>
+
+    <!-- Filas principales -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let paciente; columns: displayedColumns;" 
+        class="patient-row"
+        [class.expanded-row]="isExpanded(paciente)"
+        (click)="toggleRow(paciente)">
+    </tr>
+
+    <!-- Fila de detalle -->
+    <tr mat-row *matRowDef="let paciente; columns: ['expandedDetail']" 
+        class="detail-row"
+        [class.visible]="isExpanded(paciente)">
+    </tr>
+  </table>
+</div>
+
+
+
+  <!-- Vista Móvil - Expansion Panels (sin cambios, mantiene tu lógica original) -->
+  <div class="mobile-view" [class.hidden]="!isMobile">
+    <mat-accordion class="patient-accordion" multi="false">
+      <mat-expansion-panel 
+        *ngFor="let paciente of pacientes; let i = index" 
+        class="patient-panel"
+        [expanded]="false">
+        
+        <!-- Header del panel -->
+        <mat-expansion-panel-header class="patient-panel-header">
+          <mat-panel-title class="panel-title">
+            <div class="panel-title-content">
+              <div class="patient-info">
+                <div class="patient-name">{{ getNombreCompleto(paciente) }}</div>
+                <div class="patient-meta">
+                  <mat-chip-set>
+                    <mat-chip [color]="getSexoColor(paciente.sexo)" selected>
+                      {{ getSexoLabel(paciente.sexo) }}
+                    </mat-chip>
+                    <mat-chip color="primary" selected>
+                      {{ paciente.edad }} años
+                    </mat-chip>
+                  </mat-chip-set>
+                </div>
+              </div>
+            </div>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <!-- Contenido expandible -->
+        <div class="panel-content">
+          <div class="detail-section">
+            
+            <div class="detail-row">
+              <span class="detail-label">Nombre completo:</span>
+              <span class="detail-value">{{ getNombreCompleto(paciente) }}</span>
+            </div>
+            
+            <div class="detail-row">
+              <span class="detail-label">Primer apellido:</span>
+              <span class="detail-value">{{ paciente.primerApellido }}</span>
+            </div>
+            
+            <div class="detail-row">
+              <span class="detail-label">Segundo apellido:</span>
+              <span class="detail-value">{{ paciente.segundoApellido }}</span>
+            </div>
+            
+            <div class="detail-row">
+              <span class="detail-label">Sexo:</span>
+              <span class="detail-value">{{ getSexoLabel(paciente.sexo) }}</span>
+            </div>
+            
+            <div class="detail-row">
+              <span class="detail-label">Edad:</span>
+              <span class="detail-value edad">{{ paciente.edad }} años</span>
+            </div>
+          </div>
+
+          <!-- Diagnóstico en móvil -->
+          <div class="detail-section" *ngIf="paciente.diagnostico">
+            <h4>Ultima receta emitida </h4>
+            <div class="mobile_diagnostico" >
+              <div class="mobile-diagnosis">
+              <p>{{ paciente.diagnostico.fecha }}</p>
+            </div>
+            <div class="mobile-diagnosis">
+              <h5> Diagnostico:  {{ paciente.diagnostico.titulo }}</h5>
+            </div>
+            </div>
+          </div>
+
+          <!-- Acciones en móvil -->
+          <div class="mobile-actions">
+              <button mat-menu-item  class="menu-item " >
+            <mat-icon>edit</mat-icon>
+            <span>Ver receta</span>
+          </button>
+           
+           <button mat-menu-item  class="menu-item ">
+            <mat-icon>refresh</mat-icon>
+            <span>Resurtir receta</span>
+          </button>
+            <button mat-menu-item (click)="onEliminar(paciente, $event)" class="delete-option">
+            <mat-icon>delete</mat-icon>
+            <span>Eliminar paciente</span>
+          </button>
+          </div>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+</div>

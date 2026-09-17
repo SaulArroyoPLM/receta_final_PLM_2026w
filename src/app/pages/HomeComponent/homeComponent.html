@@ -1,0 +1,312 @@
+<div class="main-app-content">
+  
+  <!-- MENU PRINCIPAL - Mantener igual -->
+  <app-menu-master 
+  #menuMaster
+  [selectedConsultorio]="selectedConsultorio"
+  [sidebarOpen]="sidebarOpen"
+  [sidebarCollapsed]="sidebarCollapsed"
+  [notificaciones]="notificaciones"
+  [hasNotificationComponent]="true"
+  [hasStarRatingComponent]="true"
+  (consultorioSeleccionado)="onConsultorioSeleccionado($event)"
+  (sidebarToggle)="onSidebarToggle($event)" 
+  (menuItemClick)="onMenuItemClick()"
+  (ratingSubmitted)="onMenuRatingSelected($event)"
+  (notificationActionClicked)="onNotificationAction($event)">
+</app-menu-master>
+
+
+
+<div class="app-layout-grid" 
+     [ngStyle]="{
+       'grid-template-columns': getGridTemplateColumns(),
+       'grid-template-areas': getGridTemplateAreas()
+     }"
+     [ngClass]="{
+       'layout-mobile': isMobile,
+       'layout-tablet': isTablet,
+       'layout-desktop-small': isDesktopSmall,
+       'layout-desktop-medium': isDesktopMedium,
+       'layout-desktop-large': isDesktopLarge,
+       'layout-4k': is4K,
+       'layout-ultrawide': isUltraWide,
+       'notifications-visible': shouldShowNotifications(),
+       'sidebar-collapsed': sidebarCollapsed
+     }">
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="main-content-area">
+      
+      <!-- HEADER MÓVIL con Material Design -->
+      <mat-toolbar 
+        color="primary" 
+        class="mobile-toolbar"
+        *ngIf="shouldShowMobileHeader()">
+        
+<button 
+  class="toggle-btn" 
+  (click)="toggleSidebar()" 
+  mat-icon-button 
+  aria-label="{{ sidebarCollapsed ? 'Expandir menú' : 'Colapsar menú' }}">
+  <mat-icon>{{ sidebarCollapsed ? 'chevron_right' : 'chevron_left' }}</mat-icon>
+</button>
+        
+        <img 
+          src="assets/images/logo-mini.png" 
+          alt="Logo" 
+          class="mobile-logo" />
+        
+        <span class="flex-spacer"></span>
+        
+        <button 
+          mat-icon-button
+          (click)="toggleMobileNotifications()"
+          [matBadge]="unreadNotifications.length"
+          [matBadgeHidden]="unreadNotifications.length === 0"
+          matBadgeColor="warn"
+          matBadgeSize="small"
+          [attr.aria-label]="'Abrir notificaciones'">
+          <mat-icon>notifications</mat-icon>
+        </button>
+      </mat-toolbar>
+
+      <!-- ÁREA DE CONTENIDO SCROLLEABLE -->
+      <div class="scrollable-content">
+        
+        <!-- Welcome Section -->
+        <section class="welcome-section">
+          <mat-card class="welcome-card" appearance="outlined">
+            <mat-card-content>
+<app-doctor-name 
+[showTitle]="true" 
+[showRole]="false" 
+[showEmail]="false">
+</app-doctor-name>
+
+            </mat-card-content>
+          </mat-card>
+        </section>
+
+        <!-- Search Section -->
+        <section class="search-section">
+          
+          <!-- Medicine Search -->
+          <mat-card class="search-card" appearance="outlined">
+            <mat-card-header>
+              <mat-card-title>
+                <mat-icon>search</mat-icon>
+                Búsqueda de medicamentos
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <app-medicine-search></app-medicine-search>
+            </mat-card-content>
+          </mat-card>
+
+          <!-- Patient Search -->
+          <mat-card class="search-card" appearance="outlined">
+            <mat-card-header>
+              <mat-card-title>
+                <mat-icon>person_search</mat-icon>
+                Búsqueda de pacientes
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <app-patient-search></app-patient-search>
+            </mat-card-content>
+          </mat-card>
+
+          <!-- Favorites Grid -->
+<div class="accordion_favoritas" >
+    <div class="favorites-grid">
+<mat-card class="favorites-card_receta" appearance="outlined">
+  <mat-card-header>
+    <mat-card-title>
+      <mat-icon>favorite</mat-icon>
+      Recetas Favoritas
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <app-recetas-favoritas></app-recetas-favoritas>
+  </mat-card-content>
+</mat-card>
+          
+          </div>
+          <div class="favorites-grid" >
+             <mat-card class="favorites-card_receta" appearance="outlined">
+  <mat-card-header>
+    <mat-card-title>
+      <mat-icon>favorite</mat-icon>
+      Recetas Favoritas
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+   <app-recomendaciones-favoritas-component></app-recomendaciones-favoritas-component>
+  </mat-card-content>
+</mat-card>
+          </div>
+</div>
+        </section>
+
+        <!-- Router Outlet -->
+        <section class="router-section">
+          <router-outlet></router-outlet>
+        </section>
+      </div>
+    </main>
+
+    <!-- PANEL DE NOTIFICACIONES DESKTOP -->
+    <aside 
+      class="notifications-panel"
+      *ngIf="shouldShowNotifications()"
+      [style.width]="getNotificationsWidth()">
+      
+      <div class="notifications-container">
+        
+        <!-- Nueva Receta Button -->
+        <div class="new-recipe-section">
+          <button 
+            mat-raised-button 
+            color="primary" 
+            class="new-recipe-btn">
+           <mat-icon>note_add</mat-icon>
+            <span>Nueva receta</span>
+          </button>
+        </div>
+
+        <!-- Notifications Card -->
+        <mat-card class="notifications-card" appearance="outlined">
+          
+          <mat-card-content class="notifications-content">
+            <div 
+              class="notifications-list"
+              [style.max-height]="getNotificationsListHeight()">
+              
+              <!-- Lista de notificaciones -->
+              <div 
+                *ngFor="let notif of notificaciones; trackBy: trackByNotificationId; let i = index"
+                class="notification-item"
+                [class.has-divider]="i < notificaciones.length - 1">
+                <notification-master
+                  [notification]="notif"
+                  (notificationActionClicked)="onNotificationAction($event)">
+                </notification-master>
+              </div>
+              
+              <!-- Empty state -->
+              <div 
+                class="empty-notifications" 
+                *ngIf="notificaciones.length === 0">
+                <mat-icon class="empty-icon">notifications_off</mat-icon>
+                <p class="empty-text">No hay notificaciones</p>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+
+        <!-- Decorative Banner -->
+        <div class="decoration-section">
+          <img 
+            src="assets/images/Group_34.svg"
+            alt="Decoración"
+            class="decoration-image" />
+        </div>
+
+        <!-- Rating Card -->
+        <mat-card class="rating-card" appearance="outlined">
+          <mat-card-header>
+            <mat-card-title class="rating-title">
+              
+
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content class="rating-content">
+            <p> ¿Cómo calificarías tu experiencia?</p>
+            <star-rating (ratingSubmitted)="onRatingSelected($event)"></star-rating>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </aside>
+  </div>
+
+  <!-- MOBILE NOTIFICATIONS BOTTOM SHEET -->
+  <div 
+    class="mobile-overlay"
+    [class.active]="showMobileNotifications && isMobileOrTablet"
+    (click)="closeMobileNotifications()"
+    *ngIf="isMobileOrTablet">
+    
+    <mat-card 
+      class="mobile-bottom-sheet"
+      [class.show]="showMobileNotifications"
+      (click)="$event.stopPropagation()">
+      
+      <!-- Header -->
+      <mat-card-header class="mobile-sheet-header">
+        <mat-card-title class="mobile-sheet-title">
+          <mat-icon>notifications</mat-icon>
+          Notificaciones
+        </mat-card-title>
+        <button 
+          mat-icon-button 
+          (click)="closeMobileNotifications()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-card-header>
+      
+      <!-- Content -->
+      <mat-card-content class="mobile-sheet-content">
+        
+        <!-- Nueva Receta móvil -->
+        <div class="mobile-new-recipe">
+          <button 
+            mat-raised-button 
+            color="primary" 
+            class="mobile-recipe-btn">
+            <mat-icon>add_circle</mat-icon>
+            Nueva receta
+          </button>
+        </div>
+
+        <mat-divider class="section-divider"></mat-divider>
+
+        <!-- Notificaciones móvil -->
+        <div class="mobile-notifications-section">
+          <h3 class="mobile-section-title">Notificaciones recientes</h3>
+          
+          <div class="mobile-notifications-list" *ngIf="notificaciones.length > 0">
+            <div 
+              *ngFor="let notif of notificaciones; trackBy: trackByNotificationId; let i = index"
+              class="mobile-notification-item">
+              <notification-master 
+                [notification]="notif"
+                (notificationActionClicked)="onNotificationAction($event)">
+              </notification-master>
+              <mat-divider *ngIf="i < notificaciones.length - 1"></mat-divider>
+            </div>
+          </div>
+
+          <!-- Empty state móvil -->
+          <div 
+            class="mobile-empty-notifications" 
+            *ngIf="notificaciones.length === 0">
+            <mat-icon class="mobile-empty-icon">notifications_off</mat-icon>
+            <p>No hay notificaciones</p>
+          </div>
+        </div>
+
+        <mat-divider class="section-divider"></mat-divider>
+
+        <!-- Rating móvil -->
+        <div class="mobile-rating-section">
+          <h3 class="mobile-section-title">Calificar receta</h3>
+          <div class="mobile-rating-content">
+            <star-rating (ratingSubmitted)="onRatingSelected($event)"></star-rating>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+<app-footer-tabs></app-footer-tabs>
+</div>

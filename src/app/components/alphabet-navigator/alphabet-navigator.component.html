@@ -1,0 +1,48 @@
+<!-- alphabet-navigator.component.html -->
+<div class="alphabet-navigator">
+  <!-- Navegación alfabética -->
+  <div class="alphabet-row">
+    <button
+      mat-stroked-button
+      *ngFor="let letter of alphabet"
+      [class.selected]="selectedLetter === letter"
+      [class.has-products]="hasProducts(letter)"
+      [class.no-products]="!hasProducts(letter)"
+      (click)="selectLetter(letter)"
+      [disabled]="!hasProducts(letter)"
+    >
+      {{ letter }}
+    </button>
+  </div>
+
+  <!-- Navegación numérica -->
+  <div class="pagination-row">
+    <button
+      mat-icon-button
+      [disabled]="!canGoToPrevious()"
+      (click)="goToPreviousPage()"
+      class="nav-arrow"
+    >
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+
+    <button
+      mat-stroked-button
+      *ngFor="let page of getPageNumbers()"
+      [class.selected]="selectedPage === page"
+      (click)="selectPage(page)"
+      class="page-button"
+    >
+      {{ page }}
+    </button>
+
+    <button
+      mat-icon-button
+      [disabled]="!canGoToNext()"
+      (click)="goToNextPage()"
+      class="nav-arrow"
+    >
+      <mat-icon>chevron_right</mat-icon>
+    </button>
+  </div>
+</div>

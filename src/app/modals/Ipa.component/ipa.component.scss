@@ -1,0 +1,793 @@
+// modals/ipa/ipa.component.scss
+
+.modal-container {
+  max-height: 90vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+}
+
+.seccion_info_ipa {
+  background: #00A019 ;
+  color: white;
+  padding: 8px 16px;
+  font-size: 14px;
+  text-align: left;
+}
+
+.dialog-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 !important;
+}
+.modal-header{
+  display: flex;
+  justify-content: flex-end;
+}
+
+// Columnas
+.image-column {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+.images-column {
+  display: flex !important;
+  justify-content: center !important;
+}
+/* Panel del select con radio buttons */
+::ng-deep .radio-select-panel {
+  .mat-mdc-option {
+    padding: 0 !important;
+  }
+  
+  .mat-mdc-option .mdc-list-item__primary-text {
+    width: 100%;
+  }
+  
+  mat-radio-button {
+    width: 100%;
+    padding: 12px 16px;
+    display: block;
+  }
+  
+  /* Ocultar el checkmark por defecto de mat-option */
+  .mat-pseudo-checkbox {
+    display: none !important;
+  }
+  
+  /* Estilo hover */
+  .mat-mdc-option:hover mat-radio-button {
+    background-color: rgba(0, 0, 0, 0.04);
+  }
+}
+.chips-container {
+  margin-bottom: 16px;
+  text-align: center;
+  width: 90%;
+  
+  mat-chip-listbox {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center; // 👈 Para centrarlos
+  }
+}
+::ng-deep  .mat-mdc-standard-chip:not(.mdc-evolution-chip--disabled) {
+  background-color: #48AAFF !important; 
+  color: white !important;
+  width: 100%;
+
+}
+::ng-deep   .mat-mdc-standard-chip:not(.mdc-evolution-chip--disabled) .mdc-evolution-chip__text-label {
+  color: white !important;  
+}
+::ng-deep  .mat-icon {
+  color: white !important;  
+}
+
+::ng-deep  .cdk-overlay-pane:not(.mat-mdc-select-panel-above) div.mat-mdc-select-panel {
+  background-color: white !important;
+}
+
+
+::ng-deep  .mat-mdc-option:focus.mdc-list-item, .mat-mdc-option.mat-mdc-option-active.mdc-list-item {
+  background-color: #F4F8FE !important;
+}
+::ng-deep   .mat-mdc-option:hover:not(.mdc-list-item--disabled) {
+    background-color: #E3F2FD !important;}
+
+
+/* Estilos del form field */
+.presentaciones-select {
+  width: 100%;
+}
+.presentaciones-radio-group{
+   display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+
+  @media (max-width: 500px) {
+  
+    grid-template-columns: 1fr; /* 1 columna en pantallas pequeñas */
+  }
+}
+
+.presentacion-radio {
+  white-space: normal;
+  line-height: 1.2;
+  text-align: left;
+}
+
+// Imagen
+.image-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 2rem;
+  background: white;
+
+
+    @media (max-width: 991px) {
+    padding: 1rem;
+  }
+
+}
+
+.medicamento-image {
+  max-width: 250px;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+// Títulos
+.marca-title,
+.marca-subtitle {
+  margin: 0;
+  color: #666;
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.marca-nombre,
+.marca-nombre-desktop {
+  margin: 0.5rem 0;
+  font-size: 2rem;
+  color: #333;
+}
+
+
+.marca-column{
+  border-right: 1px solid #12438B;
+}
+.presentacion-box{
+  display: flex !important ;
+  flex-direction: column;
+  align-items: center;
+}
+.fuente_ippa{
+  color: #00A019;
+}
+
+// Caja de sustancias
+.sustancia-box {
+  background: #F0F7FF;
+  color: #191919;
+  border-radius: 8px;
+  margin: 1rem 0;
+
+  h5 {
+    margin: 0 0 0.5rem 0;
+  }
+  .forma_titulo{
+    border-bottom: 1px solid #3f3f3f;
+  }
+
+  span {
+    font-size: 1.1rem;
+    text-align: left;
+  }
+  @media (max-width: 991px) { // Tablet y menor
+    margin: 0px;
+  }
+}
+
+.forma_titulo{
+  color: #12438B;
+}
+.forma_presentacion{
+  color: #12438B;
+}
+
+// Tabs personalizados
+.custom-tabs {
+  ::ng-deep .mat-mdc-tab {
+    font-size: 1rem;
+    font-weight: 500;
+  }
+
+  ::ng-deep .mat-mdc-tab-label {
+    padding: 1rem;
+  }
+}
+
+.tab-content {
+  padding: 1rem;
+  min-height: 150px;
+
+  p {
+    font-size: 1rem;
+    color: #333;
+    margin: 0;
+  }
+}
+
+::ng-deep .grupo-mis-tabs .mat-mdc-tab {
+  padding: 0 !important;
+  height: 120px;
+}
+
+// Estilos para los tabs principales
+.seccion-tabs-principales {
+  margin: 20px 0;
+  
+  ::ng-deep .mat-mdc-tab-group {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  // Header de los tabs
+  ::ng-deep .mat-mdc-tab-header {
+    background-color: #f5f7fa;
+    border-bottom: 1px solid #e0e4e9;
+  }
+
+  ::ng-deep .mat-mdc-tab-labels {
+    gap: 0;
+    display: flex;
+    justify-content: space-around;
+  }
+
+  // Cada tab individual
+  ::ng-deep .mat-mdc-tab {
+    min-width: 280px;
+    padding: 16px 24px;
+    opacity: 1;
+    
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.5);
+    }
+  }
+
+  // Tab activo
+  ::ng-deep .mat-mdc-tab.mdc-tab--active {
+    background-color: #ffffff;
+    
+    .tab-label-with-icon {
+      color: #1976d2;
+    }
+  }
+
+
+  // Label personalizado con icono
+  .tab-label-with-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: all 0.3s ease;
+        cursor: pointer;
+    
+    // Contenedor del icono (parte superior)
+    .tab-icon-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 280px;
+      height: 60px;
+      transition: all 0.3s ease;
+      border-bottom: 1px solid #1976d2;
+      padding: 10px;
+      background-color: white;
+
+
+      
+      
+      img {
+       max-width: 50px;
+      }
+    }
+    
+    // Contenedor del texto (parte inferior)
+    .tab-text-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 280px;
+      height: 60px;
+      background-color: #F0F7FF;
+      
+      span {
+        font-size: 14px;
+        font-weight: 500;
+        text-align: center;
+        transition: color 0.3s ease;
+      }
+    }
+    
+    // Efectos hover
+    &:hover {
+
+
+  .tab-text-container {
+    background-color: #d6e8ff;
+  }
+      .tab-text-container span {
+      color: #3f3f3f;
+    }
+
+}
+&.active {
+    border-color: #12438B;
+
+    .tab-text-container {
+      background-color: #12438B;
+      color: #d6e8ff;
+    }
+
+    .tab-text-container span {
+      color:#d6e8ff;
+      font-weight: 600;
+    }
+  }
+  
+
+  }
+
+  /* 🔥 Activo: cuando el tab está seleccionado */
+::ng-deep .mat-mdc-tab.mdc-tab--active .tab-label-with-icon {
+  
+  .tab-text-container {
+    background-color: #12438B;
+  }
+
+  .tab-text-container span {
+    color: white;
+    font-weight: 600;
+  }
+}
+}
+
+.tab-panel-content{
+  border-radius: 0px !important;
+}
+
+// Estilos para el acordeón
+::ng-deep .mat-accordion {
+  display: flex;
+  flex-direction: column;
+
+  .mat-expansion-panel {
+    border-radius: 0px !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08) !important;
+    border-bottom: solid 1px #93C4FC;
+    
+    &:not(.mat-expanded) {
+      &:hover {
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12) !important;
+      }
+    }
+  
+  }
+
+  .mat-expansion-panel-header {
+    padding: 8px 16px;
+    height: auto;
+    min-height: 50px;
+    background-color: white;
+  }
+  .mat-expansion-panel-spacing{
+    margin: 0px !important;
+  }
+
+  .mat-expansion-panel-header.mat-expanded {
+    background-color: #e3f2fd;
+    border-bottom: 1px solid #e0e4e9;
+  }
+
+  .mat-expansion-panel-header-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: #263238;
+  }
+
+  .mat-expansion-panel-content {
+    background-color: #ffffff;
+  }
+
+  .mat-expansion-panel-body {
+    padding: 20px 24px;
+    
+    p {
+      margin: 1rem;
+      line-height: 1.6;
+      color: #546e7a;
+      font-size: 14px;
+    }
+  }
+}
+::ng-deep .mat-mdc-tab.mdc-tab {
+    flex-grow: 0 !important;
+}
+
+
+.seleccion-presentacion{
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 1rem;
+
+  .seleccion_presentacion_list{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .seleccion-presentacion_titulo{
+        background: #e3f2fd;
+    color: #4285f4;
+    padding: 12px 24px;
+    border-radius: 24px;
+    margin: 0;
+    font-weight: 500;
+    text-align: center;
+  }
+  .acciones-paso2{
+    display: flex;
+    align-items: center;
+    justify-content: space-between ;
+  }
+  .seleccion-presentacion_receta{
+    text-align: center;
+    font-size: 18px;
+    font-weight: 500;
+    color: #3f3f3f;
+
+  }
+  .seleccion-presentacion_disponibles{
+    text-align: center;
+    font-size: 18px;
+    font-weight: 500;
+    color: #12438B;
+    border-bottom: 1px solid #12438B;
+  }
+}
+.desktop-only {
+  display: none;
+  
+  @media (min-width: 768px) {
+    display: block;
+  }
+}
+
+// Responsive para móvil
+@media (max-width: 768px) {
+  
+
+  .seccion-tabs-principales {
+    ::ng-deep .mat-mdc-tab {
+      min-width: 120px;
+      padding: 12px 16px;
+    }
+
+    .tab-label-with-icon {
+      .tab-icon-container {
+        width: 40px;
+        height: 40px;
+        
+        mat-icon {
+          font-size: 20px;
+          width: 20px;
+          height: 20px;
+        }
+      }
+      
+      span {
+        font-size: 12px;
+      }
+    }
+
+    .tab-panel-content {
+      padding: 16px;
+    }
+  }
+
+  ::ng-deep .mat-expansion-panel-header {
+    padding: 12px 16px;
+    min-height: 56px;
+  }
+
+  ::ng-deep .mat-expansion-panel-body {
+    padding: 16px;
+  }
+}
+
+// Animaciones suaves
+::ng-deep .mat-expansion-panel-content {
+  transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+::ng-deep .mat-expansion-indicator::after {
+  color: #1976d2;
+}
+
+::ng-deep .mat-expansion-panel-header:focus {
+  outline: 2px solid #1976d2;
+  outline-offset: -2px;
+}
+::ng-deep .mdc-button {
+  display: inline-flex;
+  justify-content: flex-end;
+}
+::ng-deep .mat-mdc-button.close_button {
+  background-color: #D1E7FF!important;
+  color: #3f3f3f !important;
+  margin-bottom: 8px;
+}
+
+
+::ng-deep .mat-mdc-outlined-button:not(:disabled){
+  border: 1px solid #12438B;
+  color: #12438B;
+}
+
+// Lista de presentaciones
+.presentaciones-list {
+  background: transparent;
+
+  li {
+    background: transparent;
+    border-bottom: 1px solid #e0e0e0;
+    font-size: 0.95rem;
+    padding: 0.5rem 0;
+  }
+}
+
+// Responsive
+.mobile-only {
+  display: block;
+}
+
+.desktop-only {
+  display: none;
+}
+
+.hide-on-mobile {
+  display: none;
+}
+.seccion_acciones_ipa {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 2rem;
+  padding: 1rem 0;
+}
+.sustancia-box-mobile{
+  padding: 1rem;
+}
+.mobile-only {
+  display: block;
+  
+  @media (min-width: 768px) {
+    display: none;
+  }
+}
+
+.seccion_acciones_ipa_mobile {
+  display: flex;
+  flex-direction: column; // Botones en vertical (opcional)
+  gap: 1rem;
+  padding: 1rem;
+
+}
+
+.presentacion-box{
+  padding: 0 !important ;
+  margin: 0 !important ;
+}
+
+@media (min-width: 768px) {
+  .mobile-only {
+    display: none;
+  }
+
+  .desktop-only {
+    display: block;
+  }
+
+  .hide-on-mobile {
+    display: block;
+  }
+}
+
+// Footer
+.dialog-actions {
+  border-top: 1px solid #e0e0e0;
+  padding: 1rem 1.5rem !important;
+
+  button {
+    margin-left: 0.5rem;
+  }
+}
+
+.seccion-tabs-principales{
+  border: 1px solid #93C4FC;
+}
+
+// ESTILOS PARA VERSIÓN MOBILE
+
+// Mostrar solo en mobile y tablet
+.mobile-only {
+  display: none;
+  
+  @media (max-width: 991px) { // Tablet y menor
+    display: block;
+    
+  }
+  
+}
+
+@media (max-width: 991px) {
+  ::ng-deep .mat-mdc-tab.mdc-tab-hydrated .image-column {
+    display: flex;
+    justify-content: center !important;
+  }
+
+  
+}
+
+// ESTILOS PARA VERSIÓN MOBILE CON IONIC
+
+// Mostrar solo en mobile y tablet
+.mobile-only {
+  display: none;
+  
+  @media (max-width: 991px) { // Tablet y menor
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+// Estilos para la marca en mobile
+.marca-nombre-mobile {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0.5rem 0;
+}
+
+// Tabs personalizados para mobile
+.custom-tabs-mobile {
+  margin-bottom: 1rem;
+  
+  ::ng-deep {
+    .mat-mdc-tab-labels {
+      justify-content: center;
+    }
+  }
+}
+
+// Ocultar desktop en mobile
+.desktop-only {
+  display: block;
+  
+  @media (max-width: 991px) {
+    display: none;
+  }
+}
+
+// Sección mobile
+.seccion-mobile {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  padding: 0px;
+
+
+  @media (max-width: 991px) { // Tablet y menor
+    margin: 0px;
+  }
+}
+
+// Header de cada sección
+.header-seccion-mobile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  gap: 0.75rem;
+  padding: 0 1rem;
+  
+  .icono-seccion-mobile {
+    max-width: 50px;
+    width: 100%;
+    height: auto;
+    flex-shrink: 0;
+  }
+  
+  .titulo-seccion-mobile {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0;
+    text-align: left;
+    flex: 1;
+  }
+}
+// Acordeones mobile
+.acordeon-mobile {
+  .panel-mobile {
+    border-radius: 0px !important;
+    margin-bottom: 0;
+    
+    // Personaliza según tus clases borderUno y backgroundTres
+    &::before {
+      display: none; // Quita las líneas por defecto de Material
+    }
+      .mat-expansion-panel-header.mat-expanded {
+    border-bottom: 1px solid #e0e4e9;
+    height: 100px;
+  }
+
+    mat-expansion-panel-header {
+      border-radius: 0;
+      padding: 1rem;
+          background-color: white;
+              border-bottom: solid 1px #93C4FC;
+      
+      mat-panel-title {
+        font-weight: 500;
+        font-size: 1rem;
+      }
+    }
+    
+    .mat-expansion-panel-body {
+      padding: 1rem;
+    }
+    
+    p {
+      margin: 1rem;
+      line-height: 1.6;
+    }
+  }
+}
+.acciones-mobile{
+  padding: .5rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+// Si tienes clases personalizadas como borderUno y backgroundTres, 
+// puedes aplicarlas así:
+::ng-deep {
+  .acordeon-mobile {
+    .mat-expansion-panel {
+      border: 1px solid #dee2e6; // Similar a borderUno de Bootstrap
+      
+      &:not(:last-child) {
+        border-bottom: 0;
+      }
+    }
+    
+    .mat-expansion-panel-header {
+      background-color: #f8f9fa; // Similar a backgroundTres
+      
+      &:hover {
+        background-color: #e9ecef !important;
+      }
+    }
+  }
+}

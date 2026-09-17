@@ -1,0 +1,17 @@
+<h2 class="welcome-title" *ngIf="showTitle">
+  Bienvenido, Doctor(a)
+  <div class="doctor-name">
+    <strong>{{ getShortName() }}</strong>
+    <strong>{{ getApellidos() }}</strong>
+    <small *ngIf="showRole">{{ getShortRole() }}</small>
+    <small *ngIf="showEmail" class="user-email">{{ usuario?.correo || 'correo@ejemplo.com' }}</small>
+  </div>
+</h2>
+
+
+<div class="doctor-name" *ngIf="!showTitle">
+  <strong>{{ getShortName() }}</strong>
+  <strong>{{ getApellidos() }}</strong>
+  <small *ngIf="showRole">{{ getShortRole() }}</small>
+  <small *ngIf="showEmail" class="user-email">{{ usuario?.correo || 'correo@ejemplo.com' }}</small>
+</div>

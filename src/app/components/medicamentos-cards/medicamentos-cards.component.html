@@ -1,0 +1,91 @@
+<div class="medicamentos_master">
+
+  <!-- 🔥 Grid 3x3 - Siempre en modo grid -->
+  <div *ngIf="!loading" class="row pt-1 pb-1">
+    <div
+      *ngFor="let medicamento of medicamentos; trackBy: trackByMedicamento"
+      class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4 pt-2 pb-2"
+    >
+      <mat-card
+        class="card-medicamento"
+        [class.expanded]="isExpanded(medicamento.id)"
+        role="button"
+        tabindex="0"
+        (click)="navigateToMedicamento(medicamento)"
+        (keydown)="onKeyPress($event, medicamento)"
+      >
+        <!-- Imagen -->
+        <div class="imagen-container">
+          <img
+            [src]="medicamento.imagen"
+            class="imagen-medicamento"
+            [alt]="medicamento.marca + ' ' + medicamento.solucion"
+            loading="lazy"
+          >
+        </div>
+
+        <!-- Contenido -->
+        <div class="contenido-container">
+
+          <div class="header-medicamento_extendido">
+            <!-- Header con marca y solución -->
+            <div class="header-medicamento">
+              <span class="marca">Marca: {{ medicamento.marca }}</span>
+              <span class="solucion">{{ medicamento.solucion }}</span>
+            </div>
+
+            <!-- Presentación -->
+            <div class="presentacion">{{ medicamento.presentacion }}</div>
+            <p class="sustancia">Sustancia: {{ medicamento.sustancia }}</p>
+          </div>
+
+          <!-- Info básica con botón expandir -->
+          <div class="info-medicamento">
+            <button
+              mat-stroked-button
+              color="primary"
+              class="expand-btn"
+              (click)="$event.stopPropagation(); toggleExpand(medicamento.id, $event)"
+            >
+              {{ isExpanded(medicamento.id) ? 'Ver menos' : 'Ver más' }}
+              <mat-icon>{{ isExpanded(medicamento.id) ? 'expand_less' : 'expand_more' }}</mat-icon>
+            </button>
+
+            <!-- Info visible solo cuando está expandido -->
+            <p class="indicacion" *ngIf="isExpanded(medicamento.id)">
+              <strong>Indicación:</strong> {{ medicamento.indicacion }}
+            </p>
+
+            <p class="dosis" *ngIf="isExpanded(medicamento.id)">
+              <strong>Dosis:</strong> {{ medicamento.dosis }}
+            </p>
+          </div>
+
+          <!-- Contenido expandido adicional -->
+          <div class="expanded-content" *ngIf="isExpanded(medicamento.id)">
+            <div class="divider"></div>
+            <p class="extra-info"><strong>Información adicional:</strong></p>
+            <p class="extra-info"><strong>Presentación completa:</strong> {{ medicamento.presentacion }}</p>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+
+  <!-- Empty state -->
+  <div *ngIf="!loading && medicamentos.length === 0" class="row">
+    <div class="col-12 text-center py-5">
+      <div class="empty-state">
+        <h3>No se encontraron medicamentos</h3>
+        <p class="text-muted">Intenta con otra letra o ajusta los filtros de búsqueda</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading state -->
+  <div *ngIf="loading" class="row">
+    <div class="col-12 text-center py-5">
+      <mat-progress-spinner mode="indeterminate" diameter="40"></mat-progress-spinner>
+    </div>
+  </div>
+</div>

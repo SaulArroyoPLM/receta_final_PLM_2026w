@@ -1,0 +1,102 @@
+<div mat-dialog-content class="modal-container">
+  <div class="modal-header">
+    <h3 class="title_modals">Califica tu receta</h3>
+    
+    <div class="survey-dialog">
+      <div class="dialog-content">
+        
+        <!-- ✅ Resumen de la calificación inicial (SOLO LECTURA) -->
+        <div class="rating-summary">
+          <div class="stars-display">
+            <mat-icon 
+              *ngFor="let star of getStarsArray()" 
+              [class.filled]="star <= selectedRating"
+              class="star-icon">
+              star
+            </mat-icon>
+          </div>
+          <span class="rating-text">
+            <strong>{{ getRatingText() }}</strong></span>
+        </div>
+        
+        <p class="coment_modals">Comparte qué te pareció realizar tu receta.</p>
+        
+        <p class="displs_coment">Secciones con estrellas:</p>
+
+        <!-- ✅ Sección 1: Crear receta -->
+        <div class="calificiacion_star">
+          <div class="star_califi">
+            <p class="displs_coment" >Crear receta</p>
+            <div class="stars-display stars-interactive">
+              <mat-icon 
+                *ngFor="let star of getStarsArray()" 
+                [class.filled]="star <= ratingCrearReceta"
+                (click)="selectRating('crear-receta', star)"
+                class="star-icon clickable">
+                star
+              </mat-icon>
+            </div>
+          </div>
+        </div>
+
+        <!-- ✅ Sección 2: Pacientes -->
+        <div class="calificiacion_star">
+          <div class="star_califi">
+            <p class="displs_coment" >Pacientes</p>
+            <div class="stars-display stars-interactive">
+              <mat-icon 
+                *ngFor="let star of getStarsArray()" 
+                [class.filled]="star <= ratingPacientes"
+                (click)="selectRating('pacientes', star)"
+                class="star-icon clickable">
+                star
+              </mat-icon>
+            </div>
+          </div>
+        </div>
+
+        <!-- ✅ Sección 3: Experiencia general -->
+        <div class="calificiacion_star">
+          <div class="star_califi">
+            <p class="displs_coment" >Experiencia general</p>
+            <div class="stars-display stars-interactive">
+              <mat-icon 
+                *ngFor="let star of getStarsArray()" 
+                [class.filled]="star <= ratingExperienciaGeneral"
+                (click)="selectRating('experiencia', star)"
+                class="star-icon clickable">
+                star
+              </mat-icon>
+            </div>
+          </div>
+        </div>
+
+        <p>Comparte qué te pareció realizar tu receta *</p>
+        
+        <textarea 
+          [(ngModel)]="comment"
+          placeholder="Cuéntanos más sobre tu experiencia..."
+          class="comment-textarea"
+          rows="4">
+        </textarea>
+
+        <div class="dialog-actions">
+          <button mat-stroked-button 
+                  (click)="onNoThanks()" 
+                  class="btn-no">
+            <mat-icon>close</mat-icon>
+            Cancelar
+          </button>
+          
+          <button mat-flat-button 
+                  color="primary"
+                  (click)="onYesSurvey()" 
+                  class="btn-yes">
+            <mat-icon>assignment</mat-icon>
+            Enviar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

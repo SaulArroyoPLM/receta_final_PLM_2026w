@@ -1,0 +1,260 @@
+.buscador_froms{
+    width: 100%;
+}
+
+
+// Contenedor de chips
+.chips-container {
+  margin: 0 0 16px 0;
+  padding: 12px;
+  background: white;
+  border-radius: 12px;
+
+  .chips-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+
+    .chips-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ion-color-medium);
+      margin: 0;
+    }
+
+    button {
+      padding: 0 8px;
+      height: 32px;
+      font-size: 13px;
+    }
+  }
+
+  mat-chip-listbox {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  mat-chip-option {
+    font-size: 14px;
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+
+    .chip-content {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .chip-cie {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .chip-categoria {
+      font-size: 10px;
+      font-style: italic;
+      opacity: 0.8;
+    }
+
+    button {
+      opacity: 0.8;
+      transition: opacity 0.2s;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+
+    mat-icon {
+      font-size: 18px;
+      margin-left: 4px;
+      color: white;
+    }
+  }
+
+  // Colores de chips
+  .chip-primary {
+    background-color: #48AAFF !important;
+    color: white !important;
+
+    &:hover {
+      box-shadow: 0 4px 12px rgba(56, 128, 255, 0.3);
+    }
+  }
+
+  .chip-secondary {
+    background-color: var(--ion-color-secondary, #3dc2ff) !important;
+    color: white !important;
+
+    &:hover {
+      box-shadow: 0 4px 12px rgba(61, 194, 255, 0.3);
+    }
+  }
+
+  .chip-success {
+    background-color: var(--ion-color-success, #2dd36f) !important;
+    color: white !important;
+
+    &:hover {
+      box-shadow: 0 4px 12px rgba(45, 211, 111, 0.3);
+    }
+  }
+
+  .chip-warning {
+    background-color: var(--ion-color-warning, #ffc409) !important;
+    color: #000 !important;
+
+    &:hover {
+      box-shadow: 0 4px 12px rgba(255, 196, 9, 0.3);
+    }
+  }
+}
+
+// Campo de formulario
+.full-width {
+  width: 100%;
+
+  mat-icon {
+    color: var(--ion-color-medium);
+  }
+
+  mat-hint {
+    color: var(--ion-color-medium);
+    font-size: 12px;
+  }
+
+  mat-error {
+    font-size: 12px;
+  }
+}
+
+
+// Opciones del autocomplete
+.diagnostico-option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 4px 0;
+  gap: 12px;
+
+  .diagnostico-info {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 4px;
+
+    .nombre {
+      font-weight: 500;
+      color: #333;
+      line-height: 1.4;
+    }
+
+    .categoria-badge {
+      font-size: 11px;
+      color: var(--ion-color-medium);
+      background: #f0f0f0;
+      padding: 2px 8px;
+      border-radius: 8px;
+      width: fit-content;
+    }
+  }
+
+  .cie10 {
+    color: #666;
+    font-size: 0.85em;
+    background: #e3f2fd;
+    color: var(--ion-color-primary);
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+}
+
+// Sin resultados
+.no-results {
+  color: #999;
+  font-style: italic;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  mat-icon {
+    font-size: 20px;
+  }
+}
+
+
+
+
+// Estilos globales para Material
+::ng-deep {
+  .mat-mdc-autocomplete-panel {
+    border-radius: 12px !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15) !important;
+    margin-top: 8px;
+  }
+   .mat-mdc-autocomplete-panel{
+    background-color: white !important;
+   }
+
+  .mat-mdc-option {
+    padding: 12px 16px !important;
+    min-height: 56px !important;
+
+    &:hover {
+      background-color: rgba(56, 128, 255, 0.05) !important;
+    }
+
+    &.mat-mdc-option-active {
+      background-color: rgba(56, 128, 255, 0.1) !important;
+    }
+  }
+}
+
+// Responsive
+@media (max-width: 576px) {
+  .chips-container {
+    mat-chip-option {
+      font-size: 13px;
+      padding: 6px 10px;
+
+      .chip-cie {
+        font-size: 10px;
+      }
+
+      .chip-categoria {
+        display: none; // Ocultar en móviles
+      }
+    }
+
+    .chips-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+
+      button {
+        width: 100%;
+      }
+    }
+  }
+
+  .diagnostico-option {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+
+    .cie10 {
+      align-self: flex-start;
+    }
+  }
+}

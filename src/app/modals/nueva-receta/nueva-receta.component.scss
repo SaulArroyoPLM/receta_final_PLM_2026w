@@ -1,0 +1,131 @@
+.cdk-overlay-backdrop-showing {
+  opacity: 1;
+  background: rgba(0, 51, 103, 0.84);
+}
+
+.modal-container {
+  padding: 40px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+      background: #365982;
+       border: 1px solid #365982;
+
+  @media (max-width: 768px) {
+    min-width: 100%;
+    padding: 20px;
+  }
+}
+
+.cards-container {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+
+  @media (max-width: 768px) {
+    gap: 16px;
+  }
+    @media (max-width: 430px) {
+    flex-direction: column;
+    gap: 16px;
+  }
+}
+
+.patient-card {
+  flex: 1;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 16px;
+  border: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background: #4285f4;
+  color: white;
+  min-height: 300px;
+  max-width: 300px;
+  position: relative;
+  overflow: hidden;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(66, 133, 244, 0.3);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  // Quitar padding por defecto de Material
+  .mat-mdc-card-content {
+    padding: 0;
+  }
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 20px;
+  height: 100%;
+  text-align: center;
+}
+
+.card-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  margin-bottom: 16px;
+  backdrop-filter: blur(10px);
+
+  mat-icon {
+    font-size: 75px;
+    width: 75px;
+    height: 75px;
+    color: white;
+  }
+}
+
+.card-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+  color: white;
+  line-height: 1.3;
+  word-break: break-word;
+}
+
+
+// Responsive
+@media (max-width: 600px) {
+  .modal-container {
+    padding: 16px;
+  }
+  
+  .patient-card {
+    max-width: none;
+    min-height: 200px;
+  }
+  
+  .card-content {
+    padding: 24px 16px;
+  }
+  
+  .card-icon {
+    width: 56px;
+    height: 56px;
+    
+    mat-icon {
+      font-size: 24px;
+      width: 24px;
+      height: 24px;
+    }
+  }
+  
+  .card-title {
+    font-size: 15px;
+  }
+}

@@ -1,0 +1,535 @@
+/* Custom Stepper Container */
+.custom-stepper-container {
+  width: 100%;
+  padding: 0;
+}
+
+/* Stepper Header */
+.stepper-header {
+  position: relative;
+}
+
+/* =============== DESKTOP STEPPER STYLES =============== */
+
+/* Steps Container */
+.steps-container.desktop-stepper {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Step Labels Container (arriba) */
+.steps-labels {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.step-label-wrapper {
+  flex: 1;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.step-label-wrapper:hover {
+  transform: translateY(-2px);
+}
+
+.step-label {
+  font-weight: 500;
+  font-size: 14px;
+  color: #6c757d;
+  transition: color 0.3s ease;
+}
+
+/* Estados de los labels */
+.step-label-wrapper.active .step-label {
+  color: #007bff;
+  font-weight: 600;
+}
+
+.step-label-wrapper.completed .step-label {
+  color: #1458D9;
+  font-weight: 600;
+}
+
+.step-label-wrapper.disabled .step-label {
+  color: #adb5bd;
+  cursor: not-allowed;
+}
+
+/* Progress Lines Container (abajo) */
+.steps-progress {
+  display: flex;
+  align-items: center;
+  height: 4px;
+  position: relative;
+}
+
+.step-progress-item {
+  flex: 1;
+  height: 4px;
+  background-color: #C8DEF0;
+  transition: background-color 0.3s ease;
+}
+
+.step-progress-item:not(:last-child) {
+  margin-right: 2px;
+}
+
+/* Estados del progreso */
+.step-progress-item.active {
+  background-color: #007bff;
+}
+
+.step-progress-item.completed {
+  background-color: #1458D9;
+}
+
+/* =============== MOBILE STEPPER STYLES =============== */
+
+.mobile-stepper {
+  display: none; /* Oculto por defecto en desktop */
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  padding: 0;
+}
+
+/* Container de círculos de progreso (arriba) */
+.mobile-progress-circles {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 18px;
+}
+
+.mobile-step-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  border: 2px solid transparent;
+}
+
+.mobile-step-circle:hover:not(.disabled) {
+  transform: scale(1.1);
+}
+
+.step-number {
+  transition: all 0.3s ease;
+}
+
+.mobile-step-connector {
+  width: 16px;
+  height: 2px;
+  background-color: #C8DEF0;
+  transition: background-color 0.3s ease;
+  border-radius: 1px;
+}
+
+/* =============== MOBILE STEP STATES (Círculos) =============== */
+
+/* Paso pendiente */
+.mobile-step-circle.pending {
+  background-color: #f8f9fa;
+  color: #6c757d;
+  border-color: #C8DEF0;
+}
+
+/* Paso activo */
+.mobile-step-circle.active {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+
+/* Paso completado */
+.mobile-step-circle.completed {
+  background-color: #1458D9;
+  color: white;
+  border-color: #1458D9;
+}
+
+.mobile-step-circle.completed::after {
+  content: '✓';
+  position: absolute;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.mobile-step-circle.completed .step-number {
+  opacity: 0;
+}
+
+/* Paso deshabilitado */
+.mobile-step-circle.disabled {
+  background-color: #f8f9fa;
+  color: #adb5bd;
+  border-color: #e9ecef;
+  cursor: not-allowed;
+}
+
+.mobile-step-circle.disabled:hover {
+  transform: none;
+}
+
+/* Estados de los conectores */
+.mobile-step-connector.active,
+.mobile-step-connector.completed {
+  background-color: #1458D9;
+}
+
+/* =============== MOBILE STEP LABELS (Solo textos) =============== */
+
+.mobile-step-labels {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 400px;
+  padding: 0 10px;
+}
+
+.mobile-step-text {
+  flex: 1;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 5px;
+  border-radius: 4px;
+}
+
+.mobile-step-text:hover:not(.mobile-text-disabled) {
+  background-color: rgba(0, 123, 255, 0.1);
+}
+
+/* Estados de los textos móviles */
+.mobile-step-text.mobile-text-pending {
+  color: #6c757d;
+}
+
+.mobile-step-text.mobile-text-active {
+  color: #007bff;
+  font-weight: 600;
+  background-color: rgba(0, 123, 255, 0.1);
+}
+
+.mobile-step-text.mobile-text-completed {
+  color: #1458D9;
+  font-weight: 600;
+}
+
+.mobile-step-text.mobile-text-disabled {
+  color: #adb5bd;
+  cursor: not-allowed;
+}
+
+/* =============== CONTENT Y NAVIGATION STYLES =============== */
+
+/* Stepper Content */
+.stepper-content {
+  min-height: 300px;
+  padding: 1rem 2.5rem;
+}
+
+/* Navigation Buttons */
+.stepper-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 30px;
+  padding: 15px 0;
+  border-top: 1px solid #e9ecef;
+}
+
+.step-counter {
+  font-size: 14px;
+  color: #6c757d;
+  font-weight: 500;
+}
+
+.btn-previous,
+.btn-next {
+  min-width: 120px;
+  padding: 8px 20px;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn-previous:hover,
+.btn-next:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Form Styles */
+.form-title {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.p_ingresa {
+  font-size: 1rem;
+  color: #666;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.col {
+  flex: 1;
+  min-width: 200px;
+}
+
+.inputs {
+  width: 100%;
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.checkbox-error {
+  font-size: 0.75rem;
+  color: #f44336;
+  margin-top: 4px;
+}
+
+.legal {
+  font-size: 0.9rem;
+}
+
+.link {
+  color: #1976d2;
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+/* Mobile Sub-Steps Styles */
+.mobile-substeps {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.mobile-substep-card {
+  background: #f5f5f5;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.mobile-substep-card h4 {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 16px;
+}
+
+/* Mobile Header for Sub-Steps */
+.mobile-header {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.mobile-header h2 {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.mobile-header p {
+  font-size: 1rem;
+  color: #6c757d;
+  margin-bottom: 8px;
+}
+
+/* Progress Bar */
+mat-progress-bar {
+  height: 6px;
+  border-radius: 3px;
+}
+
+/* =============== RESPONSIVE BREAKPOINTS =============== */
+
+/* Tablets y móviles */
+@media (max-width: 768px) {
+  /* Ocultar stepper desktop */
+  .desktop-stepper {
+    display: none !important;
+  }
+
+  /* Mostrar stepper mobile */
+  .mobile-stepper {
+    display: flex !important;
+    padding: 1rem 0;
+  }
+
+  /* Ajustar navegación en móvil */
+  .stepper-navigation {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .btn-previous,
+  .btn-next {
+    width: 100%;
+    min-width: auto;
+  }
+
+  /* Ajustar tamaño de círculos en pantallas muy pequeñas */
+  .mobile-step-circle {
+    width: 32px;
+    height: 32px;
+    font-size: 12px;
+  }
+
+  .mobile-step-connector {
+    width: 12px;
+  }
+
+  /* Ajustar textos en móvil pequeño */
+  .mobile-step-text {
+    font-size: 11px;
+  }
+
+  /* Stepper content más compacto */
+  .stepper-content {
+    min-height: 200px;
+    padding: 0px;
+  }
+
+  /* Ajustar filas y columnas en móvil */
+  .row {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .col {
+    min-width: 100%;
+  }
+
+  /* Ajustar contenedor principal en móvil */
+  .step-content {
+    padding: 12px;
+  }
+
+  /* Asegurar que el formulario sea más compacto */
+  .mobile-substeps {
+    gap: 12px;
+  }
+
+  .mobile-substep-card {
+    padding: 12px;
+  }
+
+  .mobile-substep-card h4 {
+    font-size: 1.1rem;
+  }
+
+  .mobile-header h2 {
+    font-size: 1.3rem;
+  }
+
+  .mobile-header p {
+    font-size: 0.9rem;
+  }
+}
+
+/* Móviles muy pequeños */
+@media (max-width: 480px) {
+  .mobile-progress-circles {
+    gap: 16px;
+  }
+
+  .mobile-step-circle {
+    width: 28px;
+    height: 28px;
+    font-size: 11px;
+  }
+
+  .mobile-step-connector {
+    width: 8px;
+  }
+
+  .mobile-step-text {
+    font-size: 10px;
+  }
+
+  .mobile-step-labels {
+    max-width: 350px;
+    padding: 0 5px;
+    display: none;
+  }
+
+  .stepper-header {
+    margin-bottom: 20px;
+  }
+
+  .mobile-substep-card {
+    padding: 10px;
+  }
+
+  .mobile-substep-card h4 {
+    font-size: 1rem;
+  }
+
+  .mobile-header h2 {
+    font-size: 1.2rem;
+  }
+
+  .mobile-header p {
+    font-size: 0.85rem;
+  }
+}
+
+/* Para pantallas grandes (desktop) */
+@media (min-width: 769px) {
+  .mobile-stepper {
+    display: none !important;
+  }
+
+  .desktop-stepper {
+    display: flex !important;
+  }
+
+  .mobile-substeps,
+  .mobile-substep-card,
+  .mobile-header {
+    display: none !important;
+  }
+}
+
+@media (max-width: 350px) {
+  .mobile-progress-circles {
+    gap: 6px;
+  }
+}

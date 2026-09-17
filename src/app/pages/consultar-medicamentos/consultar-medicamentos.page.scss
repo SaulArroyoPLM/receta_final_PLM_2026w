@@ -1,0 +1,100 @@
+:root {
+  --primary-color: #007bff;
+  --accent-color: #28a745;
+  --warn-color: #dc3545;
+  --background-color: #f8f9fa;
+  --surface-color: #ffffff;
+  --card-background: #ffffff;
+  --text-primary: #212529;
+  --text-secondary: #6c757d;
+  --text-disabled: #adb5bd;
+
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+
+  --header-height: 56px;
+  --sidebar-width-collapsed: 60px;
+  --sidebar-width-expanded: 280px;
+  --notifications-width-sm: 280px;
+  --notifications-width-md: 320px;
+  --notifications-width-lg: 360px;
+
+  --shadow-1: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  --shadow-2: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+
+  --border-radius-sm: 4px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 12px;
+
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
+
+  --z-header: 200;
+  --z-overlay: 1000;
+}
+
+.consullta_medicas{
+  padding: 2rem 0rem;
+}
+
+.welcome-section mat-card,
+.search-section mat-card,
+.notifications-card mat-card,
+.favorites-grid mat-card {
+  box-shadow: none; /* Quita sombra */
+  border: none;     /* Quita borde si existe */
+  margin-bottom: 1rem;
+}
+mat-card {
+  background: var(--card-background);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-1);
+  margin-bottom: 0px;
+}
+
+.welcome-section .welcome-title {
+  text-align: center;
+  color: #212529;
+  font-size: 1.5rem;
+  margin: 0px;
+
+}
+.doctor-name {
+    color: #007bff;
+}
+
+.search-section mat-card {
+  background-color: white;
+}
+
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  
+  .page-info {
+    margin: 0 16px;
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--ion-color-primary);
+  }
+
+  button {
+    transition: all 0.2s ease;
+    
+    &:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+    
+    &:not(:disabled):hover {
+      background-color: rgba(var(--ion-color-primary-rgb), 0.1);
+    }
+  }
+}

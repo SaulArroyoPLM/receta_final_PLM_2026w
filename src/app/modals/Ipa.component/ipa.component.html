@@ -1,0 +1,592 @@
+<div mat-dialog-content class="modal-container">
+  <div class="modal-header">
+    <button mat-button (click)="cerrarModal()"  class="close_button">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <!-- Header con status -->
+  <mat-dialog-content class="dialog-content">
+    <div class="desktop-only">
+      <div class="ion-no-padding">
+        <div class="row g-0 seccion_info_ipa">
+          <div class="col-12">
+            <div class="info-status hide-on-mobile">
+              <span class="status-text">Información actualizada*</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="seccion_header_superior">
+      <div class="ion-no-padding sustancia-box">
+        <div class="row g-0">
+          <!-- Columna de la imagen -->
+          col-12 col-md-6 marca-column desktop-only <div class="col-12 col-md-6 marca-column desktop-only">
+            <div class="desktop-only ion-text-center ion-margin-vertical" >
+              <h5 class="marca-subtitle">{{ medicamento?.marca ? 'Marca' : 'Nombre' }}</h5>
+              <h1 class="marca-nombre-desktop">{{ medicamento?.marca ?? medicamento?.nombre }}</h1>
+            </div>
+          </div>
+
+          <!-- Columna de información -->
+          col-12 col-md-6 desktop-only <div class="col-12 col-md-6 desktop-only">
+            <!-- Sustancias -->
+            <div class="desktop-only ion-text-center ion-margin-vertical">
+              <h5>Sustancia(s)</h5>
+              <span>{{ medicamento?.sustancia ?? medicamento?.composicion ?? 'No especificada' }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+      
+    <div class="seccion-superior">
+      <div class="ion-no-padding">
+        <div class="row g-0">
+          <!-- Columna de la imagen -->
+          col-12 col-md-6 image-column desktop-only <div class="col-12 col-md-6 image-column desktop-only">
+            <div class="images-column desktop-only">
+              <img 
+                [src]="imagenMostrar" 
+                [alt]="medicamento?.nombre ?? medicamento?.marca ?? 'Medicamento'"
+                class="medicamento-image"
+              />
+            </div>
+          </div>
+
+          <!-- Columna de información -->
+          col-12 col-md-6 info-column desktop-only <div class="col-12 col-md-6 info-column desktop-only">
+            <!-- Sustancias -->
+            <div class="desktop-only presentacion-box ion-padding ion-text-center ion-margin-vertical">
+              <h5 class="forma_titulo">Forma farmacéutica</h5>
+              <p>{{ medicamento?.solucion ?? medicamento?.formaFarmaceutica ?? 'Comprimidos orales' }}</p>
+            </div>
+
+<!-- Desktop -->
+<div class="desktop-only presentacion-box ion-padding ion-text-center ion-margin-vertical">
+  <h5 class="forma_presentacion">Selecciona la presentación</h5>
+  
+  
+
+  <!-- Select con radio buttons -->
+  <mat-form-field appearance="outline" class="presentaciones-select">
+    <mat-label>Presentación</mat-label>
+    <mat-select [(value)]="tempSelection"
+                panelClass="radio-select-panel"
+                (selectionChange)="onSelectionChange($event.value)">
+      
+      <mat-option *ngFor="let presentacion of filteredPresentaciones" 
+                  [value]="presentacion"
+                  [disabled]="selectedPresentations.includes(presentacion)">
+        <mat-radio-button [checked]="selectedPresentations.includes(presentacion)"
+                          [disabled]="selectedPresentations.includes(presentacion)">
+          {{ presentacion }}
+        </mat-radio-button>
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <!-- Chips de presentaciones seleccionadas -->
+  <div class="chips-container" *ngIf="selectedPresentations.length > 0">
+    <mat-chip-listbox>
+      <mat-chip-option *ngFor="let presentacion of selectedPresentations"
+                       [removable]="true"
+                       (removed)="removePresentation(presentacion)">
+        {{ presentacion }}
+        <button matChipRemove>
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip-option>
+    </mat-chip-listbox>
+  </div>
+
+  <div *ngIf="filteredPresentaciones.length === 0" class="no-resultados">
+    <p>No se encontraron presentaciones.</p>
+  </div>
+</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ✅ SELECTOR DE PRESENTACIÓN + BOTONES (Desktop) -->
+    <div class="desktop-only">
+      <div class="ion-no-padding">
+
+        <!-- Botones de Acción -->
+       <!-- Botones de Acción -->
+<div class="row g-0 seccion_acciones_ipa">
+  <div class="col-auto">
+    <button mat-flat-button
+            color="primary" 
+             [disabled]="selectedPresentations.length === 0"
+            (click)="agregarARecetaNueva()">
+      Agregar a nueva receta
+    </button>
+  </div>
+  <div class="col-auto">
+    <button mat-stroked-button
+            class="button_outlined"
+            color="primary" 
+           [disabled]="selectedPresentations.length === 0"
+            (click)="agregarARecetaExistente()">
+      Agregar a receta existente
+    </button>
+  </div>
+</div>
+      </div>
+    </div>
+
+    <!-- TABS PRINCIPALES CON ACORDEONES (Desktop) -->
+    <div class="seccion-tabs-principales desktop-only">
+      <mat-tab-group class="tabs-ippa grupo-mis-tabs" dynamicHeight>
+        <!-- TAB 1: Descripción y propiedades -->
+        <mat-tab>
+          <ng-template mat-tab-label mdc-tab--active>
+            <div class="tab-label-with-icon">
+              <div class="tab-icon-container">
+                <img src="../assets/images/descipcion_y_propiedades.svg">
+              </div>
+              <div class="tab-text-container">
+                <span>Descripción y propiedades</span>
+              </div>
+            </div>
+          </ng-template>
+
+          <div class="tab-panel-content tab_ipa">
+            <mat-accordion>
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>Propiedades farmacéuticas</mat-panel-title>
+                </mat-expansion-panel-header>
+                <p>{{ medicamento?.ippaInfo?.descripcionPropiedades?.propiedadesFarmaceuticas ?? 'Información no disponible' }}</p>
+              </mat-expansion-panel>
+
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>Composición</mat-panel-title>
+                </mat-expansion-panel-header>
+                <p>{{ medicamento?.ippaInfo?.descripcionPropiedades?.composicion ?? medicamento?.composicion ?? medicamento?.sustancia ?? 'Información no disponible' }}</p>
+              </mat-expansion-panel>
+
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>Presentación</mat-panel-title>
+                </mat-expansion-panel-header>
+                <p>{{ medicamento?.ippaInfo?.descripcionPropiedades?.presentacion ?? medicamento?.presentacion ?? 'Información no disponible' }}</p>
+              </mat-expansion-panel>
+
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>Recomendaciones sobre almacenamiento</mat-panel-title>
+                </mat-expansion-panel-header>
+                <p>{{ medicamento?.ippaInfo?.descripcionPropiedades?.almacenamiento ?? 'Información no disponible' }}</p>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </div>
+        </mat-tab>
+
+        <!-- TAB 2: Uso y seguridad -->
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <div class="tab-label-with-icon">
+              <div class="tab-icon-container">
+                <img src="../assets/images/uso_y_seguridad.svg">
+              </div>
+              <div class="tab-text-container">
+                <span>Uso y seguridad</span>
+              </div>
+            </div>
+          </ng-template>
+
+          <div class="tab-panel-content">
+            <mat-accordion>
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>Indicaciones terapéuticas</mat-panel-title>
+                </mat-expansion-panel-header>
+                <p>{{ medicamento?.ippaInfo?.usoSeguridad?.indicacionesTerapeuticas ?? medicamento?.indicacion ?? 'Información no disponible' }}</p>
+              </mat-expansion-panel>
+
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>Dosis y vía de administración</mat-panel-title>
+                </mat-expansion-panel-header>
+                <p>{{ medicamento?.ippaInfo?.usoSeguridad?.dosisViaAdministracion ?? medicamento?.dosis ?? 'Información no disponible' }}</p>
+              </mat-expansion-panel>
+
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>Contraindicaciones</mat-panel-title>
+                </mat-expansion-panel-header>
+                <p>{{ medicamento?.ippaInfo?.usoSeguridad?.contraindicaciones ?? 'Información no disponible' }}</p>
+              </mat-expansion-panel>
+
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>Restricciones de uso durante el embarazo y la lactancia</mat-panel-title>
+                </mat-expansion-panel-header>
+                <p>{{ medicamento?.ippaInfo?.usoSeguridad?.restriccionesEmbarazo ?? 'Información no disponible' }}</p>
+              </mat-expansion-panel>
+
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>Precauciones y advertencias</mat-panel-title>
+                </mat-expansion-panel-header>
+                <p>{{ medicamento?.ippaInfo?.usoSeguridad?.precauciones ?? 'Información no disponible' }}</p>
+              </mat-expansion-panel>
+
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>Leyendas de protección</mat-panel-title>
+                </mat-expansion-panel-header>
+                <p>{{ medicamento?.ippaInfo?.usoSeguridad?.leyendasProteccion ?? 'Información no disponible' }}</p>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </div>
+        </mat-tab>
+
+        <!-- TAB 3: Efectos y riesgos -->
+        <mat-tab>
+          <ng-template mat-tab-label active>
+            <div class="tab-label-with-icon">
+              <div class="tab-icon-container">
+                <img src="../assets/images/efectos_y_riesgos.svg">
+              </div>
+              <div class="tab-text-container">
+                <span>Efectos y riesgos</span>
+              </div>
+            </div>
+          </ng-template>
+
+          <div class="tab-panel-content">
+            <mat-accordion>
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>Reacciones adversas</mat-panel-title>
+                </mat-expansion-panel-header>
+                <p>{{ medicamento?.ippaInfo?.efectosRiesgos?.reaccionesAdversas ?? 'Información no disponible' }}</p>
+              </mat-expansion-panel>
+
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>Interacciones medicamentosas y de otro género</mat-panel-title>
+                </mat-expansion-panel-header>
+                <p>{{ medicamento?.ippaInfo?.efectosRiesgos?.interacciones ?? 'Información no disponible' }}</p>
+              </mat-expansion-panel>
+
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>Hallazgos de laboratorio clínico</mat-panel-title>
+                </mat-expansion-panel-header>
+                <p>{{ medicamento?.ippaInfo?.efectosRiesgos?.hallazgosLaboratorio ?? 'Información no disponible' }}</p>
+              </mat-expansion-panel>
+
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>Manifestaciones y manejo de la sobredosificación o ingesta accidental</mat-panel-title>
+                </mat-expansion-panel-header>
+                <p>{{ medicamento?.ippaInfo?.efectosRiesgos?.sobredosificacion ?? 'Información no disponible' }}</p>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+
+    <div class="desktop-only">
+      <div class="ion-no-padding">
+        <div class="row g-0 seccion_fuente_ipa">
+          <div class="col-12">
+            <div class="hide-on-mobile">
+              <span class="fuente_ippa">*Fuente: IPPA autorizada más reciente</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- VERSIÓN MOBILE -->
+    <!-- ============================================ -->
+    <div class="mobile-only">
+      <div class="seccion_info_ipa">
+        <span class="status-text">Información actualizada*</span>
+      </div>
+
+      <div class="seccion-mobile ion-padding-horizontal">
+         <div class="sustancia-box-mobile ion-text-center ion-margin-vertica">
+          <h5 class="marca-subtitle">{{ medicamento?.marca ? 'Marca' : 'Nombre' }}</h5>
+          <h1 class="marca-nombre-desktop">{{ medicamento?.marca ?? medicamento?.nombre }}</h1>
+        </div>
+
+        <div class="sustancia-box ion-padding ion-text-center ion-margin-vertical">
+          <h5>Sustancia(s)</h5>
+          <span>{{ medicamento?.sustancia ?? medicamento?.composicion ?? 'No especificada' }}</span>
+        </div>
+        
+        <div class="image-container">
+          <img 
+            [src]="imagenMostrar" 
+            [alt]="medicamento?.nombre ?? medicamento?.marca ?? 'Medicamento'"
+            class="medicamento-image"
+          />
+        </div>
+
+       
+
+<!-- VERSIÓN MOBILE - Reemplaza desde aquí -->
+<div class="seccion-mobile presentacion-box ion-padding ion-text-center ion-margin-vertical">
+  <h5 class="forma_presentacion">Selecciona la presentación</h5>
+  
+  
+
+  <!-- Select con radio buttons -->
+  <mat-form-field appearance="outline" class="presentaciones-select">
+    <mat-label>Presentación</mat-label>
+    <mat-select [(value)]="tempSelection"
+                panelClass="radio-select-panel"
+                (selectionChange)="onSelectionChange($event.value)">
+      
+      <mat-option *ngFor="let presentacion of filteredPresentaciones" 
+                  [value]="presentacion"
+                  [disabled]="selectedPresentations.includes(presentacion)">
+        <mat-radio-button [checked]="selectedPresentations.includes(presentacion)"
+                          [disabled]="selectedPresentations.includes(presentacion)">
+          {{ presentacion }}
+        </mat-radio-button>
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <!-- Chips de presentaciones seleccionadas -->
+  <div class="chips-container" *ngIf="selectedPresentations.length > 0">
+    <mat-chip-listbox>
+      <mat-chip-option *ngFor="let presentacion of selectedPresentations"
+                       [removable]="true"
+                       (removed)="removePresentation(presentacion)">
+        {{ presentacion }}
+        <button matChipRemove>
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip-option>
+    </mat-chip-listbox>
+  </div>
+
+  <div *ngIf="filteredPresentaciones.length === 0" class="no-resultados">
+    <p>No se encontraron presentaciones.</p>
+  </div>
+</div>
+
+        <!-- ✅ BOTONES DE ACCIÓN (Mobile) -->
+        <div class="acciones-mobile">
+  <button mat-flat-button
+          color="primary" 
+            [disabled]="selectedPresentations.length === 0"
+          (click)="agregarARecetaNueva()"
+          class="btn-accion-mobile">
+    Agregar a nueva receta
+  </button>
+  <button mat-stroked-button
+          color="primary" 
+            [disabled]="selectedPresentations.length === 0"
+          (click)="agregarARecetaExistente()"
+          class="btn-accion-mobile button_outlined">
+    Agregar a receta existente
+  </button>
+</div>
+      </div>
+    
+      <div class="seccion-mobile ion-padding-horizontal">
+        <mat-accordion class="acordeon-mobile acordeon-info-basica">
+          
+          <!-- Acordeón 1: Forma farmacéutica -->
+          <mat-expansion-panel class="panel-mobile">
+            <mat-expansion-panel-header>
+              <mat-panel-title>Forma farmacéutica</mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="panel-body-mobile">
+              <p>{{ medicamento?.solucion ?? medicamento?.formaFarmaceutica ?? 'Comprimidos orales' }}</p>
+            </div>
+          </mat-expansion-panel>
+
+          <!-- Acordeón 2: Presentaciones -->
+          <mat-expansion-panel class="panel-mobile">
+            <mat-expansion-panel-header>
+              <mat-panel-title>Presentación(es)</mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="tab-content">
+              <ul class="presentaciones-list">
+                <li *ngFor="let presentacion of presentaciones">
+                  <span class="presentacion-label">{{ presentacion }}</span>
+                </li>
+              </ul>
+            </div>
+          </mat-expansion-panel>
+
+        </mat-accordion>
+      </div>
+
+      <!-- SECCIÓN 1: Descripción y propiedades -->
+      <div class="seccion-mobile ion-padding-horizontal">
+        <div class="header-seccion-mobile">
+          <img src="../assets/images/descipcion_y_propiedades.svg" class="icono-seccion-mobile">
+          <h3 class="titulo-seccion-mobile">Descripción y propiedades</h3>
+        </div>
+
+        <mat-accordion class="acordeon-mobile">
+          <mat-expansion-panel class="panel-mobile">
+            <mat-expansion-panel-header>
+              <mat-panel-title>Propiedades farmacéuticas</mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="panel-body-mobile">
+              <p>{{ medicamento?.ippaInfo?.descripcionPropiedades?.propiedadesFarmaceuticas ?? 'Información no disponible' }}</p>
+            </div>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel class="panel-mobile">
+            <mat-expansion-panel-header>
+              <mat-panel-title>Composición</mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="panel-body-mobile">
+              <p>{{ medicamento?.ippaInfo?.descripcionPropiedades?.composicion ?? medicamento?.composicion ?? medicamento?.sustancia ?? 'Información no disponible' }}</p>
+            </div>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel class="panel-mobile">
+            <mat-expansion-panel-header>
+              <mat-panel-title>Presentación</mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="panel-body-mobile">
+              <p>{{ medicamento?.ippaInfo?.descripcionPropiedades?.presentacion ?? medicamento?.presentacion ?? 'Información no disponible' }}</p>
+            </div>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel class="panel-mobile">
+            <mat-expansion-panel-header>
+              <mat-panel-title>Recomendaciones sobre almacenamiento</mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="panel-body-mobile">
+              <p>{{ medicamento?.ippaInfo?.descripcionPropiedades?.almacenamiento ?? 'Información no disponible' }}</p>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+
+      <!-- SECCIÓN 2: Uso y seguridad -->
+      <div class="seccion-mobile ion-padding-horizontal">
+        <div class="header-seccion-mobile">
+          <img src="../assets/images/uso_y_seguridad.svg" class="icono-seccion-mobile">
+          <h3 class="titulo-seccion-mobile">Uso y seguridad</h3>
+        </div>
+
+        <mat-accordion class="acordeon-mobile">
+          <mat-expansion-panel class="panel-mobile">
+            <mat-expansion-panel-header>
+              <mat-panel-title>Indicaciones terapéuticas</mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="panel-body-mobile">
+              <p>{{ medicamento?.ippaInfo?.usoSeguridad?.indicacionesTerapeuticas ?? medicamento?.indicacion ?? 'Información no disponible' }}</p>
+            </div>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel class="panel-mobile">
+            <mat-expansion-panel-header>
+              <mat-panel-title>Dosis y vía de administración</mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="panel-body-mobile">
+              <p>{{ medicamento?.ippaInfo?.usoSeguridad?.dosisViaAdministracion ?? medicamento?.dosis ?? 'Información no disponible' }}</p>
+            </div>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel class="panel-mobile">
+            <mat-expansion-panel-header>
+              <mat-panel-title>Contraindicaciones</mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="panel-body-mobile">
+              <p>{{ medicamento?.ippaInfo?.usoSeguridad?.contraindicaciones ?? 'Información no disponible' }}</p>
+            </div>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel class="panel-mobile">
+            <mat-expansion-panel-header>
+              <mat-panel-title>Restricciones de uso durante el embarazo y la lactancia</mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="panel-body-mobile">
+              <p>{{ medicamento?.ippaInfo?.usoSeguridad?.restriccionesEmbarazo ?? 'Información no disponible' }}</p>
+            </div>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel class="panel-mobile">
+            <mat-expansion-panel-header>
+              <mat-panel-title>Precauciones y advertencias</mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="panel-body-mobile">
+              <p>{{ medicamento?.ippaInfo?.usoSeguridad?.precauciones ?? 'Información no disponible' }}</p>
+            </div>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel class="panel-mobile">
+            <mat-expansion-panel-header>
+              <mat-panel-title>Leyendas de protección</mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="panel-body-mobile">
+              <p>{{ medicamento?.ippaInfo?.usoSeguridad?.leyendasProteccion ?? 'Información no disponible' }}</p>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+
+      <!-- SECCIÓN 3: Efectos y riesgos -->
+      <div class="seccion-mobile ion-padding-horizontal">
+        <div class="header-seccion-mobile">
+          <img src="../assets/images/efectos_y_riesgos.svg" class="icono-seccion-mobile">
+          <h3 class="titulo-seccion-mobile">Efectos y riesgos</h3>
+        </div>
+
+        <mat-accordion class="acordeon-mobile">
+          <mat-expansion-panel class="panel-mobile">
+            <mat-expansion-panel-header>
+              <mat-panel-title>Reacciones adversas</mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="panel-body-mobile">
+              <p>{{ medicamento?.ippaInfo?.efectosRiesgos?.reaccionesAdversas ?? 'Información no disponible' }}</p>
+            </div>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel class="panel-mobile">
+            <mat-expansion-panel-header>
+              <mat-panel-title>Interacciones medicamentosas y de otro género</mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="panel-body-mobile">
+              <p>{{ medicamento?.ippaInfo?.efectosRiesgos?.interacciones ?? 'Información no disponible' }}</p>
+            </div>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel class="panel-mobile">
+            <mat-expansion-panel-header>
+              <mat-panel-title>Hallazgos de laboratorio clínico</mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="panel-body-mobile">
+              <p>{{ medicamento?.ippaInfo?.efectosRiesgos?.hallazgosLaboratorio ?? 'Información no disponible' }}</p>
+            </div>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel class="panel-mobile">
+            <mat-expansion-panel-header>
+              <mat-panel-title>Manifestaciones y manejo de la sobredosificación o ingesta accidental</mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="panel-body-mobile">
+              <p>{{ medicamento?.ippaInfo?.efectosRiesgos?.sobredosificacion ?? 'Información no disponible' }}</p>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+
+      <div class="mobile-only seccion_info_ipa_mobile">
+        <span class="fuente_ippa">*Fuente: IPPA autorizada más reciente</span>
+      </div>
+    </div>
+         
+  </mat-dialog-content>
+</div>

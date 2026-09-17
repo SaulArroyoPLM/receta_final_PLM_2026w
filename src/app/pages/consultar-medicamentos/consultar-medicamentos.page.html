@@ -1,0 +1,60 @@
+<app-dashboard-layout 
+  [showNotifications]="true"
+  [showFooter]="true">
+
+  <div class="consullta_medicas">
+    
+    <section class="welcome-section">
+      <mat-card class="welcome-card" appearance="outlined">
+        <mat-card-content>
+          <app-doctor-name [showTitle]="true" [showRole]="false" [showEmail]="false"></app-doctor-name>
+        </mat-card-content>
+      </mat-card>
+    </section>
+
+    <section class="search-section">
+      <mat-card class="search-card" appearance="outlined">
+        <mat-card-header>
+        </mat-card-header>
+        <mat-card-content>
+          <app-medicine-search></app-medicine-search>
+        </mat-card-content>
+      </mat-card>
+    </section>
+
+
+
+    <section class="navigator-section">
+      <!-- 🔥 Ahora le pasas medicamentosPaginados desde la página -->
+      <app-medicamentos-cards 
+        [medicamentos]="medicamentosPaginados"
+        [loading]="false">
+      </app-medicamentos-cards>
+    </section>
+        <section class="pagination-section" *ngIf="totalPaginas > 1">
+      <div class="pagination-controls">
+        <button mat-icon-button (click)="irAPrimeraPagina()" [disabled]="paginaActual === 1" aria-label="Primera página">
+          <mat-icon>first_page</mat-icon>
+        </button>
+
+        <button mat-icon-button (click)="paginaAnterior()" [disabled]="paginaActual === 1" aria-label="Página anterior">
+          <mat-icon>chevron_left</mat-icon>
+        </button>
+
+        <span class="page-info">
+          {{ paginaActual }} / {{ totalPaginas }}
+        </span>
+
+        <button mat-icon-button (click)="paginaSiguiente()" [disabled]="paginaActual === totalPaginas" aria-label="Página siguiente">
+          <mat-icon>chevron_right</mat-icon>
+        </button>
+
+        <button mat-icon-button (click)="irAUltimaPagina()" [disabled]="paginaActual === totalPaginas" aria-label="Última página">
+          <mat-icon>last_page</mat-icon>
+        </button>
+      </div>
+    </section>
+
+  </div>
+
+</app-dashboard-layout>

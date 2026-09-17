@@ -1,0 +1,89 @@
+
+
+<!-- Overlay -->
+<div class="drawer-overlay" 
+     [@fadeIn]="isOpen ? 'visible' : 'hidden'"
+     (click)="close()">
+</div>
+
+<!-- Drawer -->
+<div class="drawer-container" 
+     [@slideIn]="isOpen ? 'open' : 'closed'">
+  
+  <!-- Header -->
+  <div class="drawer-header">
+    <button mat-icon-button (click)="close()" class="close-btn">
+      <mat-icon>close</mat-icon>
+    </button>
+    <h2>{{ title }}</h2>
+  </div>
+
+  <!-- Warning Message -->
+  <div class="warning-message" *ngIf="warningMessage">
+    <p>{{ warningMessage }}</p>
+  </div>
+
+  <!-- Content -->
+  <div class="drawer-content">
+    <div *ngFor="let section of sections" class="section">
+      
+      <!-- Section Header -->
+      <div class="section-header" (click)="toggleSection(section)">
+        <div class="section-title">
+          <mat-icon *ngIf="section.icon">{{ section.icon }}</mat-icon>
+          <h3>{{ section.title }}</h3>
+        </div>
+        <mat-icon class="expand-icon">
+          {{ section.expanded ? 'expand_less' : 'expand_more' }}
+        </mat-icon>
+      </div>
+
+      <!-- Section Items -->
+      <div class="section-items" *ngIf="section.expanded">
+        <div *ngFor="let item of section.items" 
+             class="item-row"
+             [class.selected]="item.selected">
+          
+          <mat-checkbox 
+            [(ngModel)]="item.selected"
+            (change)="toggleItem(section, item)"
+            color="primary">
+          </mat-checkbox>
+
+          <div class="item-icon" *ngIf="item.icon">
+            <mat-icon>{{ item.icon }}</mat-icon>
+          </div>
+
+          <div class="item-content">
+            <span class="item-label">{{ item.label }}</span>
+            
+            <!-- CAMPO DE INPUT EDITABLE -->
+            <div class="item-input-group">
+              <mat-form-field appearance="outline" class="compact-field">
+                <input 
+                  matInput 
+                  type="number" 
+                  [(ngModel)]="item.value"
+                  [placeholder]="'Ingrese ' + item.label.toLowerCase()"
+                  (input)="onValueChange(item)"
+                  step="0.01">
+              </mat-form-field>
+              <span class="item-unit" *ngIf="item.unit">{{ item.unit }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="drawer-footer" *ngIf="showPrintButton">
+    <button mat-raised-button 
+            color="primary" 
+            (click)="onPrint()"
+            [disabled]="!hasSelectedItems()"
+            class="print-btn">
+      {{ printButtonText }}
+    </button>
+  </div>
+</div>

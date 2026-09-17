@@ -1,0 +1,74 @@
+<div class="medicine-search-container">
+  <!-- Campo de búsqueda -->
+  <mat-form-field class="search-field" appearance="fill">
+    <mat-label>Nombre del medicamento, sustancia, CIE-11</mat-label>
+    <input 
+      matInput 
+      [formControl]="searchControl"
+      [matAutocomplete]="auto"
+      autocomplete="off">
+
+    <!-- Botón de limpiar (aparece cuando hay texto) -->
+    @if (searchControl.value) {
+      <button 
+        matSuffix 
+        mat-icon-button 
+        aria-label="Limpiar" 
+        (click)="limpiarBusqueda()"
+        type="button">
+        <mat-icon>clear</mat-icon>
+      </button>
+    }
+
+    <!-- Botón de buscar -->
+    <button 
+      matSuffix 
+      mat-icon-button 
+      aria-label="Buscar" 
+      (click)="ejecutarBusqueda()"
+      type="button">
+      <mat-icon>search</mat-icon>
+    </button>
+  </mat-form-field>
+
+  <!-- Autocomplete -->
+  <mat-autocomplete 
+    #auto="matAutocomplete" 
+    [displayWith]="displayFn"
+    class="medicine-autocomplete"
+    autoActiveFirstOption>
+    
+    @for (medicamento of filteredMedicamentos | async; track medicamento.id) {
+      <mat-option 
+        [value]="medicamento"
+        (click)="onMedicamentoSelected(medicamento)"
+        class="medicine-option">
+        
+        <div class="medicine-item">
+          <div class="medicine-icon">
+            <img 
+              [src]="medicamento.imagen || 'assets/default-medicine.png'" 
+              [alt]="medicamento.nombre ?? medicamento.marca ?? 'Medicamento'"
+              loading="lazy" />
+          </div>
+          
+          <div class="medicine-info">
+            <div class="medicine-name">{{ medicamento.marca }}</div>
+            <div class="medicine-presentation">{{ medicamento.presentacion ?? medicamento.solucion }}</div>
+            <div class="medicine-composition">{{ medicamento.composicion ?? medicamento.sustancia }}</div>
+          </div>
+        </div>
+      </mat-option>
+    }
+  </mat-autocomplete>
+
+  <!-- Botón "Ver todo" -->
+  <button 
+    class="consulta_bts" 
+    mat-stroked-button 
+    type="button"
+    aria-label="Ver todos los medicamentos">
+    <mat-icon>visibility</mat-icon>
+    <span class="label-text">Ver todo</span>
+  </button>
+</div>

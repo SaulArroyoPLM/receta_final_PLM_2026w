@@ -1,0 +1,79 @@
+<!-- Campo de búsqueda principal -->
+<mat-form-field class="full-width buscador_forms" [appearance]="appearance">
+  <mat-label>{{ label }}</mat-label>
+  <input
+    type="text"
+    matInput
+    [formControl]="alergiaControl"
+    [matAutocomplete]="auto"
+    [placeholder]="placeholder"
+    [required]="required"
+  />
+  <mat-icon matSuffix>search</mat-icon>
+
+  <mat-hint *ngIf="hint">{{ hint }}</mat-hint>
+
+  <mat-error *ngIf="required && !tieneSelecciones()">
+    Debes seleccionar al menos una alergia
+  </mat-error>
+</mat-form-field>
+
+<!-- Lista desplegable del autocompletado -->
+<mat-autocomplete
+  #auto="matAutocomplete"
+  (optionSelected)="seleccionarAlergia($event.option.value)"
+  [displayWith]="displayFn"
+>
+  <mat-option
+    *ngFor="let alergia of alergiasFiltradas | async"
+    [value]="alergia"
+  >
+    <div class="alergia-option">
+      <div class="alergia-info">
+        <span class="nombre">{{ alergia.nombre }}</span>
+        <span
+          class="categoria-badge"
+          *ngIf="mostrarCategoria && alergia.categoria"
+        >
+          {{ alergia.categoria }}
+        </span>
+      </div>
+    </div>
+  </mat-option>
+
+  <mat-option
+    *ngIf="(alergiasFiltradas | async)?.length === 0"
+    disabled
+  >
+    <span class="no-results">
+      <mat-icon>search</mat-icon>
+      No se encontraron resultados
+    </span>
+  </mat-option>
+</mat-autocomplete>
+
+<!-- Chips de alergias seleccionadas -->
+<div class="chips-container" *ngIf="alergiasSeleccionadas.length > 0">
+  <mat-chip-listbox>
+    <mat-chip-option
+      *ngFor="let alergia of alergiasSeleccionadas"
+      [class]="'chip-' + chipColor"
+      (removed)="removerAlergia(alergia)"
+      [removable]="!disabled"
+    >
+      <span class="chip-content">
+        {{ alergia.nombre }}
+        <span
+          class="chip-categoria"
+          *ngIf="mostrarCategoria && alergia.categoria"
+        >
+          {{ alergia.categoria }}
+        </span>
+      </span>
+      <button matChipRemove *ngIf="!disabled">
+        <mat-icon>cancel</mat-icon>
+      </button>
+    </mat-chip-option>
+  </mat-chip-listbox>
+</div>
+

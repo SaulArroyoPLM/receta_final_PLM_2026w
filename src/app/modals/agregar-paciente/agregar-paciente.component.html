@@ -1,0 +1,155 @@
+<div mat-dialog-content class="modal-container">
+  <!-- Header -->
+  <div class="modal-header">
+    <button mat-icon-button (click)="onClose()" class="back-button">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <button mat-icon-button (click)="onClose()" class="close-button">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <!-- Formulario -->
+  <form [formGroup]="pacienteForm" (ngSubmit)="onSubmit()" class="patient-form">
+    
+    <div>
+      <!-- Título de Registro -->
+      <div class="row g-0">
+        <div class="col-12">
+          <div class="section-header">
+            <h2>Registro de paciente</h2>
+          </div>
+        </div>
+      </div>
+
+      <!-- Nombre -->
+      <div class="row g-0">
+        <div class="col-12">
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Nombre*</mat-label>
+            <input matInput 
+                   formControlName="nombre" 
+                   placeholder="Ingresa el nombre">
+            <mat-error>{{getErrorMessage('nombre')}}</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- Apellidos -->
+      <div class="row g-0">
+        <div class="col-12 col-lg-6">
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Primer apellido*</mat-label>
+            <input matInput 
+                   formControlName="primerApellido" 
+                   placeholder="Primer apellido">
+            <mat-error>{{getErrorMessage('primerApellido')}}</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-12 col-lg-6">
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Segundo apellido*</mat-label>
+            <input matInput 
+                   formControlName="segundoApellido" 
+                   placeholder="Segundo apellido">
+            <mat-error>{{getErrorMessage('segundoApellido')}}</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- Fecha de nacimiento y Sexo -->
+      <div class="row g-0 ion-align-items-center ion-justify-content-between">
+        <div class="col-12 col-lg-6">
+          <div class="date-container">
+            <label class="date-label">Fecha de nacimiento*</label>
+            <div class="date-inputs" formGroupName="fechaNacimiento">
+              <mat-form-field appearance="fill" class="date-field">
+                <mat-label>Día</mat-label>
+                <input matInput 
+                       formControlName="dia" 
+                       placeholder="05"
+                       type="number"
+                       min="1" 
+                       max="31">
+              </mat-form-field>
+              <span class="date-separator">/</span>
+              <mat-form-field appearance="fill" class="date-field">
+                <mat-label>Mes</mat-label>
+                <input matInput 
+                       formControlName="mes" 
+                       placeholder="10"
+                       type="number"
+                       min="1" 
+                       max="12">
+              </mat-form-field>
+              <span class="date-separator">/</span>
+              <mat-form-field appearance="fill" class="date-field">
+                <mat-label>Año</mat-label>
+                <input matInput 
+                       formControlName="año" 
+                       placeholder="1984"
+                       type="number"
+                       min="1900" 
+                       max="2024">
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-lg-6">
+          <div class="sex-container">
+            <label class="sex-label">Sexo*</label>
+            <mat-radio-group formControlName="sexo" class="sex-radio-group">
+              <mat-radio-button value="femenino" class="sex-radio">Femenino</mat-radio-button>
+              <mat-radio-button value="masculino" class="sex-radio">Masculino</mat-radio-button>
+              <mat-radio-button value="no-binario" class="sex-radio">No binario</mat-radio-button>
+            </mat-radio-group>
+          </div>
+        </div>
+      </div>
+
+      <!-- Motivo de consulta -->
+      <div class="row g-0">
+        <div class="col-12">
+          <div class="section-header motivo-section">
+            <h2>Motivo de consulta</h2>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-0">
+        <div class="col-12">
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Descripción*</mat-label>
+            <textarea matInput 
+                      formControlName="motivoConsulta"
+                      placeholder="Describe el motivo de la consulta"
+                      rows="2"></textarea>
+            <mat-error>{{getErrorMessage('motivoConsulta')}}</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- Botón de envío -->
+      <div class="row g-0">
+        <div class="col-12">
+          <div class="form-actions">
+           <button mat-raised-button 
+        color="primary" 
+        type="submit"
+        class="submit-button"
+        [disabled]="pacienteForm.invalid"
+        (click)="comenzarReceta()">
+  Agregar nuevo paciente
+</button>
+
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </form>
+</div>

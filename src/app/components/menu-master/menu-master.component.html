@@ -1,0 +1,375 @@
+<!-- HEADER MÓVIL/TABLET/LAPTOP PEQUEÑA -->
+<div class="mobile-header-wrapper" *ngIf="isMobile || isTablet || isLaptopSmall">
+  <mat-toolbar color="primary" class="mobile-header">
+    <!-- Botón menú -->
+    <button mat-icon-button (click)="toggleMobileDrawer()" aria-label="Abrir menú">
+      <mat-icon>menu</mat-icon>
+    </button>
+
+    <!-- Logo -->
+    <img src="assets/images/logoplmreceta.svg" alt="Logo" class="mobile-logo" />
+
+    <span class="spacer"></span>
+
+    <!-- Botón notificaciones -->
+    <button mat-icon-button class="notification-btn" (click)="toggleNotificationPanel()" aria-label="Notificaciones">
+      <mat-icon [matBadge]="getUnreadNotificationCount()" [matBadgeHidden]="getUnreadNotificationCount() === 0"
+        matBadgeColor="warn">
+        notifications
+      </mat-icon>
+    </button>
+
+    <!-- Botón nueva receta -->
+    <!-- Botón para tablet/desktop -->
+    <button mat-raised-button color="accent" class="nueva-receta-btn nueva-receta-desktop" (click)="onNuevaReceta()">
+      <mat-icon>add</mat-icon>
+      <span class="btn-text">Nueva Receta</span>
+    </button>
+
+    <!-- Botón para móvil -->
+    <button mat-mini-fab color="accent" class="nueva-receta-mobile" aria-label="Nueva receta" (click)="onNuevaReceta()">
+      <mat-icon>add</mat-icon>
+    </button>
+
+    <!-- Botón menú usuario -->
+  </mat-toolbar>
+</div>
+
+<!-- OVERLAY para cerrar drawer -->
+<div class="drawer-overlay" *ngIf="(isMobile || isTablet || isLaptopSmall) && mobileDrawerOpen"
+  (click)="closeMobileDrawer()"></div>
+
+<!-- OVERLAY para cerrar notificaciones -->
+<div class="notification-overlay" *ngIf="notificationPanelOpen" (click)="closeNotificationPanel()"></div>
+
+<!-- PANEL DE NOTIFICACIONES COMO POPUP -->
+<div class="notification-popup" *ngIf="notificationPanelOpen" (click)="$event.stopPropagation()"
+  [class.mobile-popup]="isMobile" [class.tablet-popup]="isTablet" [class.laptop-popup]="isLaptopSmall">
+
+  <div class="notification-header">
+    <h3>Notificaciones</h3>
+    <button class="close-notification-btn" (click)="closeNotificationPanel()" aria-label="Cerrar notificaciones">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <div class="notification-content">
+
+    <!-- Lista de notificaciones -->
+    <div class="notifications-list">
+      <div class="notification-item" *ngFor="let notification of getNotificationsToDisplay(); let i = index"
+        [class.unread]="notification.unread" [class.mb-2]="i < getNotificationsToDisplay().length - 1">
+
+        <notification-master *ngIf="hasNotificationComponent; else simpleNotification" [notification]="notification">
+        </notification-master>
+
+        <ng-template #simpleNotification>
+          <div class="notification-simple">
+            <div class="notification-icon" [class]="'type-' + notification.type">
+              <mat-icon>{{ notification.icon }}</mat-icon>
+            </div>
+            <div class="notification-text">
+              <h6>{{ notification.title }}</h6>
+              <p>{{ notification.message }}</p>
+              <small class="text-muted">{{ notification.time }}</small>
+            </div>
+            <div class="notification-actions" *ngIf="notification.actions?.length">
+              <button *ngFor="let action of notification.actions" mat-icon-button
+                (click)="onNotificationAction(notification, action)" [matTooltip]="action.label">
+                <mat-icon>{{ action.icon }}</mat-icon>
+              </button>
+            </div>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+
+    <!-- Banner decorativo -->
+    <div class="decoration-section">
+      <div class="text-center">
+        <img src="assets/images/Group_34.svg" alt="Decoración" class="img-fluid" />
+      </div>
+    </div>
+
+    <!-- Rating -->
+    <div class="notification-rating" *ngIf="showRatingSection">
+      <div class="rating-header">
+        <h4>{{ (isMobile || isTablet) ? 'Calificar receta' : '¿Cómo calificas tu experiencia?' }}</h4>
+      </div>
+      <star-rating *ngIf="hasStarRatingComponent; else simpleRating" (ratingChange)="onRatingChange($event)">
+      </star-rating>
+      <ng-template #simpleRating>
+        <div class="rating-stars">
+          <button *ngFor="let star of [1,2,3,4,5]; let i = index" class="star-btn" [class.active]="i < currentRating"
+            (click)="setRating(i + 1)">
+            <mat-icon>{{ i < currentRating ? 'star' : 'star_border' }}</mat-icon>
+          </button>
+        </div>
+        <button mat-button class="submit-rating-btn" (click)="submitRating()" [disabled]="currentRating === 0">
+          Enviar calificación
+        </button>
+      </ng-template>
+    </div>
+  </div>
+</div>
+
+<!-- DRAWER MÓVIL/TABLET/LAPTOP PEQUEÑA -->
+<nav class="mobile-drawer" *ngIf="(isMobile || isTablet || isLaptopSmall) && mobileDrawerOpen"
+  (click)="$event.stopPropagation()">
+
+  <!-- Header del drawer -->
+  <div class="drawer-header">
+    <button class="close-btn" (click)="closeMobileDrawer()" aria-label="Cerrar menú">
+      <mat-icon>close</mat-icon>
+    </button>
+
+    <img src="assets/images/logoplmreceta.svg" alt="Logo" class="drawer-logo" />
+
+  </div>
+
+  <!-- Contenido del drawer -->
+  <div class="drawer-content">
+    <!-- SELECTOR DE CONSULTORIO LIMPIO PARA RESPONSIVE -->
+    <div class="consultorio-selector-responsive">
+      <label class="consultorio-label">Consultorio:</label>
+
+      <!-- SELECT HTML NATIVO LIMPIO -->
+      <div class="select-wrapper">
+        <select class="consultorio-select-native" [value]="selectedConsultorio" (change)="onNativeSelectChange($event)">
+          <option value="Consultorio 1">Consultorio 1</option>
+          <option value="Consultorio 2">Consultorio 2</option>
+          <option value="Consultorio 3">Consultorio 3</option>
+          <option value="Consultorio 4">Consultorio 4</option>
+        </select>
+        <mat-icon class="select-arrow">expand_more</mat-icon>
+      </div>
+    </div>
+
+    <!-- Menú principal -->
+    <div class="menu-section">
+      <ng-container *ngFor="let group of menuItems">
+        <h6 class="menu-group-title">{{ group.label }}</h6>
+        <div class="menu-items">
+          <a *ngFor="let item of group.children" class="menu-item" [routerLink]="item.route"
+            (click)="handleMenuClick(item)">
+            <img [src]="item.icon" [alt]="item.label" class="menu-icon" />
+            <span class="menu-label">{{ item.label }}</span>
+            <span *ngIf="item.badge && item.badge > 0" class="badge">{{ item.badge }}</span>
+          </a>
+        </div>
+      </ng-container>
+
+
+      <!-- Perfil -->
+      <mat-accordion class="perfil-accordion">
+        <mat-expansion-panel class="perfil-panel" [expanded]="true">
+          <mat-expansion-panel-header class="perfil-header">
+            <mat-panel-title>PERFIL</mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="perfil-items">
+            <a *ngFor="let item of perfilItems" [routerLink]="item.route" (click)="onMenuItemClick()"
+              class="perfil-item">
+              <img [src]="item.icon" [alt]="item.label" class="menu-icon" />
+              <span class="menu-label">{{ item.label }}</span>
+              <span *ngIf="item.badge && item.badge > 0" class="badge">{{ item.badge }}</span>
+            </a>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+
+    <!-- Footer usuario -->
+    <div class="drawer-footer">
+      <div class="user-info">
+        <img src="assets/images/avatar.svg" alt="Avatar" class="avatar" />
+        <div class="user-details">
+          <strong>{{ getShortName() }}</strong>
+          <strong>{{ getApellidos() }}</strong>
+          <small>{{ getShortRole() }}</small>
+          <small class="user-email">{{ usuario?.correo || 'correo@ejemplo.com' }}</small>
+        </div>
+
+        <button class="logout-btn" (click)="onLogout()">
+          <mat-icon>exit_to_app</mat-icon>
+          <span>Cerrar sesión</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- SIDEBAR DESKTOP - MANTIENE MENÚS DESPLEGABLES -->
+<aside class="desktop-sidebar" [class.collapsed]="!sidebarOpen" *ngIf="isDesktopS || isDesktopL">
+
+  <!-- Botón colapsar -->
+  <button class="toggle-btn" (click)="toggleSidebar()" mat-icon-button
+    aria-label="{{ sidebarCollapsed ? 'Expandir menú' : 'Colapsar menú' }}">
+    <mat-icon>{{ sidebarCollapsed ? 'chevron_right' : 'chevron_left' }}</mat-icon>
+  </button>
+
+  <div class="sidebar-content">
+    <!-- Header con logo y consultorio -->
+    <div class="sidebar-header">
+      <a routerLink="/home" class="logo-link">
+        <img *ngIf="sidebarOpen" src="assets/images/logoplmreceta.svg" alt="Logo" class="logo-normal"
+          (click)="goHome()" />
+        <img *ngIf="!sidebarOpen" src="assets/images/logo-mini.svg" alt="Logo Mini" class="logo-mini" />
+      </a>
+
+      <!-- Selector consultorio expandido - MANTIENE MENÚ DESPLEGABLE -->
+      <div *ngIf="sidebarOpen" class="consultorio-selector">
+        <span class="consultorio">Consultorio:</span>
+
+        <!-- Menú de consultorio para desktop expandido -->
+        <mat-menu #consultorioMenuDesktop="matMenu" [overlapTrigger]="false">
+          <button mat-menu-item *ngFor="let c of consultorios; trackBy: trackByConsultorio"
+            (click)="seleccionarConsultorio(c)">
+            {{ c }}
+          </button>
+        </mat-menu>
+
+        <!-- BOTÓN TRIGGER DESKTOP EXPANDIDO -->
+        <button mat-button #consultorioTriggerDesktop [matMenuTriggerFor]="consultorioMenuDesktop">
+          {{ getConsultorioDisplayText() }}
+          <mat-icon>expand_more</mat-icon>
+        </button>
+      </div>
+
+      <!-- Selector colapsado - MANTIENE MENÚ DESPLEGABLE -->
+      <div *ngIf="!sidebarOpen" class="consultorio-colapsado">
+
+        <!-- Menú de consultorio para desktop colapsado -->
+        <mat-menu #consultorioMenuDesktopCollapsed="matMenu" [overlapTrigger]="false">
+          <button mat-menu-item *ngFor="let c of consultorios; trackBy: trackByConsultorio"
+            (click)="seleccionarConsultorio(c)">
+            {{ c }}
+          </button>
+        </mat-menu>
+
+        <!-- BOTÓN TRIGGER DESKTOP COLAPSADO -->
+        <button mat-button #consultorioTriggerDesktopCollapsed [matMenuTriggerFor]="consultorioMenuDesktopCollapsed"
+          class="consultorio-text-btn">
+          Consultorio {{ getConsultorioNumber() }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Menú principal -->
+    <div class="sidebar-menu">
+      <!-- Expandido -->
+      <ng-container *ngIf="sidebarOpen">
+        <ng-container *ngFor="let group of menuItems">
+          <h6 class="menu-group-title">{{ group.label }}</h6>
+          <div class="menu-items">
+            <a *ngFor="let item of group.children" [routerLink]="item.route" (click)="handleMenuClick(item)"
+              class="menu-item">
+              <img [src]="item.icon" [alt]="item.label" class="icon-expanded" />
+              <span class="menu-label">{{ item.label }}</span>
+              <span *ngIf="item.badge && item.badge > 0" class="badge">{{ item.badge }}</span>
+            </a>
+          </div>
+        </ng-container>
+
+        <!-- Perfil -->
+        <mat-accordion class="perfil-accordion">
+          <mat-expansion-panel class="perfil-panel" [expanded]="true">
+            <mat-expansion-panel-header class="perfil-header">
+              <mat-panel-title>PERFIL</mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="perfil-items">
+              <a *ngFor="let item of perfilItems" [routerLink]="item.route" (click)="onMenuItemClick()"
+                class="perfil-item">
+                <img [src]="item.icon" [alt]="item.label" class="menu-icon" />
+                <span class="menu-label">{{ item.label }}</span>
+                <span *ngIf="item.badge && item.badge > 0" class="badge">{{ item.badge }}</span>
+              </a>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </ng-container>
+
+      <!-- Colapsado -->
+      <ng-container *ngIf="!sidebarOpen">
+        <ng-container *ngFor="let group of menuItems">
+          <div class="menu-items-collapsed">
+            <div class="collapsed-header-item" [title]="group.label">
+              <span class="header-indicator">{{ group.label }}</span>
+            </div>
+            <a *ngFor="let item of group.children" (click)="handleMenuClick(item)" [title]="item.label"
+              class="menu-item-collapsed">
+              <img [src]="item.icon" [alt]="item.label" class="icon-collapsed" />
+              <span *ngIf="item.badge && item.badge > 0" class="badge-collapsed">{{ item.badge }}</span>
+            </a>
+          </div>
+        </ng-container>
+
+        <!-- Perfil colapsado -->
+
+        <mat-accordion class="perfil-accordion">
+          <mat-expansion-panel class="perfil-panel" [expanded]="true">
+            <mat-expansion-panel-header class="perfil-header">
+              <mat-panel-title>PERFIL</mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="perfil-items-collapsed">
+              <a *ngFor="let item of perfilItems" [routerLink]="item.route" [title]="item.label"
+                class="perfil-item-collapsed">
+                <img [src]="item.icon" [alt]="item.label" class="icon-collapsed" />
+                <span *ngIf="item.badge && item.badge > 0" class="badge-collapsed">{{ item.badge }}</span>
+              </a>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+
+
+      </ng-container>
+    </div>
+
+    <!-- Footer expandido -->
+    <div class="sidebar-footer" *ngIf="sidebarOpen">
+      <div class="user-info">
+        <div class="user_flex">
+          <div>
+            <img src="assets/images/avatar.svg" class="avatar" alt="Avatar" />
+          </div>
+          <div class="user-details">
+            <strong>{{ getShortName() }}</strong>
+            <strong>{{ getApellidos() }}</strong>
+            <small>{{ getShortRole() }}</small>
+          </div>
+        </div>
+        <small class="user-email">{{ usuario?.correo || 'correo@ejemplo.com' }}</small>
+        <button class="logout-btn" (click)="onLogout()">
+          <mat-icon>exit_to_app</mat-icon>
+          <span>Cerrar sesión</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Footer colapsado -->
+    <div class="sidebar-footer-collapsed" *ngIf="!sidebarOpen">
+      <div class="collapsed-user">
+        <img src="assets/images/avatar.svg" class="avatar-small" alt="Avatar" [title]="usuario" />
+        <div class="user-details">
+          <strong>{{ getShortName() }}</strong>
+          <strong>{{ getApellidos() }}</strong>
+          <small>{{ getShortRole() }}</small>
+        </div>
+        <button class="logout-btn-small" (click)="onLogout()" title="Cerrar sesión">
+          <mat-icon>exit_to_app</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- MENÚ DE USUARIO -->
+<mat-menu #userMenu="matMenu">
+  <button mat-menu-item (click)="onLogout()">
+    <mat-icon>exit_to_app</mat-icon>
+    <span>Cerrar sesión</span>
+  </button>
+  <button mat-menu-item>
+    <mat-icon>person</mat-icon>
+    <span>Mi perfil</span>
+  </button>
+</mat-menu>

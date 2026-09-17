@@ -1,0 +1,66 @@
+
+
+
+<mat-form-field class="full-width buscador_froms" [appearance]="appearance" > 
+  <mat-label>{{ label }}</mat-label>
+  <input 
+    type="text"
+    matInput
+    [formControl]="diagnosticoControl"
+    [matAutocomplete]="auto"
+    [placeholder]="placeholder"
+    [required]="required">
+  <mat-icon matSuffix>search</mat-icon>
+  <mat-hint *ngIf="hint">{{ hint }}</mat-hint>
+  <mat-error *ngIf="required && !tieneSelecciones()">
+    Debes seleccionar al menos un diagnóstico
+  </mat-error>
+</mat-form-field>
+
+<!-- Lista de autocompletado -->
+<mat-autocomplete 
+  #auto="matAutocomplete"
+  (optionSelected)="seleccionarDiagnostico($event.option.value)"
+  [displayWith]="displayFn">
+  <mat-option 
+    *ngFor="let diagnostico of diagnosticosFiltrados | async" 
+    [value]="diagnostico">
+    <div class="diagnostico-option">
+      <div class="diagnostico-info">
+        <span class="nombre">{{ diagnostico.nombre }}</span>
+        <span class="categoria-badge" *ngIf="mostrarCategoria && diagnostico.categoria">
+          {{ diagnostico.categoria }}
+        </span>
+      </div>
+    </div>
+  </mat-option>
+  
+  <mat-option *ngIf="(diagnosticosFiltrados | async)?.length === 0" disabled>
+    <span class="no-results">
+      <mat-icon>search</mat-icon>
+      No se encontraron resultados
+    </span>
+  </mat-option>
+</mat-autocomplete>
+
+
+<div class="chips-container" *ngIf="diagnosticosSeleccionados.length > 0">
+  
+  <mat-chip-listbox>
+    <mat-chip-option 
+      *ngFor="let diagnostico of diagnosticosSeleccionados"
+      [class]="'chip-' + chipColor"
+      (removed)="removerDiagnostico(diagnostico)"
+      [removable]="!disabled">
+      <span class="chip-content">
+        {{ diagnostico.nombre }}
+        <span class="chip-categoria" *ngIf="mostrarCategoria && diagnostico.categoria">
+          {{ diagnostico.categoria }}
+        </span>
+      </span>
+      <button matChipRemove *ngIf="!disabled">
+        <mat-icon>cancel</mat-icon>
+      </button>
+    </mat-chip-option>
+  </mat-chip-listbox>
+</div>

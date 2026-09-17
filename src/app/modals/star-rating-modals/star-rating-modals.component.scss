@@ -1,0 +1,155 @@
+.modal-container {
+  max-height: 80vh;
+}
+
+
+.title_modals{
+    color: #1458D9;
+    text-align: center;
+    padding: 15px;
+    width: auto;
+    max-width: 500px;
+    height: auto;
+    margin: 0 auto;
+    background-color: #C3E3FF;
+    border-radius: 20px;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+.rating-text{
+  text-align: center;
+  font-size: 1rem;
+
+}
+.coment_modals{
+  font-size: 1rem;
+  font-weight: 500;
+}
+.displs_coment{
+ font-size: 1rem;
+  font-weight: 500;
+  @media (max-width: 600px) {
+    text-align: center;
+    margin: .5rem;
+  }
+}
+.comment-textarea {
+  width: 100%;       // ancho completo del contenedor
+  height: 150px;     // altura fija, puedes ajustar
+  padding: 10px;     
+  font-size: 16px;
+  border-radius: 8px;
+  resize: vertical;  // permite que el usuario cambie solo la altura
+  box-sizing: border-box;
+}
+
+.rating-summary{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.stars-display {
+    display: flex;
+    gap: 1rem;
+        font-size: 1.5rem;
+    color: #ddd;
+    transition: all 0.3s ease;
+}
+
+.coment_modals{
+    text-align: center;
+}
+
+.star_califi{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.dialog-actions{
+    display: flex;
+    justify-content: end;
+    gap: 1rem;
+}
+
+// ✅ Hacer que las estrellas del modal sean interactivas
+.stars-interactive {
+  .star-icon.clickable {
+    cursor: pointer;
+    transition: all 0.2s ease;
+    
+    &:hover {
+      transform: scale(1.2);
+      color: #ffc107 !important;
+    }
+  }
+}
+
+.star-icon {
+  font-size: 28px !important;
+  width: 28px;
+  height: 28px;
+  color: #e0e0e0;
+  
+  &.filled {
+    color: #ffc107;
+  }
+}
+
+.calificiacion_star {
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.stars-display {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-direction: row; /* ✅ En lugar de direction: rtl */
+}
+
+
+.stars-displa input[type="radio"] {
+  display: none;
+}
+
+.stars-displa .star-icon {
+  font-size: 1.8rem;
+  color: #ddd;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  user-select: none;
+}
+
+.stars-displa .star:hover,
+.stars .star:hover ~ .star {
+  color: #ffc107;
+  transform: scale(1.1);
+}
+
+.stars-displa input[type="radio"]:checked ~ .star {
+  color: #ffc107;
+}
+  
+
+/* Responsive */
+@media (max-width: 600px) {
+    .star_califi{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+}
+.comment-textarea {
+  width: 100%;       // ancho completo del contenedor
+  height: 90px;     // altura fija, puedes ajustar
+  padding: 10px;     
+  font-size: 16px;
+  border-radius: 8px;
+  resize: vertical;  // permite que el usuario cambie solo la altura
+  box-sizing: border-box;
+}
+}

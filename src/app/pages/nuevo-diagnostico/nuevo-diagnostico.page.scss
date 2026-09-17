@@ -1,0 +1,214 @@
+.nuevo_dignos-section{
+    padding: 0 1rem ;
+}
+.secctor_dignostico{
+    padding: 0 1rem;
+}
+.sector_medicamentos{
+    padding:0 1.5rem;
+}
+.section_recomendacion_estudio{
+    padding: 0 1rem;
+}
+
+
+.header_diagnostico{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    background-color: white;
+    padding: 1rem;
+    border-radius: 10px;
+    border-bottom: 1px solid #E5E5E5;
+}
+
+.welcome_diagnos-card{
+    background: linear-gradient(135deg, #F1F8FF 0%, #E3F2FD 100%);
+    border: 0px;
+    padding: 0;
+    
+}
+::ng-deep .mat-mdc-card-content:first-child {
+  padding: 0 !important;
+}
+::ng-deep .mat-mdc-standard-chip .mat-mdc-chip-action-label {
+  display: flex;
+  align-items: center; /* centra verticalmente */
+  gap: 6px; /* separa ícono del texto */
+  color: white !important;
+}
+
+::ng-deep .chip_paciente {
+  background-color: #FFA348 !important;
+}
+
+::ng-deep .chio_notas {
+  background-color: #48AAFF !important;
+}
+
+::ng-deep .chip_recetas {
+  background-color: #6AC719 !important;
+}
+
+::ng-deep .mdc-text-field--filled {
+    background-color: white !important;
+}
+
+.edit_diagnostico{
+    background-color: #C3E3FF;
+    border-radius: 15px;
+    padding: .3em;
+}
+.edit_diagnostico mat-icon {
+  font-size: 20px; /* cambia tamaño */
+  color: #007bff;  /* cambia color */
+}
+.consulta_diagnostico{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #3f3f3f;
+}
+.header_consulta_diagnos{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+.content_diganostico{
+display: flex;
+align-items: center;
+justify-content: space-between;
+border-bottom: 1px solid #3f3f3f;
+}
+
+.diagnistico_motivo p {
+    color: #3f3f3f;
+    font-size: 1rem;
+    margin: 0;
+}
+.accion_receta{
+    padding: 1rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    background-color: #1458D9;
+    border-radius: 25px;
+    color: white;
+}
+.accion_header{
+    display: flex;
+    justify-content: flex-end;
+    font-size: 1rem;
+}
+.accion_header span{
+    font-size: 1rem;
+    font-weight: 400;
+
+}
+.acciones_notas{
+    display: flex;
+    padding: 1rem;
+    justify-content: flex-end;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.secctor_dignostico_busqueda{
+    display: flex;
+    justify-content: flex-start;
+    gap: 2rem;
+    align-items: flex-start;
+    padding: 8px 0;
+
+}
+.sector_buscador-dignostico{
+    width: 100%;
+}
+
+.sector_diagnostico_busqueda_header{
+    display: flex;
+}
+.sector_diagnostico_busqueda_header p{
+    color: #3f3f3f;
+    font-weight: 500;
+}
+
+.sector_buscador_card{
+    background: white;
+    border: none;
+    padding: 1rem;
+}
+.sector_medicamentos_card{
+    background: white;
+    border: none;
+}
+
+
+.sector_signos_card{
+    background-color:#DCE4FA;
+    border: none;
+    padding: 2rem;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sector_signos_master{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.sector_signios_text{
+    color: #3f3f3f;
+    font-size: 1.2rem;
+    text-align: center;
+    line-height: 1.2;
+}
+
+.sector_medicamento_master{
+    color: #3f3f3f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1rem;
+
+   
+}
+
+.sector_medicamentos_title{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+}
+.sector_medicamentos_buscador{
+    width: 100%;
+}
+
+.sector_recomendacion_title{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+
+}
+.sector_recomendacion_estudio{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    font-size: 1.2rem;
+    color: #3f3f3f;
+}
+
+.sector_comentarios_title{
+    color: #3f3f3f;
+
+}
+
+.full-width{
+    width: 100%;
+}

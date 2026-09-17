@@ -1,0 +1,120 @@
+<!-- Custom Stepper Component -->
+<div class="custom-stepper-container">
+  
+  <!-- Stepper Header -->
+  <div class="stepper-header">
+    
+    <!-- Progress Line Background -->
+    <div class="progress-line-background"></div>
+    
+    <!-- Active Progress Line -->
+    <div 
+      class="progress-line-active" 
+      [style.width.%]="getProgressPercentage()">
+    </div>
+    
+    <!-- DESKTOP Steps Container -->
+    <div class="steps-container desktop-stepper">
+      <!-- Step Labels (arriba) -->
+      <div class="steps-labels">
+        @for (step of steps; let i = $index; track i) {
+          <div 
+            class="step-label-wrapper"
+            [ngClass]="getStepClasses(i)"
+            (click)="onStepClick(i)"
+            [attr.aria-label]="'Paso ' + (i + 1) + ': ' + step.label"
+            [attr.aria-current]="isStepActive(i) ? 'step' : null">
+            
+            <!-- Step Label -->
+            <div class="step-label">
+              {{ step.label }}
+            </div>
+          </div>
+        }
+      </div>
+      
+      <!-- Step Progress Line (abajo) -->
+      <div class="steps-progress">
+        @for (step of steps; let i = $index; track i) {
+          <div class="step-progress-item" [ngClass]="getStepClasses(i)">
+            <!-- Solo la línea de progreso, sin círculos ni números -->
+          </div>
+        }
+      </div>
+    </div>
+    
+    <!-- MOBILE Steps Container -->
+    <div class="mobile-stepper">
+      
+      <!-- Círculos de progreso arriba (estos se mantienen) -->
+      <div class="mobile-progress-circles">
+        @for (step of steps; let i = $index; track i) {
+          <div 
+            class="mobile-step-circle"
+            [ngClass]="getMobileStepClasses(i)"
+            (click)="onStepClick(i)"
+            [attr.aria-label]="'Paso ' + (i + 1) + ': ' + step.label">
+            
+            <!-- Número del paso o checkmark si está completado -->
+            <span class="step-number">
+              {{ isStepCompleted(i) ? '' : (i + 1) }}
+            </span>
+          </div>
+          
+          <!-- Conector entre círculos (no en el último) -->
+          @if (i < steps.length - 1) {
+            <div 
+              class="mobile-step-connector"
+              [ngClass]="getMobileConnectorClasses(i)">
+            </div>
+          }
+        }
+      </div>
+      
+      <!-- Labels de texto abajo (sin círculos) -->
+      <div class="mobile-step-labels">
+        @for (step of steps; let i = $index; track i) {
+          <div 
+            class="mobile-step-text"
+            [ngClass]="getMobileStepTextClasses(i)"
+            (click)="onStepClick(i)">
+            {{ step.label }}
+          </div>
+        }
+      </div>
+      
+    </div>
+  </div>
+  
+  <!-- Stepper Content Area -->
+  <div class="stepper-content">
+    <ng-content></ng-content>
+  </div>
+  
+  <!-- Navigation Buttons -->
+  @if (showNavigationButtons) {
+    <div class="stepper-navigation">
+      <button 
+        type="button"
+        class="btn btn-secondary btn-previous"
+        [disabled]="!isPreviousButtonEnabled()"
+        (click)="previousStep()"
+        [attr.aria-label]="'Ir al paso anterior'">
+        ← Anterior
+      </button>
+      
+      <div class="step-counter">
+        Paso {{ currentStepIndex + 1 }} de {{ steps.length }}
+      </div>
+      
+      <button 
+        type="button"
+        class="btn btn-primary btn-next"
+        [disabled]="!isNextButtonEnabled()"
+        (click)="nextStep()"
+        [attr.aria-label]="'Ir al siguiente paso'">
+        Siguiente →
+      </button>
+    </div>
+  }
+</div>
