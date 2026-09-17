@@ -6,10 +6,11 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "lint": "ng lint"
+    "build": "npx ng build",
+    "watch": "npx ng build --watch --configuration development",
+    "test": "npx ng test",
+    "lint": "npx ng lint",
+    "vercel-build": "npx ng build"
   },
   "private": true,
   "dependencies": {
@@ -55,5 +56,8 @@
     "karma-jasmine-html-reporter": "~2.1.0",
     "typescript": "~5.8.0"
   },
-  "description": "Receta PLM de medicamentos"
+  "description": "Receta PLM de medicamentos",
+  "engines": {
+    "node": "20.x"
+  }
 }
