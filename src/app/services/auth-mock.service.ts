@@ -652,7 +652,7 @@ export class AuthMockService {
   private crearUsuarioAutenticado(usuario: UsuarioRegistro): UsuarioAutenticado {
     return {
       id: usuario.correo,
-      nombreCompleto: `${usuario.nombre} ${usuario.segundoNombre} ${usuario.primerApellido} ${usuario.segundoApellido}`,
+      nombreCompleto: [usuario.nombre, usuario.segundoNombre, usuario.primerApellido, usuario.segundoApellido].filter(Boolean).join(' '),
       nombre: usuario.nombre,
       segundoNombre: usuario.segundoNombre,
       primerApellido: usuario.primerApellido,

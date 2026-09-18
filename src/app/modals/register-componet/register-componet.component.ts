@@ -741,9 +741,15 @@ export class RegistroDialogComponent implements OnInit, OnDestroy {
       return;
     }
     this.isSubmitting = true;
+    // Separar Nombre(s) en nombre + segundoNombre si viene con espacio (ej: "Maria Fernanda")
+    const nombreCompletoInput: string = (this.datosPersonalesForm.value.nombre || '').trim();
+    const partesNombre = nombreCompletoInput.split(' ').filter((p: string) => p.length > 0);
+    const nombrePrincipal = partesNombre[0] || '';
+    const segundoNombreParsed = partesNombre.slice(1).join(' ') || '';
+
     const datosRegistro: UsuarioRegistro = {
-      nombre: this.datosPersonalesForm.value.nombre,
-      segundoNombre: this.datosPersonalesForm.value.nombre,
+      nombre: nombrePrincipal,
+      segundoNombre: segundoNombreParsed,
       primerApellido: this.datosPersonalesForm.value.primerApellido,
       segundoApellido: this.datosPersonalesForm.value.segundoApellido,
       fechaNacimiento: this.datosPersonalesForm.value.fechaNacimiento || new Date(),
@@ -797,36 +803,22 @@ export class RegistroDialogComponent implements OnInit, OnDestroy {
     const codigo = this.verificacionEmailForm.value.codigoVerificacionEmail;
     console.log('🔍 Verificando código:', codigo);
     if (codigo === '000000') {
-      console.log('✅ Bypass con código de prueba 000000');
-      this.isSubmitting = false;
-      this.snackBar.open(
-        'Email verificado (bypass de desarrollo). Redirigiendo al Home...',
-        'Cerrar',
-        { duration: 2000 }
-      );
-      // Navegar al Home y cerrar el modal
-      setTimeout(() => {
-        this.dialogRef.close({ success: true });
-        this.router.navigate(['/home']);
-      }, 1000);
+      console.log('✅ Bypass con código de prueba 000000 - forzando verificación');
+      // Bypass: marcar email como verificado manualmente y finalizar registro
+      const usuario = this.authMock.getUsuarioRegistrado(this.correoUsuarioRegistrado);
+      if (usuario) {
+        usuario.emailVerificado = true;
+      }
+      this.finalizarRegistroYRedirigir();
       return;
     }
     this.authMock.verificarCodigoEmail(this.correoUsuarioRegistrado, codigo).subscribe({
       next: (response) => {
-        this.isSubmitting = false;
         if (response.success) {
           console.log('✅ Código verificado correctamente');
-          this.snackBar.open(
-            'Email verificado exitosamente. Redirigiendo al Home...',
-            'Cerrar',
-            { duration: 2000 }
-          );
-          // Navegar al Home y cerrar el modal
-          setTimeout(() => {
-            this.dialogRef.close({ success: true });
-            this.router.navigate(['/home']);
-          }, 1000);
+          this.finalizarRegistroYRedirigir();
         } else {
+          this.isSubmitting = false;
           this.verificacionEmailForm.get('codigoVerificacionEmail')?.setErrors({
             invalidCode: true
           });
@@ -837,6 +829,33 @@ export class RegistroDialogComponent implements OnInit, OnDestroy {
         this.isSubmitting = false;
         console.error('❌ Error al verificar código:', error);
         this.showErrorMessage('Error al verificar código. Intenta de nuevo.');
+      }
+    });
+  }
+
+  /**
+   * 🔐 Finaliza registro, crea UsuarioAutenticado y redirige al Home
+   * Esto asegura que el Dashboard muestre al usuario RECIÉN registrado (ej: María) y no al anterior (Ramiro)
+   */
+  private finalizarRegistroYRedirigir(): void {
+    this.authMock.finalizarRegistro(this.correoUsuarioRegistrado).subscribe({
+      next: (result) => {
+        this.isSubmitting = false;
+        console.log('✅ Registro finalizado, usuario autenticado:', result.usuario);
+        this.snackBar.open(
+          `¡Bienvenido Dr. ${result.usuario.nombreCompleto}!`,
+          'Cerrar',
+          { duration: 2000 }
+        );
+        setTimeout(() => {
+          this.dialogRef.close({ success: true, usuario: result.usuario });
+          this.router.navigate(['/home']);
+        }, 1000);
+      },
+      error: (error) => {
+        this.isSubmitting = false;
+        console.error('❌ Error al finalizar registro:', error);
+        this.showErrorMessage('Error al finalizar registro. Intenta de nuevo.');
       }
     });
   }
